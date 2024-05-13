@@ -4,11 +4,13 @@ import { sidebarButtons } from "@/app/constants";
 
 function SideBar() {
   return (
-    <div className="absolute z-10 flex h-screen w-[70px] flex-col justify-evenly  bg-slate-300">
-      {sidebarButtons.map(({ title, id }) => (
-        <SideBarButton key={id} title={title}></SideBarButton>
-      ))}
-    </div>
+    <aside className="flex h-screen w-[70px]  bg-slate-300">
+      <ul className="flex flex-col items-center justify-evenly pb-44 ">
+        {sidebarButtons.map(({ title, id }) => (
+          <SideBarButton key={id} title={title}></SideBarButton>
+        ))}
+      </ul>
+    </aside>
   );
 }
 

@@ -5,10 +5,9 @@ interface props {
 }
 
 function SideBarButton(props: props) {
-  const title = props.title;
   return (
     <>
-      <button className="h-10  bg-green-700">{title}</button>
+      <li className="">{props.title}</li>
     </>
   );
 }
