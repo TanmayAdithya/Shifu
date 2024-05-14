@@ -7,7 +7,7 @@ export default function page() {
       <div className="flex">
         <SideBar />
         {/* Background */}
-        <div className="h-screen w-screen bg-gray-700">
+        <div className="h-screen w-screen bg-red-900">
           <h1>yo</h1>
         </div>
       </div>
