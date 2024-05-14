@@ -1,7 +1,10 @@
+"use client";
 import { sidebarItems } from "@/app/constants";
 import Link from "next/link";
+import { useState } from "react";
 
 function SideBar() {
+  const [active, setActive] = useState<boolean>(false);
   return (
     <main className="bg-red-900">
       <aside className="flex h-screen w-[80px] flex-col items-center bg-[#0F090C] py-6 opacity-70 backdrop:blur-sm">
