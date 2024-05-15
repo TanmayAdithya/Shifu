@@ -5,18 +5,21 @@ import { RiArrowRightWideFill as RArrow } from "react-icons/ri";
 // import Link from "next/link";
 import { useState } from "react";
 
-function SideBar() {
+type Props = {
+  visibility: boolean;
+};
+
+function SideBar({ visibility }: Props) {
   const [activeItem, setActiveItem] = useState<number | null>(null);
-  const [hidden, setHidden] = useState<boolean>(false);
 
   const handleClick = (id: number) => {
     setActiveItem(id === activeItem ? null : id);
   };
   return (
-    <aside className=" flex h-screen items-center justify-center shadow-md">
-      <nav
-        className={`flex h-full w-[80px] flex-col items-center bg-neutral-900 py-6  backdrop:blur-sm ${hidden ? "hidden -translate-x-20" : ""}`}
-      >
+    <aside
+      className={`flex h-screen items-center justify-center shadow-md ${visibility ? "hidden" : ""}`}
+    >
+      <nav className="flex h-full w-[80px] flex-col items-center bg-neutral-900 py-6  backdrop:blur-sm">
         <div>
           <img
             src="/shifu-320-trans.webp"

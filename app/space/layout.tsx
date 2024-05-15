@@ -11,13 +11,19 @@ export default function SpaceLayout({
   children: React.ReactNode;
 }) {
   const [moveSidebar, setMoveSidebar] = useState<boolean>(false);
+  const [hidden, setHidden] = useState<boolean>(false);
 
   return (
     <section className="flex flex-1">
-      <SideBar />
-      <div className="relative flex h-screen flex-col overflow-hidden">
-        <div className="fixed left-20 top-1/2 z-40">
-          <button onClick={() => setMoveSidebar((prev) => !prev)}>
+      <SideBar visibility={hidden} />
+      <div className="flex h-screen flex-col items-center justify-center overflow-hidden">
+        <div className={`fixed ${hidden ? "left-0" : "left-20"}  z-40`}>
+          <button
+            onClick={() => {
+              setMoveSidebar((prev) => !prev);
+              setHidden((prev) => !prev);
+            }}
+          >
             <span>
               {moveSidebar ? (
                 <RArrow size="1.5rem" color="white" />
