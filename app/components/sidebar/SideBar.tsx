@@ -1,8 +1,6 @@
 "use client";
 import { sidebarItems } from "@/app/constants";
-import { RiArrowLeftWideFill as LArrow } from "react-icons/ri";
-import { RiArrowRightWideFill as RArrow } from "react-icons/ri";
-// import Link from "next/link";
+import Link from "next/link";
 import { useState } from "react";
 
 type Props = {
@@ -19,28 +17,29 @@ function SideBar({ visibility }: Props) {
     <aside
       className={`flex h-screen items-center justify-center shadow-md ${visibility ? "hidden" : ""}`}
     >
-      <nav className="flex h-full w-[80px] flex-col items-center bg-neutral-900 py-6  backdrop:blur-sm">
+      <nav className="flex h-full w-[80px] flex-col items-center bg-neutral-800 pt-4  backdrop:blur-sm">
         <div>
           <img
             src="/shifu-320-trans.webp"
             alt="shifu-logo"
-            style={{ width: "3rem", marginBottom: "1.5rem" }}
+            style={{ width: "48px", marginBottom: "1.5rem" }}
           />
         </div>
-        <div className="mb-8 w-[70%] border-t border-red-900"></div>
+        <div className="mb-6 w-14 border-t border-neutral-600"></div>
         <ul className="flex flex-col items-center">
           {sidebarItems.map(({ id, title, href, icon: Icon }) => {
             const isActive = id === activeItem;
             return (
-              <li
-                key={id}
-                className={`mb-6 cursor-pointer rounded-md border-0 p-3 transition-colors duration-200 ease-in-out ${isActive ? "" : "bg-gradient-to-r from-rose-500 to-red-800"}`}
-                onClick={() => {
-                  handleClick(id);
-                }}
-              >
-                <span>{<Icon size={"1.6rem"} color="white" />}</span>
-              </li>
+              <Link key={id} href={href}>
+                <li
+                  className={`mb-6 flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl border border-neutral-600 transition-colors duration-200 ease-in-out hover:border-red-700 hover:bg-red-800 ${isActive ? "border-red-700 bg-red-800" : ""}`}
+                  onClick={() => {
+                    handleClick(id);
+                  }}
+                >
+                  <span>{<Icon size={"1.5rem"} color="white" />}</span>
+                </li>
+              </Link>
             );
           })}
         </ul>

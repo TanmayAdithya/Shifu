@@ -10,11 +10,11 @@ import { PiMatrixLogoFill as Matrix } from "react-icons/pi";
 // Sidebar Buttons
 
 export const sidebarItems: sidebarItem[] = [
-  { id: 1, title: "Notes", href: "/notes", icon: Notes },
-  { id: 2, title: "Timer", href: "/timer", icon: Timer },
-  { id: 3, title: "Todo", href: "/todo", icon: Task },
-  { id: 4, title: "Kanban", href: "/kanban", icon: Kanban },
-  { id: 5, title: "Music", href: "/music", icon: Music },
-  { id: 6, title: "Calendar", href: "/calendar", icon: Calendar },
-  { id: 7, title: "Matrix", href: "/matrix", icon: Matrix },
+  { id: 1, title: "Notes", href: "/space/notes", icon: Notes },
+  { id: 2, title: "Timer", href: "/space/timer", icon: Timer },
+  { id: 3, title: "Todo", href: "/space/todo", icon: Task },
+  { id: 4, title: "Kanban", href: "/space/kanban", icon: Kanban },
+  { id: 5, title: "Music", href: "/space/music", icon: Music },
+  { id: 6, title: "Calendar", href: "/space/calendar", icon: Calendar },
+  { id: 7, title: "Matrix", href: "/space/matrix", icon: Matrix },
 ];
