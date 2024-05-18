@@ -1,11 +1,11 @@
 import type { sidebarItem } from "./types.ts";
-import { FaNoteSticky as Notes } from "react-icons/fa6";
-import { RiTimerFill as Timer } from "react-icons/ri";
-import { GoTasklist as Task } from "react-icons/go";
-import { BsKanban as Kanban } from "react-icons/bs";
-import { BsMusicNoteList as Music } from "react-icons/bs";
-import { FaCalendarAlt as Calendar } from "react-icons/fa";
-import { PiMatrixLogoFill as Matrix } from "react-icons/pi";
+import { FaRegNoteSticky as Notes } from "react-icons/fa6";
+import { MdOutlineTimer as Timer } from "react-icons/md";
+import { MdOutlineTaskAlt as Task } from "react-icons/md";
+import { MdOutlineViewKanban as Kanban } from "react-icons/md";
+import { MdOutlineLibraryMusic as Music } from "react-icons/md";
+import { IoCalendarOutline as Calendar } from "react-icons/io5";
+import { PiCheckerboardFill as Matrix } from "react-icons/pi";
 
 // Sidebar Buttons
 
