@@ -1,5 +1,5 @@
 import { IconType } from "react-icons";
-export type sidebarItem = {
+export type navbarItem = {
   id: number;
   title: string;
   href: string;
