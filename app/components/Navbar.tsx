@@ -1,5 +1,3 @@
-"use client";
-
 import { navbarItems } from "@/app/constants";
 import React, { useState } from "react";
 import { AiOutlinePicture as Picture } from "react-icons/ai";
@@ -21,8 +19,8 @@ const Navbar = () => {
       <nav className="absolute z-40 mb-[3rem] flex items-center">
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1">
           <li
-            id="background-changer"
             key={7}
+            id="background-changer"
             className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl transition-colors duration-100 ease-in-out  hover:bg-emerald-100 ${activeItem === 7 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
             onClick={() => {
               handleClick(7);
@@ -37,6 +35,7 @@ const Navbar = () => {
               const isActive = id === activeItem;
               return (
                 <li
+                  key={id}
                   className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-emerald-100 ${isActive ? " bg-emerald-200 hover:bg-emerald-200" : ""}`}
                   onClick={() => {
                     handleClick(id);
