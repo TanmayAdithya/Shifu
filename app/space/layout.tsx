@@ -1,6 +1,6 @@
 "use client";
 
-import Navbar from "../_components/Navbar";
+import Navbar from "../../components/space/Navbar";
 
 export default function SpaceLayout({
   children,

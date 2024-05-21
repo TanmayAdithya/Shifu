@@ -1,4 +1,4 @@
-import { navbarItems } from "@/app/constants";
+import { navbarItems } from "@/constants/constants";
 import React, { useState } from "react";
 import { AiOutlinePicture as Picture } from "react-icons/ai";
 import { MdOutlineLibraryMusic as Music } from "react-icons/md";
