@@ -11,7 +11,7 @@ const SignUpCard = ({ children }: Props) => {
       <h1 className="mb-3 text-3xl">Welcome to Shifu!</h1>
       <h2 className="mb-3 text-xl text-[#737373]">Create an account</h2>
       {children}
-      <Link href="/">
+      <Link href="/login">
         <li className="mt-6 cursor-pointer list-none underline">
           Already have an account?
         </li>
