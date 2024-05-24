@@ -23,6 +23,7 @@
     "next-auth": "^5.0.0-beta.18",
     "react": "^18",
     "react-dom": "^18",
+    "react-draggable": "^4.4.6",
     "react-hook-form": "^7.51.4",
     "react-icons": "^5.2.1",
     "tailwind-merge": "^2.3.0",
