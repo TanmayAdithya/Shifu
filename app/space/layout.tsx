@@ -9,7 +9,7 @@ export default function SpaceLayout({
 }) {
   return (
     <>
-      <div className="flex flex-col items-center justify-end">
+      <div className="flex h-full flex-col items-center justify-end">
         {children}
         <Navbar />
       </div>

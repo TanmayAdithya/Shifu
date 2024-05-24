@@ -21,7 +21,7 @@ const Navbar = () => {
           <li
             key={7}
             id="background-changer"
-            className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl transition-colors duration-100 ease-in-out  hover:bg-emerald-100 ${activeItem === 7 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
+            className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out  hover:bg-emerald-100 ${activeItem === 7 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
             onClick={() => {
               handleClick(7);
             }}
@@ -36,7 +36,7 @@ const Navbar = () => {
               return (
                 <li
                   key={id}
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-emerald-100 ${isActive ? " bg-emerald-200 hover:bg-emerald-200" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-emerald-100 ${isActive ? " rounded-lg bg-emerald-200 hover:bg-emerald-200" : ""}`}
                   onClick={() => {
                     handleClick(id);
                   }}
@@ -51,7 +51,7 @@ const Navbar = () => {
           <li
             id="music-player"
             key={8}
-            className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-xl transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 8 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
+            className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 8 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
             onClick={() => {
               handleClick(8);
             }}

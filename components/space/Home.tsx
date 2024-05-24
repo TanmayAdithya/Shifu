@@ -61,17 +61,12 @@ export default function Home() {
 
   return (
     <>
-      <main className="grid h-screen w-screen place-items-center ">
+      <div ref={containerRef} className="relative h-screen w-full">
         <div
-          ref={containerRef}
-          className="relative h-[400px] w-[400px] border-2 border-solid border-white"
-        >
-          <div
-            ref={boxRef}
-            className="absolute  left-0 top-0 h-[40px] w-[40px] cursor-grab bg-orange-200"
-          ></div>
-        </div>
-      </main>
+          ref={boxRef}
+          className="absolute left-0 top-0 h-[40px] w-[40px] cursor-grab bg-orange-200"
+        ></div>
+      </div>
     </>
   );
 }

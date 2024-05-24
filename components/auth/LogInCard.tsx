@@ -13,7 +13,7 @@ const LoginCard = ({ children }: Props) => {
       {children}
       <Link href="/signup">
         <li className="mt-6 cursor-pointer list-none underline">
-          Don't have an account? Sign up
+          Don&apos;t have an account? Sign up
         </li>
       </Link>
     </div>
