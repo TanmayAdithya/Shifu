@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 
-export default function page() {
+export default function Home() {
   const boxRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isClicked = useRef<boolean>(false);
@@ -15,24 +15,25 @@ export default function page() {
 
   useEffect(() => {
     if (!boxRef || !containerRef) return;
-
     const box = boxRef.current;
     const container = containerRef.current;
 
-    function onMouseDown(e: MouseEvent) {
+    const onMouseDown = (e: MouseEvent) => {
       isClicked.current = true;
-      coords.current.startX = e.clientX;
-      coords.current.startY = e.clientY;
-    }
-    function onMouseUp(e: MouseEvent) {
+      coords.current.startX = e.clientX; // left
+      coords.current.startY = e.clientY; // top
+    };
+
+    const onMouseUp = () => {
       isClicked.current = false;
 
       if (box) {
         coords.current.lastX = box.offsetLeft;
         coords.current.lastY = box.offsetTop;
       }
-    }
-    function onMouseMove(e: MouseEvent) {
+    };
+
+    const onMouseMove = (e: MouseEvent) => {
       if (!isClicked.current) return;
 
       const nextX = e.clientX - coords.current.startX + coords.current.lastX;
@@ -42,31 +43,30 @@ export default function page() {
         box.style.left = `${nextX}px`;
         box.style.top = `${nextY}px`;
       }
-    }
+    };
 
     box?.addEventListener("mousedown", onMouseDown);
     box?.addEventListener("mouseup", onMouseUp);
     container?.addEventListener("mousemove", onMouseMove);
     container?.addEventListener("mouseleave", onMouseUp);
 
-    function cleanUp() {
+    const cleanUp = () => {
       box?.removeEventListener("mousedown", onMouseDown);
       box?.removeEventListener("mouseup", onMouseUp);
       container?.removeEventListener("mousemove", onMouseMove);
       container?.removeEventListener("mouseleave", onMouseUp);
-    }
-
+    };
     return cleanUp;
   }, []);
 
   return (
-    // Container Box
-    <div ref={containerRef} className="h-full w-full bg-neutral-500">
-      {/* Test Box */}
-      <div
-        ref={boxRef}
-        className="absolute h-14 w-14 cursor-grab bg-black"
-      ></div>
-    </div>
+    <>
+      <div ref={containerRef} className="relative h-screen w-full">
+        <div
+          ref={boxRef}
+          className="absolute left-0 top-0 h-[40px] w-[40px] cursor-grab bg-orange-200"
+        ></div>
+      </div>
+    </>
   );
 }

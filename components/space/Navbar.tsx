@@ -16,7 +16,7 @@ const Navbar = () => {
   return (
     <>
       {openChanger && <BackgroundChanger />}
-      <nav className="absolute bottom-10 z-40 flex items-center">
+      <nav className="absolute z-40 mb-[3rem] flex items-center">
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1">
           <li
             key={7}
