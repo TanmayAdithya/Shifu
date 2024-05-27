@@ -12,4 +12,7 @@ export type backgrounds = {
   color: string;
   height: number;
   width: number;
+  urls: {
+    regular: string;
+  };
 };
