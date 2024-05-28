@@ -28,14 +28,16 @@ const Navbar = () => {
             <Tooltip>
               <TooltipTrigger>
                 <li
-                  key={7}
+                  key="background-changer" // Unique key
                   id="background-changer"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out  hover:bg-emerald-100 ${activeItem === 7 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 7 ? "bg-emerald-200 hover:bg-emerald-200" : ""}`}
                   onClick={() => {
                     handleClick(7);
                   }}
                 >
-                  <span>{<Picture size={"1.35rem"} color="#262626" />}</span>
+                  <span>
+                    <Picture size={"1.35rem"} color="#262626" />
+                  </span>
                 </li>
               </TooltipTrigger>
               <TooltipContent>
@@ -49,17 +51,23 @@ const Navbar = () => {
             {navbarItems.map(({ id, icon: Icon, title }) => {
               const isActive = id === activeItem;
               return (
-                <TooltipProvider delayDuration={75} skipDelayDuration={75}>
+                <TooltipProvider
+                  key={id}
+                  delayDuration={75}
+                  skipDelayDuration={75}
+                >
                   <Tooltip>
                     <TooltipTrigger>
                       <li
                         key={id}
-                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-emerald-100 ${isActive ? " rounded-lg bg-emerald-200 hover:bg-emerald-200" : ""}`}
+                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-emerald-100 ${isActive ? "rounded-lg bg-emerald-200 hover:bg-emerald-200" : ""}`}
                         onClick={() => {
                           handleClick(id);
                         }}
                       >
-                        <span>{<Icon size={"1.35rem"} color="#262626" />}</span>
+                        <span>
+                          <Icon size={"1.35rem"} color="#262626" />
+                        </span>
                       </li>
                     </TooltipTrigger>
                     <TooltipContent>
@@ -76,14 +84,16 @@ const Navbar = () => {
             <Tooltip>
               <TooltipTrigger>
                 <li
+                  key="music-player" // Unique key
                   id="music-player"
-                  key={8}
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 8 ? "bg-emerald-200 hover:bg-emerald-200" : ""} `}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 8 ? "bg-emerald-200 hover:bg-emerald-200" : ""}`}
                   onClick={() => {
                     handleClick(8);
                   }}
                 >
-                  <span>{<Music size={"1.35rem"} color="#262626" />}</span>
+                  <span>
+                    <Music size={"1.35rem"} color="#262626" />
+                  </span>
                 </li>
               </TooltipTrigger>
               <TooltipContent>

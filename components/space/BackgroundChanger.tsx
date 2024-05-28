@@ -1,12 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { backgrounds } from "@/types/types";
+import { background } from "@/types/types";
+import Image from "next/image";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
 function BackgroundChanger() {
-  const [backgrounds, setBackgrounds] = useState<backgrounds[]>([]);
+  const [backgrounds, setBackgrounds] = useState<background[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -45,67 +46,19 @@ function BackgroundChanger() {
 
     // fetchData();
 
-    return () => {
-      controller.abort();
-    };
+    // return () => {
+    //   controller.abort();
+    // };
   }, []);
 
-  // if (loading) {
-  //   return <p>Loading...</p>;
-  // }
+  if (loading) {
+    return <p>Loading...</p>;
+  }
 
   if (error) {
     return <p>Error: {error}</p>;
   }
   const tags = ["Nature", "Spring", "Summer", "Winter"];
-  const imageItems = [
-    {
-      id: 1,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Nature Image 1",
-    },
-    {
-      id: 2,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Nature Image 2",
-    },
-    {
-      id: 3,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Spring Image 1",
-    },
-    {
-      id: 4,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Summer Image 1",
-    },
-    {
-      id: 5,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Winter Image 1",
-    },
-    {
-      id: 6,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Winter Image 1",
-    },
-    {
-      id: 7,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Winter Image 1",
-    },
-    {
-      id: 8,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Winter Image 1",
-    },
-    {
-      id: 9,
-      url: "https://via.placeholder.com/1920x1080",
-      alt: "Winter Image 1",
-    },
-    // Add more images as needed
-  ];
 
   return (
     <div className="absolute z-40 mb-28 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg">
@@ -131,16 +84,18 @@ function BackgroundChanger() {
       </div>
 
       {/* Image Grid */}
-      <div className="grid grid-cols-2 gap-4 ">
-        {imageItems.map((image) => (
-          <div key={image.id} className="rounded-md bg-gray-100">
-            <img
-              src={image.url}
-              alt={image.alt}
-              className="h-auto w-full rounded-md"
-            />
-          </div>
+      <div className="grid grid-cols-3 gap-4">
+        {backgrounds.map(({ id, urls, description }) => (
+          <Image
+            key={id}
+            alt={description}
+            src={urls.regular}
+            width="80"
+            height="45"
+            style={{ objectFit: "cover" }}
+          />
         ))}
+        <div />
       </div>
     </div>
   );

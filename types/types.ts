@@ -6,7 +6,7 @@ export type navbarItem = {
   icon: IconType;
 };
 
-export type backgrounds = {
+export type background = {
   id: string;
   blur_hash: string;
   color: string;
@@ -15,4 +15,5 @@ export type backgrounds = {
   urls: {
     regular: string;
   };
+  description: string;
 };
