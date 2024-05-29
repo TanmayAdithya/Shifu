@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { background } from "@/types/types";
 import Image from "next/image";
 
@@ -10,6 +10,7 @@ function BackgroundChanger() {
   const [backgrounds, setBackgrounds] = useState<background[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const backgroundImage = useRef<string>("");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -55,6 +56,16 @@ function BackgroundChanger() {
   }
   const tags = ["Nature", "Spring", "Summer", "Winter"];
 
+  const handleBackground = (url: string) => {
+    backgroundImage.current = url;
+    const currentImage = document.querySelector(
+      "#background-image",
+    ) as HTMLImageElement | null;
+    if (currentImage) {
+      currentImage.src = `${backgroundImage.current}&w=1920&h=1080&fit=crop`;
+    }
+  };
+
   return (
     <div className="absolute z-40 mb-28 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg">
       <div>
@@ -82,7 +93,7 @@ function BackgroundChanger() {
       <div className="grid grid-cols-2 gap-2">
         {backgrounds.map(({ id, urls, description }) => {
           return (
-            <div className="shadow-lg">
+            <div key={id} className="shadow-lg">
               <Image
                 key={id}
                 alt={description}
@@ -94,6 +105,7 @@ function BackgroundChanger() {
                   borderRadius: "4px",
                   cursor: "pointer",
                 }}
+                onClick={() => handleBackground(urls.full)}
                 className="h-full w-full object-cover"
               />
             </div>

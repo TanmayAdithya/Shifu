@@ -67,6 +67,14 @@ export default function page() {
         ref={boxRef}
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div>
+      <span id="background-container">
+        <img
+          id="background-image"
+          src=""
+          alt="background-image"
+          className="h-full w-full max-w-full"
+        />
+      </span>
     </div>
   );
 }
