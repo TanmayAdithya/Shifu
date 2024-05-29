@@ -14,18 +14,15 @@ function BackgroundChanger() {
   useEffect(() => {
     const controller = new AbortController();
     const signal = controller.signal;
-
     const fetchData = async () => {
       try {
         const res = await fetch(
           `https://api.unsplash.com/photos/?client_id=${apiKey}`,
           { signal },
         );
-
         if (!res.ok) {
           throw new Error("Something went wrong!");
         }
-
         const backgrounds = await res.json();
         console.log(backgrounds);
         setBackgrounds(backgrounds);
@@ -43,12 +40,10 @@ function BackgroundChanger() {
         setLoading(false);
       }
     };
-
-    // fetchData();
-
-    // return () => {
-    //   controller.abort();
-    // };
+    fetchData();
+    return () => {
+      controller.abort();
+    };
   }, []);
 
   if (loading) {
@@ -75,7 +70,7 @@ function BackgroundChanger() {
           {tags.map((tag) => (
             <button
               key={tag}
-              className="rounded-lg bg-emerald-800 px-3 py-1 text-sm text-neutral-100"
+              className="rounded-lg border border-emerald-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-emerald-600 hover:text-neutral-100"
             >
               {tag}
             </button>
@@ -84,17 +79,26 @@ function BackgroundChanger() {
       </div>
 
       {/* Image Grid */}
-      <div className="grid grid-cols-3 gap-4">
-        {backgrounds.map(({ id, urls, description }) => (
-          <Image
-            key={id}
-            alt={description}
-            src={urls.regular}
-            width="80"
-            height="45"
-            style={{ objectFit: "cover" }}
-          />
-        ))}
+      <div className="grid grid-cols-2 gap-2">
+        {backgrounds.map(({ id, urls, description }) => {
+          return (
+            <div className="shadow-lg">
+              <Image
+                key={id}
+                alt={description}
+                src={`${urls.full}&w=1920&h=1080&fit=crop`}
+                width="320"
+                height="180"
+                style={{
+                  border: 0,
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          );
+        })}
         <div />
       </div>
     </div>

@@ -13,7 +13,8 @@ export type background = {
   height: number;
   width: number;
   urls: {
-    regular: string;
+    raw: string;
+    full: string;
   };
   description: string;
 };
