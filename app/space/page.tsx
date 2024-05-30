@@ -66,10 +66,10 @@ export default function page() {
       className="h-full w-full bg-gradient-to-r from-[#7B6476] to-[#BC6E75]"
     >
       {/* Test Box */}
-      <div
+      {/* <div
         ref={boxRef}
         className="absolute h-14 w-14 cursor-grab bg-black"
-      ></div>
+      ></div> */}
       <span id="background-container">
         <img
           id="background-image"
