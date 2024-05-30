@@ -18,41 +18,41 @@ function BackgroundChanger() {
   const debouncedSearch = useDebounce(search, 1000);
 
   useEffect(() => {
-    // const controller = new AbortController();
-    // const signal = controller.signal;
-    // const fetchData = async () => {
-    //   try {
-    //     const res = await fetch(
-    //       `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
-    //       { signal },
-    //     );
-    //     if (!res.ok) {
-    //       throw new Error("Something went wrong!");
-    //     }
-    // const data = await res.json()
-    //     const backgrounds = data.results;
-    // const pages = data.total_pages;
-    //     console.log(backgrounds);
-    //     setBackgrounds(backgrounds);
-    // setPages(backgrounds)
-    //     setLoading(false);
-    //   } catch (error) {
-    //     if (error instanceof Error) {
-    //       if (error.name === "AbortError") {
-    //         console.log("Fetch aborted");
-    //       } else {
-    //         setError(error.message);
-    //       }
-    //     } else {
-    //       setError("An unknown error occurred");
-    //     }
-    //     setLoading(false);
-    //   }
-    // };
-    // fetchData();
-    // return () => {
-    //   controller.abort();
-    // };
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const fetchData = async () => {
+      try {
+        const res = await fetch(
+          `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
+          { signal },
+        );
+        if (!res.ok) {
+          throw new Error("Something went wrong!");
+        }
+        const data = await res.json();
+        const backgrounds = data.results;
+        const pages = data.total_pages;
+        console.log(backgrounds);
+        setBackgrounds(backgrounds);
+        setTotalPages(pages);
+        setLoading(false);
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+          } else {
+            setError(error.message);
+          }
+        } else {
+          setError("An unknown error occurred");
+        }
+        setLoading(false);
+      }
+    };
+    fetchData();
+    return () => {
+      controller.abort();
+    };
   }, [debouncedSearch]);
 
   const tags = ["Nature", "Spring", "Summer", "Winter"];
