@@ -61,7 +61,10 @@ export default function page() {
 
   return (
     // Container Box
-    <div ref={containerRef} className="h-full w-full bg-neutral-500">
+    <div
+      ref={containerRef}
+      className="h-full w-full bg-gradient-to-r from-[#7B6476] to-[#BC6E75]"
+    >
       {/* Test Box */}
       <div
         ref={boxRef}
@@ -70,9 +73,9 @@ export default function page() {
       <span id="background-container">
         <img
           id="background-image"
-          src=""
+          src="/anders-jilden-AkUR27wtaxs-unsplash.jpg"
           alt="background-image"
-          className="h-full w-full max-w-full"
+          className="pointer-events-none h-full w-full max-w-full"
         />
       </span>
     </div>

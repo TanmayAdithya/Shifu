@@ -56,13 +56,14 @@ function BackgroundChanger() {
   }
   const tags = ["Nature", "Spring", "Summer", "Winter"];
 
-  const handleBackground = (url: string) => {
+  const handleBackground = (url: string, description: string) => {
     backgroundImage.current = url;
     const currentImage = document.querySelector(
       "#background-image",
     ) as HTMLImageElement | null;
     if (currentImage) {
       currentImage.src = `${backgroundImage.current}&w=1920&h=1080&fit=crop`;
+      currentImage.alt = `${description}`;
     }
   };
 
@@ -81,7 +82,7 @@ function BackgroundChanger() {
           {tags.map((tag) => (
             <button
               key={tag}
-              className="rounded-lg border border-emerald-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-emerald-600 hover:text-neutral-100"
+              className="rounded-lg border border-emerald-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-emerald-600 hover:text-neutral-100 focus:bg-emerald-600 focus:text-neutral-100"
             >
               {tag}
             </button>
@@ -105,8 +106,8 @@ function BackgroundChanger() {
                   borderRadius: "4px",
                   cursor: "pointer",
                 }}
-                onClick={() => handleBackground(urls.full)}
-                className="h-full w-full object-cover"
+                onClick={() => handleBackground(urls.full, description)}
+                className={`h-full w-full object-cover`}
               />
             </div>
           );
