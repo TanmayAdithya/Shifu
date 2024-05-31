@@ -30,7 +30,7 @@ const Navbar = () => {
                 <li
                   key="background-changer" // Unique key
                   id="background-changer"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 7 ? "bg-emerald-200 hover:bg-emerald-200" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-gray-200 ${activeItem === 7 ? "bg-gray-200 hover:bg-gray-200" : ""}`}
                   onClick={() => {
                     handleClick(7);
                   }}
@@ -60,7 +60,7 @@ const Navbar = () => {
                     <TooltipTrigger>
                       <li
                         key={id}
-                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-emerald-100 ${isActive ? "rounded-lg bg-emerald-200 hover:bg-emerald-200" : ""}`}
+                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isActive ? "rounded-lg bg-gray-200 hover:bg-gray-200" : ""}`}
                         onClick={() => {
                           handleClick(id);
                         }}
@@ -86,7 +86,7 @@ const Navbar = () => {
                 <li
                   key="music-player" // Unique key
                   id="music-player"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-emerald-100 ${activeItem === 8 ? "bg-emerald-200 hover:bg-emerald-200" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-gray-200 ${activeItem === 8 ? "bg-gray-200 hover:bg-gray-200" : ""}`}
                   onClick={() => {
                     handleClick(8);
                   }}

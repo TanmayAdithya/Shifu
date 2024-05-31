@@ -108,7 +108,7 @@ function BackgroundChanger({ openChanger }: Props) {
           {tags.map((tag) => (
             <button
               key={tag}
-              className="rounded-md border border-emerald-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-emerald-600 hover:text-neutral-100 focus:bg-emerald-600 focus:text-neutral-100"
+              className="rounded-md border border-gray-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-gray-600 hover:text-neutral-100 focus:bg-gray-600 focus:text-neutral-100"
               onClick={() => setSearch(tag)}
             >
               {tag}
@@ -153,7 +153,7 @@ function BackgroundChanger({ openChanger }: Props) {
           {page > 1 ? (
             <button
               onClick={() => setPage((page) => page - 1)}
-              className="rounded-lg bg-emerald-300 p-1"
+              className="rounded-lg bg-gray-300 p-1"
             >
               <Prev />
             </button>
@@ -170,7 +170,7 @@ function BackgroundChanger({ openChanger }: Props) {
           {page < totalPages ? (
             <button
               onClick={() => setPage((page) => page + 1)}
-              className="rounded-lg bg-emerald-300 p-1"
+              className="rounded-lg bg-gray-300 p-1"
             >
               <Next />
             </button>

@@ -1,5 +1,6 @@
 "use client";
 
+import Notes from "@/components/space/Notes";
 import { useEffect, useRef } from "react";
 
 export default function page() {
@@ -70,6 +71,7 @@ export default function page() {
         ref={boxRef}
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div> */}
+      <Notes />
       <span id="background-container">
         <img
           id="background-image"
