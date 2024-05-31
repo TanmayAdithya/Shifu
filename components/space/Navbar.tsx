@@ -21,7 +21,7 @@ const Navbar = () => {
 
   return (
     <>
-      {openChanger && <BackgroundChanger />}
+      <BackgroundChanger openChanger={openChanger} />
       <nav className="absolute z-40 mb-[3rem] flex items-center">
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>

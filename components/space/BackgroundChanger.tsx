@@ -7,53 +7,70 @@ import useDebounce from "@/hooks/useDebounce";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
-function BackgroundChanger() {
+type Props = {
+  openChanger: boolean;
+};
+
+function BackgroundChanger({ openChanger }: Props) {
   const [backgrounds, setBackgrounds] = useState<background[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("");
-  const [totalPages, setTotalPages] = useState<number>(9);
-  const [page, setPage] = useState<number>(7);
+  const [totalPages, setTotalPages] = useState<number>(0);
+  const [page, setPage] = useState<number>(1);
   const backgroundImage = useRef<string>("");
   const debouncedSearch = useDebounce(search, 1000);
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const fetchData = async () => {
-      try {
-        const res = await fetch(
-          `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
-          { signal },
-        );
-        if (!res.ok) {
-          throw new Error("Something went wrong!");
-        }
-        const data = await res.json();
-        const backgrounds = data.results;
-        const pages = data.total_pages;
-        console.log(backgrounds);
-        setBackgrounds(backgrounds);
-        setTotalPages(pages);
-        setLoading(false);
-      } catch (error) {
-        if (error instanceof Error) {
-          if (error.name === "AbortError") {
-            console.log("Fetch aborted");
-          } else {
-            setError(error.message);
-          }
-        } else {
-          setError("An unknown error occurred");
-        }
-        setLoading(false);
-      }
-    };
-    fetchData();
-    return () => {
-      controller.abort();
-    };
-  }, [debouncedSearch]);
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   const fetchData = async () => {
+  //     try {
+  //       if (debouncedSearch) {
+  //         const res = await fetch(
+  //           `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
+  //           { signal },
+  //         );
+  //         if (!res.ok) {
+  //           throw new Error("Something went wrong!");
+  //         }
+  //         const data = await res.json();
+  //         const backgrounds = data.results;
+  //         const pages = data.total_pages;
+  //         console.log(backgrounds);
+  //         setBackgrounds(backgrounds);
+  //         setTotalPages(pages);
+  //       } else {
+  //         const res = await fetch(
+  //           `https://api.unsplash.com/photos/?client_id=${apiKey}`,
+  //           { signal },
+  //         );
+  //         if (!res.ok) {
+  //           throw new Error("Something went wrong!");
+  //         }
+  //         const backgrounds = await res.json();
+  //         console.log(backgrounds);
+  //         setBackgrounds(backgrounds);
+  //       }
+  //       setLoading(false);
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         if (error.name === "AbortError") {
+  //           console.log("Fetch aborted");
+  //         } else {
+  //           setError(error.message);
+  //         }
+  //       } else {
+  //         setError("An unknown error occurred");
+  //       }
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, [debouncedSearch, page]);
 
   const tags = ["Nature", "Spring", "Summer", "Winter"];
 
@@ -69,7 +86,9 @@ function BackgroundChanger() {
   };
 
   return (
-    <div className="absolute z-40 mb-28 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg">
+    <div
+      className={`${openChanger ? "" : "hidden"} absolute z-40 mb-28 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
+    >
       <div>
         <div className=" mb-4">
           <input
@@ -128,7 +147,7 @@ function BackgroundChanger() {
             Prev
           </button>
         )}
-        <p>{page}</p>
+        {debouncedSearch && <p>{page}</p>}
         {page < totalPages && (
           <button
             onClick={() => setPage((page) => page + 1)}
