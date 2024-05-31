@@ -4,6 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { background } from "@/types/types";
 import Image from "next/image";
 import useDebounce from "@/hooks/useDebounce";
+import { Skeleton } from "@/components/ui/skeleton";
+import {
+  MdKeyboardArrowRight as Next,
+  MdKeyboardArrowLeft as Prev,
+} from "react-icons/md";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
@@ -114,7 +119,10 @@ function BackgroundChanger({ openChanger }: Props) {
 
       {/* Image Grid */}
       <div className="grid grid-cols-2 gap-2">
-        {loading && <p>Loading...</p>}
+        {loading &&
+          Array.from({ length: 10 }).map((_, index) => (
+            <Skeleton key={index} className="h-[114.75px] w-[204px] rounded" />
+          ))}
         {error && <p>Error...</p>}
         {backgrounds.map(({ id, urls, description }) => {
           return (
@@ -138,24 +146,42 @@ function BackgroundChanger({ openChanger }: Props) {
         })}
         <div />
       </div>
-      <div className="mt-8 flex items-center justify-evenly">
-        {page > 1 && (
-          <button
-            onClick={() => setPage((page) => page - 1)}
-            className="rounded-lg bg-emerald-300 px-3 py-1"
-          >
-            Prev
-          </button>
-        )}
+      <div className="mt-8 flex items-center justify-center gap-6">
+        {debouncedSearch &&
+          (page > 1 ? (
+            <button
+              onClick={() => setPage((page) => page - 1)}
+              className="rounded-lg bg-emerald-300 p-1"
+            >
+              <Prev />
+            </button>
+          ) : (
+            <button
+              disabled
+              onClick={() => setPage((page) => page - 1)}
+              className="rounded-lg bg-gray-300 p-1"
+            >
+              <Prev />
+            </button>
+          ))}
         {debouncedSearch && <p>{page}</p>}
-        {page < totalPages && (
-          <button
-            onClick={() => setPage((page) => page + 1)}
-            className="rounded-lg bg-emerald-300 px-3 py-1"
-          >
-            Next
-          </button>
-        )}
+        {debouncedSearch &&
+          (page < totalPages ? (
+            <button
+              onClick={() => setPage((page) => page + 1)}
+              className="rounded-lg bg-emerald-300 p-1"
+            >
+              <Next />
+            </button>
+          ) : (
+            <button
+              disabled
+              onClick={() => setPage((page) => page + 1)}
+              className="rounded-lg bg-gray-300 p-1"
+            >
+              <Next />
+            </button>
+          ))}
       </div>
     </div>
   );
