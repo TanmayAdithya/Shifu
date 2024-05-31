@@ -104,11 +104,11 @@ function BackgroundChanger({ openChanger }: Props) {
           />
         </div>
         {/* Tags */}
-        <div className=" mb-4 flex flex-wrap gap-2">
+        <div className=" mb-4 flex flex-wrap justify-center gap-2">
           {tags.map((tag) => (
             <button
               key={tag}
-              className="rounded-lg border border-emerald-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-emerald-600 hover:text-neutral-100 focus:bg-emerald-600 focus:text-neutral-100"
+              className="rounded-md border border-emerald-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-emerald-600 hover:text-neutral-100 focus:bg-emerald-600 focus:text-neutral-100"
               onClick={() => setSearch(tag)}
             >
               {tag}
@@ -118,7 +118,9 @@ function BackgroundChanger({ openChanger }: Props) {
       </div>
 
       {/* Image Grid */}
-      <div className="grid grid-cols-2 gap-2">
+      <div
+        className={`${debouncedSearch ? "" : "mb-2"} grid grid-cols-2 gap-2`}
+      >
         {loading &&
           Array.from({ length: 10 }).map((_, index) => (
             <Skeleton key={index} className="h-[114.75px] w-[204px] rounded" />
@@ -146,9 +148,9 @@ function BackgroundChanger({ openChanger }: Props) {
         })}
         <div />
       </div>
-      <div className="mt-8 flex items-center justify-center gap-6">
-        {debouncedSearch &&
-          (page > 1 ? (
+      {debouncedSearch && (
+        <div className="mb-2 mt-4 flex items-center justify-center gap-6">
+          {page > 1 ? (
             <button
               onClick={() => setPage((page) => page - 1)}
               className="rounded-lg bg-emerald-300 p-1"
@@ -163,10 +165,9 @@ function BackgroundChanger({ openChanger }: Props) {
             >
               <Prev />
             </button>
-          ))}
-        {debouncedSearch && <p>{page}</p>}
-        {debouncedSearch &&
-          (page < totalPages ? (
+          )}
+          {<p>{page}</p>}
+          {page < totalPages ? (
             <button
               onClick={() => setPage((page) => page + 1)}
               className="rounded-lg bg-emerald-300 p-1"
@@ -181,8 +182,9 @@ function BackgroundChanger({ openChanger }: Props) {
             >
               <Next />
             </button>
-          ))}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }
