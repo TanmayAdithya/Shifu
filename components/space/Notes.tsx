@@ -37,7 +37,7 @@ export default function Notes({}: Props) {
           </div>
           {/* Notes */}
           <div className="mt-2 flex flex-col gap-2 px-2 pb-2">
-            {Array.from({ length: 28 }).map((_, index) => (
+            {Array.from({ length: 10 }).map((_, index) => (
               <div
                 key={index}
                 className="w-full cursor-pointer list-none rounded-lg bg-neutral-600 p-2 text-white transition-colors duration-100 hover:bg-neutral-700"
