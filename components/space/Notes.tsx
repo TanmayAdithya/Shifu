@@ -9,18 +9,20 @@ import { MDXEditor } from "./MDXEditor";
 type Props = {};
 
 export default function Notes({}: Props) {
-  const [openNote, setOpenNote] = useState<boolean>(false);
+  const [openNote, setOpenNote] = useState<boolean>(true);
+
   return (
     <div className="absolute left-56 top-20 flex h-[24rem] min-w-[192px] rounded-lg bg-white shadow-lg">
-      <aside className="min-w-[14.5rem] overflow-auto rounded-lg">
+      <aside className="min-w-[14.5rem] overflow-auto rounded-l-lg border-r border-r-neutral-200">
         <div>
           <div className="sticky top-0 bg-white p-2">
             {/* Sidebar */}
-            <span onClick={() => setOpenNote((prev) => !prev)}>
+            <span>
               <SidebarIcon
                 color="#737373"
                 size={"24px"}
                 className="mb-2 cursor-pointer"
+                onClick={() => setOpenNote((prev) => !prev)}
               />
             </span>
             {/* Search Box */}
@@ -52,12 +54,11 @@ export default function Notes({}: Props) {
         </div>
       </aside>
       <div
-        className={`w-full min-w-[30rem] ${openNote ? "" : "hidden"} overflow-auto rounded-e-lg bg-neutral-100 p-2`}
+        className={`w-full min-w-[30rem] ${openNote ? "" : "hidden"} overflow-auto rounded-e-lg bg-white p-2`}
       >
         <MDXEditor
           markdown={""}
-          contentEditableClassName="outline-none text-lg py-3 px-2 prose prose-p:my-3 prose-p:leading-relaxed prose-headings:my-2
-          prose-blockquote:my-4 prose-ul:my-2 prose-li:my-0 prose-code:px-1 prose-code:text-red-500 prose-code:before:content-[''] prose-code:after:content=['']"
+          contentEditableClassName="outline-none text-lg py-3 px-2 prose prose-p:my-1 prose-p:leading-relaxed prose-headings:my-1 prose-blockquote:my-1 prose-ul:my-1 prose-li:my-1 prose-code:px-1 prose-code:text-red-500 prose-code:before:content-[''] prose-code:after:content=['']"
         />
       </div>
     </div>

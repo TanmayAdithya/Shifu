@@ -74,3 +74,36 @@
     @apply bg-background text-foreground;
   }
 }
+
+.mdxeditor-toolbar {
+  display: flex;
+  background-color: #efefef;
+  border: 0px;
+  border-radius: 6px;
+  padding: 6px;
+  align-items: center;
+}
+
+.mdxeditor-toolbar > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.divider {
+  margin: 0px 4px 0px 4px;
+}
+
+.mdxeditor-toolbar div button {
+  padding: 4px;
+}
+
+.mdxeditor-toolbar button:hover {
+  background-color: #dedede;
+  border: 0px;
+  border-radius: 4px;
+}
+
+.mdxeditor-toolbar button {
+  padding: 4px;
+}
