@@ -72,12 +72,12 @@ export default function page() {
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div> */}
       <Notes />
-      <span id="background-container" className="w-full object-cover">
+      <span id="background-container">
         <img
           id="background-image"
           src="/anders-jilden-AkUR27wtaxs-unsplash.jpg"
           alt="background-image"
-          className="pointer-events-none h-full w-full"
+          className="pointer-events-none h-full w-full max-w-full"
         />
       </span>
     </div>
