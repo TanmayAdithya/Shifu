@@ -54,7 +54,7 @@ export default function Notes({}: Props) {
         </div>
       </aside>
       <div
-        className={`w-full min-w-[30rem] ${openNote ? "" : "hidden"} overflow-auto rounded-e-lg bg-white p-2`}
+        className={`flex w-full min-w-[30rem] ${openNote ? "" : "hidden"} overflow-auto rounded-e-lg bg-white p-2`}
       >
         <MDXEditor
           markdown={""}

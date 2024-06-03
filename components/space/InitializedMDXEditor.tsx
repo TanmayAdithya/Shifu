@@ -1,6 +1,7 @@
 "use client";
 
 import type { ForwardedRef } from "react";
+import "@mdxeditor/editor/style.css";
 import {
   headingsPlugin,
   listsPlugin,
@@ -15,10 +16,14 @@ import {
   toolbarPlugin,
   tablePlugin,
   imagePlugin,
-  InsertImage,
+  linkPlugin,
+  linkDialogPlugin,
+  frontmatterPlugin,
+  diffSourcePlugin,
   UndoRedo,
   BoldItalicUnderlineToggles,
-  linkPlugin,
+  StrikeThroughSupSubToggles,
+  InsertThematicBreak,
 } from "@mdxeditor/editor";
 
 export default function InitializedMDXEditor({
@@ -28,30 +33,39 @@ export default function InitializedMDXEditor({
   return (
     <MDXEditor
       plugins={[
-        headingsPlugin(),
-        listsPlugin(),
-        quotePlugin(),
-        imagePlugin(),
-        linkPlugin(),
-        markdownShortcutPlugin(),
-        thematicBreakPlugin(),
-        markdownShortcutPlugin(),
-        tablePlugin(),
-        codeBlockPlugin({ defaultCodeBlockLanguage: "js" }),
-        codeMirrorPlugin({
-          codeBlockLanguages: { js: "JavaScript", css: "CSS" },
-        }),
         toolbarPlugin({
           toolbarContents: () => (
             <>
               <UndoRedo />
-              <div className="divider h-[16px] w-[1px] border border-b-slate-100 border-l-slate-400 border-r-slate-100 border-t-slate-400 bg-black"></div>
+              <div className="mx-2 h-[16px] w-[1px] border border-b-slate-100 border-l-slate-400 border-r-slate-100 border-t-slate-400"></div>
               <BoldItalicUnderlineToggles />
-              <div className="divider h-[16px] w-[1px] border border-b-slate-100 border-l-slate-400 border-r-slate-100 border-t-slate-400 bg-black"></div>
-              <InsertImage />
+              <div className="mx-2 h-[16px] w-[1px] border border-b-slate-100 border-l-slate-400 border-r-slate-100 border-t-slate-400"></div>
+              <StrikeThroughSupSubToggles />
+              <InsertThematicBreak />
             </>
           ),
         }),
+        listsPlugin(),
+        quotePlugin(),
+        headingsPlugin(),
+        linkPlugin(),
+        linkDialogPlugin(),
+        imagePlugin(),
+        tablePlugin(),
+        thematicBreakPlugin(),
+        frontmatterPlugin(),
+        codeBlockPlugin({ defaultCodeBlockLanguage: "txt" }),
+        codeMirrorPlugin({
+          codeBlockLanguages: {
+            js: "JavaScript",
+            css: "CSS",
+            txt: "text",
+            tsx: "TypeScript",
+          },
+        }),
+
+        diffSourcePlugin({ viewMode: "rich-text", diffMarkdown: "boo" }),
+        markdownShortcutPlugin(),
       ]}
       {...props}
       ref={editorRef}

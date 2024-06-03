@@ -77,21 +77,17 @@
 
 .mdxeditor-toolbar {
   display: flex;
-  background-color: #efefef;
-  border: 0px;
+  border: 1px solid #dedede;
   border-radius: 6px;
   padding: 6px;
   align-items: center;
+  margin-left: 8px;
 }
 
-.mdxeditor-toolbar > div {
+.mdxeditor-toolbar div {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.divider {
-  margin: 0px 4px 0px 4px;
 }
 
 .mdxeditor-toolbar div button {
