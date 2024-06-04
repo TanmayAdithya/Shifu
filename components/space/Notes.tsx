@@ -1,8 +1,11 @@
+"use client";
+
 import React, { useState } from "react";
 
 import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { IoIosSearch as Search } from "react-icons/io";
 import { FiEdit as NewNote } from "react-icons/fi";
+import Tiptap from "./Tiptap";
 
 type Props = {};
 
@@ -10,10 +13,10 @@ export default function Notes({}: Props) {
   const [openNote, setOpenNote] = useState<boolean>(true);
 
   return (
-    <div className="absolute left-56 top-20 flex h-[24rem] min-w-[192px] rounded-lg bg-white shadow-lg">
+    <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-lg bg-white shadow-lg">
       <aside className="min-w-[14.5rem] overflow-auto rounded-l-lg border-r border-r-neutral-200">
         <div>
-          <div className="sticky top-0 bg-white p-2">
+          <div className="sticky top-0 bg-white px-3 pb-2 pt-3">
             {/* Sidebar */}
             <span>
               <SidebarIcon
@@ -39,7 +42,7 @@ export default function Notes({}: Props) {
             </div>
           </div>
           {/* Notes */}
-          <div className="mt-2 flex flex-col gap-2 px-2 pb-2">
+          <div className="mt-1 flex flex-col gap-2 px-3 pb-2">
             {Array.from({ length: 10 }).map((_, index) => (
               <div
                 key={index}
@@ -51,7 +54,9 @@ export default function Notes({}: Props) {
           </div>
         </div>
       </aside>
-      <div className="w-[30rem] rounded-e-lg bg-neutral-100 p-2"></div>
+      <div className="w-[30rem] overflow-auto rounded-e-lg bg-white p-2">
+        <Tiptap />
+      </div>
     </div>
   );
 }
