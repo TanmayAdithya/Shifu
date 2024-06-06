@@ -1,6 +1,7 @@
 "use client";
 
 import Notes from "@/components/space/Notes";
+import Timer from "@/components/space/Timer";
 import { useEffect, useRef } from "react";
 
 export default function page() {
@@ -72,6 +73,7 @@ export default function page() {
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div> */}
       <Notes />
+      <Timer />
       <span id="background-container">
         <img
           id="background-image"

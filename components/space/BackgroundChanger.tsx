@@ -95,7 +95,7 @@ function BackgroundChanger({ openChanger }: Props) {
       className={`${openChanger ? "" : "hidden"} absolute z-40 mb-28 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
     >
       <div>
-        <div className=" mb-4">
+        <div className="mb-4">
           <input
             type="text"
             placeholder="Search"
@@ -104,7 +104,7 @@ function BackgroundChanger({ openChanger }: Props) {
           />
         </div>
         {/* Tags */}
-        <div className=" mb-4 flex flex-wrap justify-center gap-2">
+        <div className="mb-4 flex flex-wrap justify-center gap-2">
           {tags.map((tag) => (
             <button
               key={tag}
