@@ -28,7 +28,7 @@ const Navbar = () => {
             <Tooltip>
               <TooltipTrigger>
                 <li
-                  key="background-changer" // Unique key
+                  key="background-changer"
                   id="background-changer"
                   className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-gray-200 ${activeItem === 7 ? "bg-gray-200 hover:bg-gray-200" : ""}`}
                   onClick={() => {

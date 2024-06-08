@@ -37,24 +37,24 @@ function MyTimer({ expiryTimestamp }: Props) {
           className="mr-2 flex cursor-pointer items-center justify-center rounded-full bg-neutral-600 p-3 text-emerald-50 transition-colors duration-100 hover:bg-neutral-800"
           onClick={start}
         >
-          <Start size={"20px"} />
+          <Start color="white" size={"20px"} />
         </span>
         <span
           className="mr-2 flex cursor-pointer items-center justify-center rounded-full bg-neutral-600 p-3 text-emerald-50 transition-colors duration-100 hover:bg-neutral-800"
           onClick={pause}
         >
-          <Pause size={"20px"} />
+          <Pause color="white" size={"20px"} />
         </span>
 
         <span
-          className="mr-2 flex cursor-pointer items-center justify-center rounded-full bg-neutral-600 p-3 text-emerald-50 transition-colors duration-100 hover:bg-neutral-800"
+          className="flex cursor-pointer items-center justify-center rounded-full bg-neutral-600 p-3 text-emerald-50 transition-colors duration-100 hover:bg-neutral-800"
           onClick={() => {
             const time = new Date();
             time.setSeconds(time.getSeconds() + 300);
             restart(time);
           }}
         >
-          <Restart size={"20px"} />
+          <Restart color="white" size={"20px"} />
         </span>
       </div>
     </div>
