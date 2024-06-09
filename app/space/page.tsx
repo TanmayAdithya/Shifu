@@ -5,6 +5,8 @@ import Timer from "@/components/space/Timer";
 import { useEffect, useRef } from "react";
 
 export default function page() {
+  const time = new Date();
+  time.setSeconds(time.getSeconds() + 3600);
   const boxRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const isClicked = useRef<boolean>(false);
@@ -73,7 +75,7 @@ export default function page() {
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div> */}
       <Notes />
-      <Timer />
+      <Timer expiryTimestamp={time} />
       <span id="background-container">
         <img
           id="background-image"
