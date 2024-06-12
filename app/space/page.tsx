@@ -2,8 +2,7 @@
 
 import Notes from "@/components/space/Notes";
 import Timer from "@/components/space/Timer";
-import TodoForm from "@/components/space/todo/TodoForm";
-import TodoList from "@/components/space/todo/TodoList";
+import Todo from "@/components/space/todo/Todo";
 import { useEffect, useRef } from "react";
 
 export default function page() {
@@ -78,11 +77,7 @@ export default function page() {
       ></div> */}
       {/* <Notes />
       <Timer expiryTimestamp={time} /> */}
-      <div className="absolute left-56 top-20 mx-auto bg-white p-4">
-        <h1 className="mb-4 text-3xl font-bold">Todo List</h1>
-        <TodoForm />
-        <TodoList />
-      </div>
+      <Todo />
       <span id="background-container">
         <img
           id="background-image"
