@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { FaPlus as AddTodo } from "react-icons/fa";
+
 const TodoForm = () => {
   const [content, setContent] = useState("");
 
@@ -9,19 +11,20 @@ const TodoForm = () => {
 
   return (
     <form onSubmit={(e) => handleSubmit} className="mb-4">
-      <input
-        type="text"
-        className="w-full border p-2"
-        placeholder="Add a new todo"
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-      />
-      <button
-        type="submit"
-        className="mt-2 w-full rounded bg-blue-600 p-2 text-white"
-      >
-        Add Todo
-      </button>
+      <div className="mb-2 flex w-full items-center gap-2">
+        <div className="flex w-full items-center rounded-md border border-[#E8E8E8] bg-white pl-1">
+          <input
+            type="text"
+            placeholder="Add a new todo"
+            className="w-full rounded-r-md bg-white p-1 text-neutral-700 outline-none placeholder:text-neutral-400 focus:placeholder:text-transparent active:border-0"
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+          />
+        </div>
+        <div className="cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700">
+          <AddTodo size={"17px"} color="#fff" />
+        </div>
+      </div>
     </form>
   );
 };

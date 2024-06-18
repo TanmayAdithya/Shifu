@@ -1,13 +1,21 @@
 import React from "react";
-import { FaTrash, FaCheck } from "react-icons/fa";
+import { PiTrashSimpleBold as Delete } from "react-icons/pi";
+import { RiEditFill as Edit } from "react-icons/ri";
 
-const TodoItem = () => {
+type Props = {
+  content: string;
+};
+
+const TodoItem = ({ content }: Props) => {
   return (
-    <li className={`flex items-center justify-between rounded border p-2`}>
-      <span className={`flex-1`}>hello</span>
+    <li className={`flex items-start justify-between rounded-md border p-2`}>
+      <input type="checkbox" className="mr-2 mt-1" />
+      <p className="mr-2 w-56 flex-1 text-balance break-words leading-tight text-neutral-700">
+        {content}
+      </p>
       <div className="flex space-x-2">
-        <FaCheck className="cursor-pointer text-green-600" />
-        <FaTrash className="cursor-pointer text-red-600" />
+        <Edit className="mt-1 cursor-pointer text-neutral-400 hover:text-neutral-800" />
+        <Delete className="mt-1 cursor-pointer text-neutral-400 hover:text-neutral-800" />
       </div>
     </li>
   );
