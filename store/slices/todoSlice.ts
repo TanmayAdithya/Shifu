@@ -1,16 +1,14 @@
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
-
-interface Todo {
-  id: string;
-  content: string;
-}
-
-interface TodosState {
-  todos: Todo[];
-}
+import { TodosState } from "@/types/types";
 
 const initialState: TodosState = {
-  todos: [],
+  todos: [
+    {
+      id: "1",
+      content:
+        "Buy groceries, including fruits, vegetables, dairy, and other essentials that are needed for the week.",
+    },
+  ],
 };
 
 export const todoSlice = createSlice({
@@ -24,7 +22,7 @@ export const todoSlice = createSlice({
       });
     },
     removeTodo: (state, action: PayloadAction<string>) => {
-      state.todos.filter((todo) => {
+      state.todos = state.todos.filter((todo) => {
         todo.id !== action.payload;
       });
     },

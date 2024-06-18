@@ -1,12 +1,16 @@
 import React, { useState } from "react";
-
+import { useDispatch } from "react-redux";
 import { FaPlus as AddTodo } from "react-icons/fa";
+import { addTodo } from "@/store/slices/todoSlice";
 
 const TodoForm = () => {
   const [content, setContent] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = (e: InputEvent) => {
     e.preventDefault();
+    dispatch(addTodo(content));
+    setContent("");
   };
 
   return (

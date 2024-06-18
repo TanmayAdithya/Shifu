@@ -18,3 +18,12 @@ export type background = {
   };
   description: string;
 };
+
+export interface Todo {
+  id: string;
+  content: string;
+}
+
+export interface TodosState {
+  todos: Todo[];
+}
