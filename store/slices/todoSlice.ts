@@ -7,6 +7,7 @@ const initialState: TodosState = {
       id: "1",
       content:
         "Buy groceries, including fruits, vegetables, dairy, and other essentials that are needed for the week.",
+      completed: false,
     },
   ],
 };
@@ -19,14 +20,21 @@ export const todoSlice = createSlice({
       state.todos.push({
         id: nanoid(),
         content: action.payload,
+        completed: false,
       });
     },
     removeTodo: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
+    completeTodo: (state, action: PayloadAction<string>) => {
+      const todo = state.todos.find((todo) => todo.id === action.payload);
+      if (todo) {
+        todo.completed = !todo.completed;
+      }
+    },
   },
 });
 
-export const { addTodo, removeTodo } = todoSlice.actions;
+export const { addTodo, removeTodo, completeTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

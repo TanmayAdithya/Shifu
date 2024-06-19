@@ -28,7 +28,7 @@ const TodoForm = () => {
           />
         </div>
         <button
-          className="cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700"
+          className="cursor-pointer rounded-md bg-neutral-500 p-2 transition-colors duration-150 hover:bg-neutral-700"
           type="submit"
         >
           <AddTodo size={"17px"} color="#fff" />
