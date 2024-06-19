@@ -1,9 +1,8 @@
 import React from "react";
 import { PiTrashSimpleBold as Delete } from "react-icons/pi";
 import { RiEditFill as Edit } from "react-icons/ri";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { removeTodo } from "@/store/slices/todoSlice";
-import { TodosState } from "@/types/types";
 
 type Props = {
   content: string;
@@ -13,8 +12,7 @@ type Props = {
 const TodoItem = ({ content, id }: Props) => {
   const dispatch = useDispatch();
 
-  const deleteTodo = (e: MouseEvent) => {
-    e.preventDefault();
+  const handleDeleteTodo = (id: string) => {
     dispatch(removeTodo(id));
   };
   return (
@@ -27,7 +25,7 @@ const TodoItem = ({ content, id }: Props) => {
         <Edit className="mt-1 cursor-pointer text-neutral-400 hover:text-neutral-800" />
         <Delete
           className="mt-1 cursor-pointer text-neutral-400 hover:text-neutral-800"
-          onClick={() => deleteTodo}
+          onClick={() => handleDeleteTodo(id)}
         />
       </div>
     </li>

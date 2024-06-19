@@ -7,14 +7,16 @@ const TodoForm = () => {
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
 
-  const handleSubmit = (e: InputEvent) => {
+  const handleAddTodo = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(addTodo(content));
-    setContent("");
+    if (content.trim() !== "") {
+      dispatch(addTodo(content));
+      setContent("");
+    }
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit} className="mb-4">
+    <form onSubmit={handleAddTodo} className="mb-4">
       <div className="mb-2 flex w-full items-center gap-2">
         <div className="flex w-full items-center rounded-md border border-[#E8E8E8] bg-white pl-1">
           <input
@@ -25,9 +27,12 @@ const TodoForm = () => {
             onChange={(e) => setContent(e.target.value)}
           />
         </div>
-        <div className="cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700">
+        <button
+          className="cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700"
+          type="submit"
+        >
           <AddTodo size={"17px"} color="#fff" />
-        </div>
+        </button>
       </div>
     </form>
   );

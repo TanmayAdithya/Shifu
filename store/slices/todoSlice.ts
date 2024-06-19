@@ -22,9 +22,7 @@ export const todoSlice = createSlice({
       });
     },
     removeTodo: (state, action: PayloadAction<string>) => {
-      state.todos = state.todos.filter((todo) => {
-        todo.id !== action.payload;
-      });
+      state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
   },
 });
