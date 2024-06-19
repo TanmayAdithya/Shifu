@@ -31,7 +31,7 @@ const TodoItem = ({ content, id, completed }: Props) => {
         onChange={() => handleCompleteTodo(id)}
       />
       <p
-        className={`mr-2 w-56 flex-1 text-balance break-words leading-tight text-neutral-700 ${completed ? "line-through" : ""}`}
+        className={`mr-2 w-52 flex-1 text-balance break-words leading-tight text-neutral-700 ${completed ? "line-through" : ""}`}
       >
         {content}
       </p>
