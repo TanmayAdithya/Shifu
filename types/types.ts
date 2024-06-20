@@ -1,10 +1,14 @@
 import { IconType } from "react-icons";
-export type navbarItem = {
-  id: number;
-  title: string;
-  href: string;
+export type widgetItem = {
+  id: string;
   icon: IconType;
 };
+
+export type OpenWidgetsState = {
+  [key: string]: boolean;
+};
+
+export type ToggleWidget = (widgetId: string) => void;
 
 export type background = {
   id: string;

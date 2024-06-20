@@ -1,8 +1,10 @@
 "use client";
 
+import NavbarTest from "@/components/space/NavbarTest";
 import Notes from "@/components/space/Notes";
 import Timer from "@/components/space/Timer";
 import Todo from "@/components/space/todo/Todo";
+import useWidgets from "@/hooks/useWidgets";
 import { useEffect, useRef } from "react";
 
 export default function page() {
@@ -64,6 +66,8 @@ export default function page() {
     return cleanUp;
   }, []);
 
+  const { openWidgets, toggleWidget } = useWidgets();
+
   return (
     // Container Box
     <div
@@ -75,9 +79,12 @@ export default function page() {
         ref={boxRef}
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div> */}
+
       {/* <Notes />
+
       <Timer expiryTimestamp={time} /> */}
-      <Todo />
+      {/* <Todo /> */}
+      <NavbarTest openWidgets={openWidgets} toggleWidget={toggleWidget} />
       <span id="background-container">
         <img
           id="background-image"

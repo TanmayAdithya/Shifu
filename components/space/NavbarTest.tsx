@@ -1,26 +1,32 @@
-import { navbarItems } from "@/constants/constants";
 import React, { useState } from "react";
-import { AiOutlinePicture as Picture } from "react-icons/ai";
-import { MdOutlineLibraryMusic as Music } from "react-icons/md";
-import BackgroundChanger from "./BackgroundChanger";
+import { widgetItems } from "@/constants/constants";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { OpenWidgetsState, ToggleWidget } from "@/types/types";
+import BackgroundChanger from "./BackgroundChanger";
+import { AiOutlinePicture as Picture } from "react-icons/ai";
+import { MdOutlineLibraryMusic as Music } from "react-icons/md";
 
-const Navbar = () => {
-  const [activeItem, setActiveItem] = useState<number | null>(null);
+type Props = {
+  openWidgets: OpenWidgetsState;
+  toggleWidget: ToggleWidget;
+};
+
+const NavbarTest = ({ openWidgets, toggleWidget }: Props) => {
   const [openChanger, setOpenChanger] = useState<boolean>(false);
+  const [activeItem, setActiveItem] = useState<string | null>(null);
 
-  const handleClick = (id: number) => {
+  const handleClick = (id: string) => {
     setActiveItem(id === activeItem ? null : id);
-    setOpenChanger(id === 7 ? (prev) => !prev : false);
+    setOpenChanger(id === "background" ? (prev) => !prev : false);
   };
 
   return (
-    <>
+    <div className="absolute bottom-20 left-0 right-0 flex justify-center">
       <BackgroundChanger openChanger={openChanger} />
       <nav className="absolute z-40 mb-[3rem] flex items-center">
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1">
@@ -30,9 +36,9 @@ const Navbar = () => {
                 <li
                   key="background-changer"
                   id="background-changer"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-gray-200 ${activeItem === 7 ? "bg-gray-200 hover:bg-gray-200" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 ${activeItem === "background" ? "bg-neutral-200 hover:bg-neutral-200" : ""}`}
                   onClick={() => {
-                    handleClick(7);
+                    handleClick("background");
                   }}
                 >
                   <span>
@@ -48,8 +54,7 @@ const Navbar = () => {
         </div>
         <div className="w-[20rem] items-center justify-center rounded-xl border-0 bg-neutral-50 px-1 py-1 shadow-lg">
           <div className="flex flex-1 justify-between">
-            {navbarItems.map(({ id, icon: Icon, title }) => {
-              const isActive = id === activeItem;
+            {widgetItems.map(({ id, icon: Icon }) => {
               return (
                 <TooltipProvider
                   key={id}
@@ -60,10 +65,8 @@ const Navbar = () => {
                     <TooltipTrigger>
                       <li
                         key={id}
-                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-gray-200 ${isActive ? "rounded-lg bg-gray-200 hover:bg-gray-200" : ""}`}
-                        onClick={() => {
-                          handleClick(id);
-                        }}
+                        className={`4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 ${openWidgets[id] ? "bg-neutral-200" : ""}`}
+                        onClick={() => toggleWidget(id)}
                       >
                         <span>
                           <Icon size={"1.35rem"} color="#262626" />
@@ -71,7 +74,7 @@ const Navbar = () => {
                       </li>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>{title}</p>
+                      <p>{id}</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -84,11 +87,11 @@ const Navbar = () => {
             <Tooltip>
               <TooltipTrigger>
                 <li
-                  key="music-player" // Unique key
+                  key="music-player"
                   id="music-player"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-gray-200 ${activeItem === 8 ? "bg-gray-200 hover:bg-gray-200" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 ${activeItem === "music" ? "bg-neutral-200 hover:bg-neutral-200" : ""}`}
                   onClick={() => {
-                    handleClick(8);
+                    handleClick("music");
                   }}
                 >
                   <span>
@@ -103,8 +106,8 @@ const Navbar = () => {
           </TooltipProvider>
         </div>
       </nav>
-    </>
+    </div>
   );
 };
 
-export default Navbar;
+export default NavbarTest;

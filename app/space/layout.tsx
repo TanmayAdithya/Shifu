@@ -1,7 +1,5 @@
 "use client";
 
-import Navbar from "../../components/space/Navbar";
-
 export default function SpaceLayout({
   children,
 }: {
@@ -11,7 +9,6 @@ export default function SpaceLayout({
     <>
       <div className="flex h-full flex-col items-center justify-end">
         {children}
-        <Navbar />
       </div>
     </>
   );
