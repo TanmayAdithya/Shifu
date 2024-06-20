@@ -4,11 +4,13 @@ export type widgetItem = {
   icon: IconType;
 };
 
-export type OpenWidgetsState = {
+export interface WidgetState {
   [key: string]: boolean;
-};
+}
 
-export type ToggleWidget = (widgetId: string) => void;
+export interface OpenWidgetsState {
+  widgets: WidgetState;
+}
 
 export type background = {
   id: string;

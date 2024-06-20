@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { widgetItems } from "@/constants/constants";
 import {
   Tooltip,
@@ -6,19 +6,21 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { OpenWidgetsState, ToggleWidget } from "@/types/types";
+import { WidgetState } from "@/types/types";
 import BackgroundChanger from "./BackgroundChanger";
 import { AiOutlinePicture as Picture } from "react-icons/ai";
 import { MdOutlineLibraryMusic as Music } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { toggleWidget } from "@/store/slices/widgetSlice";
 
 type Props = {
-  openWidgets: OpenWidgetsState;
-  toggleWidget: ToggleWidget;
+  openWidgets: WidgetState;
 };
 
-const NavbarTest = ({ openWidgets, toggleWidget }: Props) => {
+const NavbarTest = ({ openWidgets }: Props) => {
   const [openChanger, setOpenChanger] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string | null>(null);
+  const dispatch = useDispatch();
 
   const handleClick = (id: string) => {
     setActiveItem(id === activeItem ? null : id);
@@ -66,7 +68,7 @@ const NavbarTest = ({ openWidgets, toggleWidget }: Props) => {
                       <li
                         key={id}
                         className={`4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 ${openWidgets[id] ? "bg-neutral-200" : ""}`}
-                        onClick={() => toggleWidget(id)}
+                        onClick={() => dispatch(toggleWidget(id))}
                       >
                         <span>
                           <Icon size={"1.35rem"} color="#262626" />

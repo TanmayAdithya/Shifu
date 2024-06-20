@@ -4,8 +4,9 @@ import NavbarTest from "@/components/space/NavbarTest";
 import Notes from "@/components/space/Notes";
 import Timer from "@/components/space/Timer";
 import Todo from "@/components/space/todo/Todo";
-import useWidgets from "@/hooks/useWidgets";
+import { RootState } from "@/store/rootReducer";
 import { useEffect, useRef } from "react";
+import { useSelector } from "react-redux";
 
 export default function page() {
   const time = new Date();
@@ -66,7 +67,7 @@ export default function page() {
     return cleanUp;
   }, []);
 
-  const { openWidgets, toggleWidget } = useWidgets();
+  const openWidgets = useSelector((state: RootState) => state.widgets.widgets);
 
   return (
     // Container Box
@@ -84,7 +85,7 @@ export default function page() {
 
       <Timer expiryTimestamp={time} /> */}
       {/* <Todo /> */}
-      <NavbarTest openWidgets={openWidgets} toggleWidget={toggleWidget} />
+      <NavbarTest openWidgets={openWidgets} />
       <span id="background-container">
         <img
           id="background-image"
