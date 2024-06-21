@@ -27,6 +27,10 @@ const NavbarTest = ({ openWidgets }: Props) => {
     setOpenChanger(id === "background" ? (prev) => !prev : false);
   };
 
+  const handleToggleWidget = (widgetId: string) => {
+    dispatch(toggleWidget(widgetId));
+  };
+
   return (
     <div className="absolute bottom-20 left-0 right-0 flex justify-center">
       <BackgroundChanger openChanger={openChanger} />
@@ -68,7 +72,7 @@ const NavbarTest = ({ openWidgets }: Props) => {
                       <li
                         key={id}
                         className={`4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 ${openWidgets[id] ? "bg-neutral-200" : ""}`}
-                        onClick={() => dispatch(toggleWidget(id))}
+                        onClick={() => handleToggleWidget(id)}
                       >
                         <span>
                           <Icon size={"1.35rem"} color="#262626" />

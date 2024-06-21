@@ -1,9 +1,10 @@
-import { useAppSelector } from "@/store/store";
 import TodoItem from "./TodoItem";
 import React from "react";
+import { RootState } from "@/store/rootReducer";
+import { useSelector } from "react-redux";
 
 const TodoList = () => {
-  const todos = useAppSelector((state) => state.todoReducer.todos);
+  const todos = useSelector((state: RootState) => state.todos.todos);
   return (
     <ul className="relative h-[256px] space-y-2 overflow-y-scroll">
       {todos.map((todo) => (

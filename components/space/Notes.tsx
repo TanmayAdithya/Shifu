@@ -1,16 +1,20 @@
 "use client";
 
-import React, { useState } from "react";
-
+import { useState } from "react";
 import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { IoIosSearch as Search } from "react-icons/io";
 import { FiEdit as NewNote } from "react-icons/fi";
+import { addNote, removeNote } from "@/store/slices/notesSlice";
 import Tiptap from "./Tiptap";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
 type Props = {};
 
 export default function Notes({}: Props) {
   const [openNote, setOpenNote] = useState<boolean>(true);
+  const dispatch = useDispatch();
+  const notes = useSelector((state: RootState) => state.notes.notes);
 
   return (
     <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg">
@@ -43,19 +47,19 @@ export default function Notes({}: Props) {
           </div>
           {/* Notes */}
           <div className="flex flex-col gap-2 px-3 pb-2">
-            {Array.from({ length: 7 }).map((_, index) => (
+            {notes.map((note) => (
               <div
-                key={index}
+                key={note.id}
                 className="w-full cursor-pointer list-none rounded-lg border border-[#E8E8E8] bg-white p-2 transition-colors duration-100 hover:bg-neutral-200"
               >
-                {index}
+                {note.title}
               </div>
             ))}
           </div>
         </div>
       </aside>
       <div className="w-[30rem] overflow-auto rounded-e-xl bg-white p-2">
-        <Tiptap />
+        <Tiptap content={notes[0].content} />
       </div>
     </div>
   );

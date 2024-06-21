@@ -7,10 +7,11 @@ import { useEditor, EditorContent, useCurrentEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 
-const Tiptap = () => {
-  const editor = useEditor({
-    extensions: [StarterKit, Underline, Color, TextStyle],
-    content: `<h2>Hi there,</h2>
+interface TipTapProps {
+  content: string;
+}
+
+const sampleContent = `<h2>Hi there,</h2>
                 <p>
                   this is a <em>basic</em> example of <strong>tiptap</strong>. Sure, there are all kind of basic text styles you'd probably expect from a text editor. But wait until you see the lists:
                 </p>
@@ -35,7 +36,12 @@ const Tiptap = () => {
     Wow, that&apos;s amazing. Good work, boy! 👏
     <br />
     — Mom
-  </blockquote>`,
+  </blockquote>`;
+
+const Tiptap = ({ content }: TipTapProps) => {
+  const editor = useEditor({
+    extensions: [StarterKit, Underline, Color, TextStyle],
+    content: content,
   });
 
   return (

@@ -34,3 +34,18 @@ export interface Todo {
 export interface TodosState {
   todos: Todo[];
 }
+
+export interface Note {
+  id: string;
+  title: string;
+  content: string;
+}
+
+export interface Notes {
+  notes: Note[];
+}
+
+export interface AddNotePayload {
+  title: string;
+  content: string;
+}
