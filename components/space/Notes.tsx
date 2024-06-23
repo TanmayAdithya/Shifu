@@ -5,16 +5,40 @@ import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { IoIosSearch as Search } from "react-icons/io";
 import { FiEdit as NewNote } from "react-icons/fi";
 import { addNote, removeNote } from "@/store/slices/notesSlice";
-import Tiptap from "./Tiptap";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
+import { Note } from "@/types/types";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { Color } from "@tiptap/extension-color";
+import TextStyle from "@tiptap/extension-text-style";
+import StarterKit from "@tiptap/starter-kit";
+import Underline from "@tiptap/extension-underline";
 
 type Props = {};
 
 export default function Notes({}: Props) {
-  const [openNote, setOpenNote] = useState<boolean>(true);
+  const [openNote, setOpenNote] = useState<Note>({
+    id: "untitled",
+    title: "Untitled",
+    content: "<h1>YOLO</h1>",
+  });
   const dispatch = useDispatch();
   const notes = useSelector((state: RootState) => state.notes.notes);
+
+  const editor = useEditor({
+    extensions: [StarterKit, Underline, Color, TextStyle],
+    content: openNote.content,
+  });
+
+  function handleAddNote() {
+    let payload = { title: "Untitled", content: "" };
+    dispatch(addNote(payload));
+  }
+
+  const handleOpenNote = (note: Note) => {
+    setOpenNote(note);
+    editor?.commands.setContent(note.content);
+  };
 
   return (
     <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg">
@@ -27,7 +51,6 @@ export default function Notes({}: Props) {
                 color="#737373"
                 size={"24px"}
                 className="mb-2 cursor-pointer"
-                onClick={() => setOpenNote((prev) => !prev)}
               />
             </span>
             {/* Search Box */}
@@ -41,7 +64,7 @@ export default function Notes({}: Props) {
                 />
               </div>
               <div className="h-full w-full flex-1 flex-grow cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700">
-                <NewNote size={"17px"} color="#fff" />
+                <NewNote size={"17px"} color="#fff" onClick={handleAddNote} />
               </div>
             </div>
           </div>
@@ -50,7 +73,8 @@ export default function Notes({}: Props) {
             {notes.map((note) => (
               <div
                 key={note.id}
-                className="w-full cursor-pointer list-none rounded-lg border border-[#E8E8E8] bg-white p-2 transition-colors duration-100 hover:bg-neutral-200"
+                className="w-full cursor-pointer list-none rounded-lg border border-[#E8E8E8] bg-white p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200"
+                onClick={() => handleOpenNote(note)}
               >
                 {note.title}
               </div>
@@ -58,8 +82,15 @@ export default function Notes({}: Props) {
           </div>
         </div>
       </aside>
-      <div className="w-[30rem] overflow-auto rounded-e-xl bg-white p-2">
-        <Tiptap content={notes[0].content} />
+      <div className="w-[30rem] overflow-auto rounded-e-xl bg-white p-4">
+        <h2 id="note-title" className="text-center text-neutral-700">
+          {openNote.title}
+        </h2>
+        <EditorContent
+          id="editor-wrapper"
+          className="prose-code:after:content=[''] text-md prose py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1"
+          editor={editor}
+        />
       </div>
     </div>
   );
