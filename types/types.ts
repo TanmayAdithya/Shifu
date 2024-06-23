@@ -49,3 +49,8 @@ export interface AddNotePayload {
   title: string;
   content: string;
 }
+
+export interface updateContentPayload {
+  id: string;
+  content: string;
+}

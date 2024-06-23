@@ -1,10 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { IoIosSearch as Search } from "react-icons/io";
 import { FiEdit as NewNote } from "react-icons/fi";
-import { addNote, removeNote } from "@/store/slices/notesSlice";
+import {
+  addNote,
+  removeNote,
+  updateNoteContent,
+} from "@/store/slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { Note } from "@/types/types";
@@ -17,17 +21,17 @@ import Underline from "@tiptap/extension-underline";
 type Props = {};
 
 export default function Notes({}: Props) {
-  const [openNote, setOpenNote] = useState<Note>({
-    id: "untitled",
-    title: "Untitled",
-    content: "<h1>YOLO</h1>",
-  });
-  const dispatch = useDispatch();
   const notes = useSelector((state: RootState) => state.notes.notes);
+  const [openNote, setOpenNote] = useState<Note>(notes[0]);
+  const dispatch = useDispatch();
 
   const editor = useEditor({
     extensions: [StarterKit, Underline, Color, TextStyle],
     content: openNote.content,
+    autofocus: true,
+    onUpdate: ({ editor }) => {
+      handleContentChange(editor.getHTML());
+    },
   });
 
   function handleAddNote() {
@@ -39,6 +43,17 @@ export default function Notes({}: Props) {
     setOpenNote(note);
     editor?.commands.setContent(note.content);
   };
+
+  function handleContentChange(newContent: string) {
+    if (openNote)
+      dispatch(
+        updateNoteContent({
+          id: openNote.id,
+          content: newContent,
+        }),
+      );
+    setOpenNote({ ...openNote, content: newContent });
+  }
 
   return (
     <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg">
