@@ -54,3 +54,7 @@ export interface updateContentPayload {
   id: string;
   content: string;
 }
+export interface updateTitlePayload {
+  id: string;
+  title: string;
+}

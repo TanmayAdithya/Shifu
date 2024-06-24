@@ -1,4 +1,9 @@
-import { Notes, AddNotePayload, updateContentPayload } from "@/types/types";
+import {
+  Notes,
+  AddNotePayload,
+  updateContentPayload,
+  updateTitlePayload,
+} from "@/types/types";
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState: Notes = {
@@ -6,7 +11,7 @@ const initialState: Notes = {
     {
       id: "first",
       title: "First Note",
-      content: `<h1>YOLO</h1>`,
+      content: `<h1>First Note</h1>`,
     },
     {
       id: "second",
@@ -77,9 +82,17 @@ export const notesSlice = createSlice({
       let prevContent = updatedNote?.content;
       prevContent = action.payload.content;
     },
+    updateNoteTitle: (state, action: PayloadAction<updateTitlePayload>) => {
+      let updatedTitle = state.notes.find(
+        (note) => note.id === action.payload.id,
+      );
+      let prevTitle = updatedTitle?.title;
+      prevTitle = action.payload.title;
+    },
   },
 });
 
-export const { addNote, removeNote, updateNoteContent } = notesSlice.actions;
+export const { addNote, removeNote, updateNoteContent, updateNoteTitle } =
+  notesSlice.actions;
 
 export default notesSlice.reducer;

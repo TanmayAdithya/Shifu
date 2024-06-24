@@ -1,19 +1,21 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { IoIosSearch as Search } from "react-icons/io";
 import { FiEdit as NewNote } from "react-icons/fi";
+import { MdModeEdit as EditTitle } from "react-icons/md";
+import { IoClose as ExitEditMode } from "react-icons/io5";
 import {
   addNote,
   removeNote,
   updateNoteContent,
+  updateNoteTitle,
 } from "@/store/slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { Note } from "@/types/types";
 import { EditorContent, useEditor } from "@tiptap/react";
-import { Color } from "@tiptap/extension-color";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
@@ -23,10 +25,14 @@ type Props = {};
 export default function Notes({}: Props) {
   const notes = useSelector((state: RootState) => state.notes.notes);
   const [openNote, setOpenNote] = useState<Note>(notes[0]);
+  const [editTitle, setEditTitle] = useState<boolean>(false);
+  const [originalTitle, setOriginalTitle] = useState<string>(openNote.title);
+  const [newTitle, setNewTitle] = useState<string>(openNote.title);
+  const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline, Color, TextStyle],
+    extensions: [StarterKit, Underline, TextStyle],
     content: openNote.content,
     autofocus: true,
     onUpdate: ({ editor }) => {
@@ -54,6 +60,22 @@ export default function Notes({}: Props) {
       );
     setOpenNote({ ...openNote, content: newContent });
   }
+
+  function handleTitleChange(newTitle: string) {
+    dispatch(updateNoteTitle({ id: openNote.id, title: newTitle }));
+    setOpenNote({ ...openNote, title: newTitle });
+  }
+
+  const handleExitEditMode = () => {
+    setOpenNote((prevNote) => ({ ...prevNote, title: originalTitle }));
+    setEditTitle(false);
+  };
+
+  useEffect(() => {
+    if (editTitle && inputRef.current) {
+      inputRef.current.select();
+    }
+  }, [editTitle]);
 
   return (
     <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg">
@@ -88,7 +110,7 @@ export default function Notes({}: Props) {
             {notes.map((note) => (
               <div
                 key={note.id}
-                className="w-full cursor-pointer list-none rounded-lg border border-[#E8E8E8] bg-white p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200"
+                className={`w-full cursor-pointer list-none rounded-lg border border-[#E8E8E8] p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 ${openNote.id === note.id ? "bg-neutral-200 hover:bg-neutral-200" : "bg-white"}`}
                 onClick={() => handleOpenNote(note)}
               >
                 {note.title}
@@ -98,9 +120,47 @@ export default function Notes({}: Props) {
         </div>
       </aside>
       <div className="w-[30rem] overflow-auto rounded-e-xl bg-white p-4">
-        <h2 id="note-title" className="text-center text-neutral-700">
-          {openNote.title}
-        </h2>
+        <div className="flex justify-center">
+          {editTitle ? (
+            <div className="flex items-center">
+              <input
+                type="text"
+                value={openNote.title}
+                ref={inputRef}
+                className="max-w-20 rounded focus:outline-none"
+                onChange={(e) => {
+                  handleTitleChange(e.target.value);
+                  setNewTitle(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    handleExitEditMode();
+                  } else if (e.key === "Enter") {
+                    handleTitleChange(newTitle);
+                    setEditTitle(false);
+                  }
+                }}
+              />
+              <ExitEditMode
+                className="cursor-pointer text-neutral-600 hover:text-neutral-800"
+                onClick={handleExitEditMode}
+              />
+            </div>
+          ) : (
+            <h2
+              id="note-title"
+              className="flex items-center text-center text-neutral-800"
+            >
+              {openNote.title}
+              <span>
+                <EditTitle
+                  onClick={() => setEditTitle((prev) => !prev)}
+                  className="ml-1 cursor-pointer text-neutral-600 hover:text-neutral-800"
+                />
+              </span>
+            </h2>
+          )}
+        </div>
         <EditorContent
           id="editor-wrapper"
           className="prose-code:after:content=[''] text-md prose py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1"
