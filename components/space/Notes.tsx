@@ -24,7 +24,7 @@ type Props = {};
 
 export default function Notes({}: Props) {
   const notes = useSelector((state: RootState) => state.notes.notes);
-  const [openNote, setOpenNote] = useState<Note>(notes[0]);
+  const [openNote, setOpenNote] = useState<Note>(notes[0] || null);
   const [editTitle, setEditTitle] = useState<boolean>(false);
   const [originalTitle, setOriginalTitle] = useState<string>(openNote.title);
   const [newTitle, setNewTitle] = useState<string>(openNote.title);
@@ -33,7 +33,7 @@ export default function Notes({}: Props) {
 
   const editor = useEditor({
     extensions: [StarterKit, Underline, TextStyle],
-    content: openNote.content,
+    content: openNote.content || "",
     autofocus: true,
     onUpdate: ({ editor }) => {
       handleContentChange(editor.getHTML());
@@ -68,8 +68,15 @@ export default function Notes({}: Props) {
 
   const handleExitEditMode = () => {
     setOpenNote((prevNote) => ({ ...prevNote, title: originalTitle }));
+
     setEditTitle(false);
   };
+
+  useEffect(() => {
+    if (openNote) {
+      setNewTitle(openNote.title);
+    }
+  }, [openNote]);
 
   useEffect(() => {
     if (editTitle && inputRef.current) {

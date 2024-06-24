@@ -76,18 +76,16 @@ export const notesSlice = createSlice({
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
     updateNoteContent: (state, action: PayloadAction<updateContentPayload>) => {
-      let updatedNote = state.notes.find(
-        (note) => note.id === action.payload.id,
-      );
-      let prevContent = updatedNote?.content;
-      prevContent = action.payload.content;
+      const note = state.notes.find((note) => note.id === action.payload.id);
+      if (note) {
+        note.content = action.payload.content;
+      }
     },
     updateNoteTitle: (state, action: PayloadAction<updateTitlePayload>) => {
-      let updatedTitle = state.notes.find(
-        (note) => note.id === action.payload.id,
-      );
-      let prevTitle = updatedTitle?.title;
-      prevTitle = action.payload.title;
+      const note = state.notes.find((note) => note.id === action.payload.id);
+      if (note) {
+        note.title = action.payload.title;
+      }
     },
   },
 });
