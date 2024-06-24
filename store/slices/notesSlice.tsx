@@ -40,7 +40,7 @@ const initialState: Notes = {
     },
     {
       id: "seventh",
-      title: "Book Recommendations",
+      title: "Book Recommendations Listhhhhhhhhhhhhhhhhhhhhhhhhhh",
       content: `<p>1. 'The Great Gatsby' by F. Scott Fitzgerald</p><p>2. 'To Kill a Mockingbird' by Harper Lee</p><p>3. '1984' by George Orwell</p>`,
     },
     {
@@ -72,7 +72,7 @@ export const notesSlice = createSlice({
         content: action.payload.content,
       });
     },
-    removeNote: (state, action: PayloadAction<string>) => {
+    deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
     updateNoteContent: (state, action: PayloadAction<updateContentPayload>) => {
@@ -90,7 +90,7 @@ export const notesSlice = createSlice({
   },
 });
 
-export const { addNote, removeNote, updateNoteContent, updateNoteTitle } =
+export const { addNote, deleteNote, updateNoteContent, updateNoteTitle } =
   notesSlice.actions;
 
 export default notesSlice.reducer;
