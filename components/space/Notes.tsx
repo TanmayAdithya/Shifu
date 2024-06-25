@@ -20,6 +20,7 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
+import CharacterCount from "@tiptap/extension-character-count";
 
 type Props = {
   openNotesWidget: boolean;
@@ -43,7 +44,7 @@ export default function Notes({ openNotesWidget }: Props) {
   const dispatch = useDispatch();
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline, TextStyle],
+    extensions: [StarterKit, Underline, TextStyle, CharacterCount],
     content: openNote ? openNote.content : "",
     onUpdate: ({ editor }) => {
       handleContentChange(editor.getHTML());
@@ -187,7 +188,7 @@ export default function Notes({ openNotesWidget }: Props) {
         </div>
       </aside>
       <div
-        className={`w-[30rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
+        className={`h-full w-[30rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
       >
         <div>
           <SidebarIcon
@@ -239,13 +240,23 @@ export default function Notes({ openNotesWidget }: Props) {
             ) : null}
           </div>
         </div>
-        {openNote && (
-          <EditorContent
-            id="editor-wrapper"
-            className="prose-code:after:content=[''] text-md prose py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1"
-            editor={editor}
-          />
-        )}
+        <div>
+          {openNote && (
+            <EditorContent
+              id="editor-wrapper"
+              className="prose-code:after:content=[''] text-md prose py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1"
+              editor={editor}
+            />
+          )}
+        </div>
+        <div className="absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border-0 bg-neutral-100 px-2 py-1 text-xs font-light">
+          <span className="mr-2">
+            {editor?.storage.characterCount.words() + " words"}
+          </span>
+          <span>
+            {editor?.storage.characterCount.characters() + " characters"}
+          </span>
+        </div>
       </div>
     </div>
   );
