@@ -1,9 +1,13 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  openCalendarWidget: boolean;
+};
 
-const Calendar = (props: Props) => {
-  return <div>Calendar</div>;
+const Calendar = ({ openCalendarWidget }: Props) => {
+  return (
+    <div className={`${openCalendarWidget ? "" : "hidden"}`}>Calendar</div>
+  );
 };
 
 export default Calendar;

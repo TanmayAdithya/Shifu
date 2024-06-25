@@ -93,7 +93,7 @@ const Timer = ({ openTimerWidget }: TimerProps) => {
   time.setSeconds(time.getSeconds() + 3600);
   return (
     <div
-      className={`${openTimerWidget ? "" : "hidden"} absolute flex h-[15rem] w-80 min-w-[192px] rounded-xl bg-white p-4 shadow-lg`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-32 right-20 flex h-[15rem] w-80 min-w-[192px] rounded-xl bg-white p-4 shadow-lg`}
     >
       <MyTimer expiryTimestamp={time} />
     </div>

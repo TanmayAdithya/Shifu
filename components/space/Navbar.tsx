@@ -17,7 +17,7 @@ type Props = {
   openWidgets: WidgetState;
 };
 
-const NavbarTest = ({ openWidgets }: Props) => {
+const Navbar = ({ openWidgets }: Props) => {
   const [openChanger, setOpenChanger] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string | null>(null);
   const dispatch = useDispatch();
@@ -116,4 +116,4 @@ const NavbarTest = ({ openWidgets }: Props) => {
   );
 };
 
-export default NavbarTest;
+export default Navbar;

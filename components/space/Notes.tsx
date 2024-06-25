@@ -122,7 +122,7 @@ export default function Notes({ openNotesWidget }: Props) {
 
   return (
     <div
-      className={`absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg ${openNotesWidget ? "" : "hidden"}`}
+      className={`absolute left-20 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg ${openNotesWidget ? "" : "hidden"}`}
     >
       <aside className="min-w-[14.5rem] overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]">
         <div>

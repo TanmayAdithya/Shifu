@@ -1,9 +1,11 @@
 import React from "react";
 
-type Props = {};
+type Props = {
+  openKanbanWidget: boolean;
+};
 
-const Kanban = (props: Props) => {
-  return <div>Kanban</div>;
+const Kanban = ({ openKanbanWidget }: Props) => {
+  return <div className={`${openKanbanWidget ? "" : false}`}>Kanban</div>;
 };
 
 export default Kanban;

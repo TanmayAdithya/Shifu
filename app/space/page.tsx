@@ -1,6 +1,9 @@
 "use client";
 
-import NavbarTest from "@/components/space/NavbarTest";
+import Calendar from "@/components/space/Calendar";
+import Kanban from "@/components/space/Kanban";
+import Matrix from "@/components/space/Matrix";
+import Navbar from "@/components/space/Navbar";
 import Notes from "@/components/space/Notes";
 import Timer from "@/components/space/Timer";
 import Todo from "@/components/space/todo/Todo";
@@ -84,7 +87,10 @@ export default function page() {
       <Notes openNotesWidget={openWidgets["Notes"]} />
       <Timer openTimerWidget={openWidgets["Timer"]} />
       <Todo openTodoWidget={openWidgets["Todo"]} />
-      <NavbarTest openWidgets={openWidgets} />
+      <Kanban openKanbanWidget={openWidgets["Todo"]} />
+      <Matrix openMatrixWidget={openWidgets["Matrix"]} />
+      <Calendar openCalendarWidget={openWidgets["Calendar"]} />
+      <Navbar openWidgets={openWidgets} />
       <span id="background-container">
         <img
           id="background-image"
