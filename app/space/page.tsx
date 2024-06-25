@@ -81,10 +81,9 @@ export default function page() {
         className="absolute h-14 w-14 cursor-grab bg-black"
       ></div> */}
 
-      <Notes />
-
-      {/* <Timer expiryTimestamp={time} /> */}
-      {/* <Todo /> */}
+      <Notes openNotesWidget={openWidgets["Notes"]} />
+      <Timer openTimerWidget={openWidgets["Timer"]} />
+      <Todo openTodoWidget={openWidgets["Todo"]} />
       <NavbarTest openWidgets={openWidgets} />
       <span id="background-container">
         <img

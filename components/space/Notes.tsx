@@ -21,9 +21,11 @@ import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 
-type Props = {};
+type Props = {
+  openNotesWidget: boolean;
+};
 
-export default function Notes({}: Props) {
+export default function Notes({ openNotesWidget }: Props) {
   const notes = useSelector((state: RootState) => state.notes.notes);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [openNote, setOpenNote] = useState<Note | null>(
@@ -119,7 +121,9 @@ export default function Notes({}: Props) {
   );
 
   return (
-    <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg">
+    <div
+      className={`absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg ${openNotesWidget ? "" : "hidden"}`}
+    >
       <aside className="min-w-[14.5rem] overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]">
         <div>
           <div className="sticky top-0 w-full bg-[#F7F7F7] px-3 pb-2 pt-3">

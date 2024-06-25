@@ -8,6 +8,10 @@ type Props = {
   expiryTimestamp: Date;
 };
 
+type TimerProps = {
+  openTimerWidget: boolean;
+};
+
 function MyStopwatch() {
   const { seconds, minutes, hours, days, isRunning, start, pause, reset } =
     useStopwatch({ autoStart: false });
@@ -37,7 +41,7 @@ function MyTimer({ expiryTimestamp }: Props) {
     });
 
   return (
-    <div className="flex w-full flex-col justify-between">
+    <div className={`flex w-full flex-col justify-between`}>
       <div className="flex w-full">
         <div className="flex flex-1 flex-grow cursor-pointer items-center justify-center rounded-l-lg border-y border-l border-neutral-200 bg-neutral-50 px-3 py-2 transition-colors duration-100 hover:bg-neutral-100">
           Timer
@@ -84,11 +88,13 @@ function MyTimer({ expiryTimestamp }: Props) {
   );
 }
 
-const Timer = (props: Props) => {
+const Timer = ({ openTimerWidget }: TimerProps) => {
   const time = new Date();
   time.setSeconds(time.getSeconds() + 3600);
   return (
-    <div className="absolute flex h-[15rem] w-80 min-w-[192px] rounded-xl bg-white p-4 shadow-lg">
+    <div
+      className={`${openTimerWidget ? "" : "hidden"} absolute flex h-[15rem] w-80 min-w-[192px] rounded-xl bg-white p-4 shadow-lg`}
+    >
       <MyTimer expiryTimestamp={time} />
     </div>
   );
