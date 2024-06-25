@@ -5,7 +5,7 @@ type Props = {
 };
 
 const Kanban = ({ openKanbanWidget }: Props) => {
-  return <div className={`${openKanbanWidget ? "" : false}`}>Kanban</div>;
+  return <div className={`${openKanbanWidget ? "" : "hidden"}`}>Kanban</div>;
 };
 
 export default Kanban;

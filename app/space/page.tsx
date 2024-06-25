@@ -87,7 +87,7 @@ export default function page() {
       <Notes openNotesWidget={openWidgets["Notes"]} />
       <Timer openTimerWidget={openWidgets["Timer"]} />
       <Todo openTodoWidget={openWidgets["Todo"]} />
-      <Kanban openKanbanWidget={openWidgets["Todo"]} />
+      <Kanban openKanbanWidget={openWidgets["Kanban"]} />
       <Matrix openMatrixWidget={openWidgets["Matrix"]} />
       <Calendar openCalendarWidget={openWidgets["Calendar"]} />
       <Navbar openWidgets={openWidgets} />
