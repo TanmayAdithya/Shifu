@@ -28,6 +28,7 @@ type Props = {
 export default function Notes({ openNotesWidget }: Props) {
   const notes = useSelector((state: RootState) => state.notes.notes);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [sidebarToggle, setSidebarToggle] = useState<boolean>(true);
   const [openNote, setOpenNote] = useState<Note | null>(
     notes.length > 0 ? notes[0] : null,
   );
@@ -120,11 +121,17 @@ export default function Notes({ openNotesWidget }: Props) {
     note.title.toLowerCase().includes(searchQuery?.toLowerCase()),
   );
 
+  function handleSidebarToggle() {
+    setSidebarToggle((prev) => !prev);
+  }
+
   return (
     <div
-      className={`absolute left-20 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg ${openNotesWidget ? "" : "hidden"}`}
+      className={`absolute left-20 top-20 flex h-[30rem] w-auto rounded-xl bg-transparent shadow-lg ${openNotesWidget ? "" : "hidden"} `}
     >
-      <aside className="min-w-[14.5rem] overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]">
+      <aside
+        className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]`}
+      >
         <div>
           <div className="sticky top-0 w-full bg-[#F7F7F7] px-3 pb-2 pt-3">
             {/* Sidebar */}
@@ -132,7 +139,8 @@ export default function Notes({ openNotesWidget }: Props) {
               <SidebarIcon
                 color="#737373"
                 size={"24px"}
-                className="mb-2 cursor-pointer"
+                className={`mb-2 cursor-pointer`}
+                onClick={handleSidebarToggle}
               />
             </span>
             {/* Search Box */}
@@ -178,8 +186,17 @@ export default function Notes({ openNotesWidget }: Props) {
           </div>
         </div>
       </aside>
-      <div className="w-[30rem] overflow-auto rounded-e-xl bg-white p-4">
+      <div
+        className={`w-[30rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
+      >
         <div>
+          <SidebarIcon
+            color="#737373"
+            size={"24px"}
+            className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 cursor-pointer transition-opacity duration-700`}
+            onClick={handleSidebarToggle}
+          />
+
           <div className="flex justify-center">
             {editTitle && openNote ? (
               <div className="flex items-center">
