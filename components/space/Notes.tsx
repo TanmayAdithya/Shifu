@@ -84,12 +84,6 @@ export default function Notes({}: Props) {
   };
 
   useEffect(() => {
-    if (openNote) {
-      setNewTitle(openNote.title);
-    }
-  }, [openNote]);
-
-  useEffect(() => {
     if (editTitle && inputRef.current) {
       inputRef.current.select();
     }
@@ -148,8 +142,11 @@ export default function Notes({}: Props) {
                   onChange={(e) => handleSearch(e)}
                 />
               </div>
-              <div className="h-full w-full flex-1 flex-grow-0 cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700">
-                <NewNote size={"17px"} color="#fff" onClick={handleAddNote} />
+              <div
+                className="h-full w-full flex-1 flex-grow-0 cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700"
+                onClick={handleAddNote}
+              >
+                <NewNote size={"17px"} color="#fff" />
               </div>
             </div>
           </div>

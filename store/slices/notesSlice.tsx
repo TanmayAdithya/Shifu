@@ -43,21 +43,6 @@ const initialState: Notes = {
       title: "Book Recommendations List",
       content: `<p>1. 'The Great Gatsby' by F. Scott Fitzgerald</p><p>2. 'To Kill a Mockingbird' by Harper Lee</p><p>3. '1984' by George Orwell</p>`,
     },
-    {
-      id: "eighth",
-      title: "Recipe Ideas",
-      content: `<p>1. Spaghetti Carbonara</p><p>2. Chicken Curry</p><p>3. Vegan Tacos</p>`,
-    },
-    {
-      id: "ninth",
-      title: "Project Roadmap",
-      content: `<p>Q1: Research and Planning</p><p>Q2: Development</p><p>Q3: Testing and QA</p><p>Q4: Launch</p>`,
-    },
-    {
-      id: "tenth",
-      title: "Learning Goals",
-      content: `<p>1. Master React</p><p>2. Learn TypeScript</p><p>3. Explore GraphQL</p>`,
-    },
   ],
 };
 
