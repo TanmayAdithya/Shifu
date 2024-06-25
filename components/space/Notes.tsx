@@ -25,6 +25,7 @@ type Props = {};
 
 export default function Notes({}: Props) {
   const notes = useSelector((state: RootState) => state.notes.notes);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [openNote, setOpenNote] = useState<Note | null>(
     notes.length > 0 ? notes[0] : null,
   );
@@ -115,6 +116,14 @@ export default function Notes({}: Props) {
     dispatch(deleteNote(noteId));
   }
 
+  function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+    setSearchQuery(e.target.value);
+  }
+
+  const filteredNotes = notes.filter((note) =>
+    note.title.toLowerCase().includes(searchQuery?.toLowerCase()),
+  );
+
   return (
     <div className="absolute left-56 top-20 flex h-[30rem] min-w-[192px] rounded-xl bg-white shadow-lg">
       <aside className="min-w-[14.5rem] overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]">
@@ -136,6 +145,7 @@ export default function Notes({}: Props) {
                   type="text"
                   placeholder="Search notes"
                   className="w-[144px] rounded-r-md bg-white p-1 text-neutral-700 outline-none placeholder:text-neutral-400 focus:placeholder:text-transparent active:border-0"
+                  onChange={(e) => handleSearch(e)}
                 />
               </div>
               <div className="h-full w-full flex-1 flex-grow-0 cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700">
@@ -145,7 +155,7 @@ export default function Notes({}: Props) {
           </div>
           {/* Notes */}
           <div className="flex flex-col gap-2 px-3 pb-2">
-            {notes.map((note) => (
+            {filteredNotes.map((note) => (
               <div
                 key={note.id}
                 className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border border-[#E8E8E8] p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 ${openNote?.id === note.id ? "bg-neutral-200 hover:bg-neutral-200" : "bg-white"}`}
