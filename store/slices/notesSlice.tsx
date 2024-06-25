@@ -40,7 +40,7 @@ const initialState: Notes = {
     },
     {
       id: "seventh",
-      title: "Book Recommendations Listhhhhhhhhhhhhhhhhhhhhhhhhhh",
+      title: "Book Recommendations List",
       content: `<p>1. 'The Great Gatsby' by F. Scott Fitzgerald</p><p>2. 'To Kill a Mockingbird' by Harper Lee</p><p>3. '1984' by George Orwell</p>`,
     },
     {

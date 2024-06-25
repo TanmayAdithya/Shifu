@@ -41,7 +41,6 @@ export default function Notes({}: Props) {
   const editor = useEditor({
     extensions: [StarterKit, Underline, TextStyle],
     content: openNote ? openNote.content : "",
-    autofocus: true,
     onUpdate: ({ editor }) => {
       handleContentChange(editor.getHTML());
     },
@@ -177,7 +176,7 @@ export default function Notes({}: Props) {
                   type="text"
                   value={openNote.title}
                   ref={inputRef}
-                  className="max-w-20 rounded focus:outline-none"
+                  className="max-w-40 rounded focus:outline-none"
                   onChange={(e) => {
                     handleTitleChange(e.target.value);
                     setNewTitle(e.target.value);
@@ -199,7 +198,7 @@ export default function Notes({}: Props) {
             ) : openNote ? (
               <h2
                 id="note-title"
-                className="flex items-center text-center text-neutral-800"
+                className="flex items-center text-balance text-center font-medium text-neutral-800"
               >
                 {openNote.title}
                 <span>
