@@ -273,7 +273,7 @@ export default function Notes({ openNotesWidget }: Props) {
         </div>
       </div>
       <div
-        className={`${sidebarToggle ? "" : "z-30 -translate-x-[15rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border-0 bg-neutral-200 px-2 py-1 text-sm font-light drop-shadow-lg transition-transform duration-700`}
+        className={`${sidebarToggle ? "" : "z-30 -translate-x-[15rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-200 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-700`}
       >
         <span className="mr-2">
           {editor?.storage.characterCount.words() + " words"}

@@ -83,7 +83,6 @@ function MyTimer({ expiryTimestamp }: Props) {
       </div>
 
       {/* Stopwatch */}
-      {/* <div> </div> */}
     </div>
   );
 }

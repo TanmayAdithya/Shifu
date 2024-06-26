@@ -1,8 +1,8 @@
 import {
   Notes,
   AddNotePayload,
-  updateContentPayload,
-  updateTitlePayload,
+  UpdateContentPayload,
+  UpdateTitlePayload,
 } from "@/types/types";
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 
@@ -89,13 +89,13 @@ export const notesSlice = createSlice({
     deleteNote: (state, action: PayloadAction<string>) => {
       state.notes = state.notes.filter((note) => note.id !== action.payload);
     },
-    updateNoteContent: (state, action: PayloadAction<updateContentPayload>) => {
+    updateNoteContent: (state, action: PayloadAction<UpdateContentPayload>) => {
       const note = state.notes.find((note) => note.id === action.payload.id);
       if (note) {
         note.content = action.payload.content;
       }
     },
-    updateNoteTitle: (state, action: PayloadAction<updateTitlePayload>) => {
+    updateNoteTitle: (state, action: PayloadAction<UpdateTitlePayload>) => {
       const note = state.notes.find((note) => note.id === action.payload.id);
       if (note) {
         note.title = action.payload.title;

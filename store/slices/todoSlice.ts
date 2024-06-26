@@ -6,7 +6,7 @@ const initialState: TodosState = {
     {
       id: "1",
       content:
-        "Buy groceries, including fruits, vegetables, dairy, and other essentials that are needed for the week.",
+        "Buy groceries, including fruits, vegetables, dairy, and others.",
       completed: false,
     },
   ],
