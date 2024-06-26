@@ -50,11 +50,37 @@ export interface AddNotePayload {
   content: string;
 }
 
-export interface updateContentPayload {
+export interface UpdateContentPayload {
   id: string;
   content: string;
 }
-export interface updateTitlePayload {
+
+export interface UpdateTitlePayload {
   id: string;
   title: string;
+}
+
+export interface Column {
+  id: string;
+  name: string;
+  tasks: KanbanTask[];
+}
+
+export interface KanbanBoard {
+  columns: Column[];
+}
+
+export interface KanbanTask {
+  id: string;
+  content: string;
+}
+
+export interface AddTaskPayload {
+  columnId: string;
+  taskContent: string;
+}
+
+export interface AddColumnPayload {
+  name: string;
+  tasks: KanbanTask[];
 }
