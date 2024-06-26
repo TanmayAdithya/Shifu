@@ -16,11 +16,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { Note } from "@/types/types";
-import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorContent, ReactNodeViewRenderer, useEditor } from "@tiptap/react";
 import TextStyle from "@tiptap/extension-text-style";
 import StarterKit from "@tiptap/starter-kit";
 import Underline from "@tiptap/extension-underline";
 import CharacterCount from "@tiptap/extension-character-count";
+import { all, createLowlight } from "lowlight";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 
 type Props = {
   openNotesWidget: boolean;
@@ -42,9 +44,22 @@ export default function Notes({ openNotesWidget }: Props) {
   );
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useDispatch();
+  const lowlight = createLowlight(all);
 
   const editor = useEditor({
-    extensions: [StarterKit, Underline, TextStyle, CharacterCount],
+    extensions: [
+      StarterKit.configure({
+        codeBlock: false,
+      }),
+      Underline,
+      TextStyle,
+      CharacterCount,
+      CodeBlockLowlight.extend({
+        addNodeview() {
+          return ReactNodeViewRenderer(CodeBlockLowlight);
+        },
+      }).configure({ lowlight }),
+    ],
     content: openNote ? openNote.content : "",
     onUpdate: ({ editor }) => {
       handleContentChange(editor.getHTML());
@@ -174,7 +189,6 @@ export default function Notes({ openNotesWidget }: Props) {
                 <span className="max-w-[10rem] overflow-hidden text-ellipsis whitespace-nowrap">
                   {note.title}
                 </span>
-
                 <DeleteNote
                   className="flex-shrink-0 flex-grow-0 cursor-pointer text-neutral-600 hover:text-neutral-800"
                   onClick={(e) => {
@@ -188,7 +202,7 @@ export default function Notes({ openNotesWidget }: Props) {
         </div>
       </aside>
       <div
-        className={`h-full w-[30rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
+        className={`relative h-full w-[30rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
       >
         <div>
           <SidebarIcon
@@ -240,7 +254,7 @@ export default function Notes({ openNotesWidget }: Props) {
             ) : null}
           </div>
         </div>
-        <div>
+        <div className="relative">
           {openNote && (
             <EditorContent
               id="editor-wrapper"
@@ -249,14 +263,16 @@ export default function Notes({ openNotesWidget }: Props) {
             />
           )}
         </div>
-        <div className="absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border-0 bg-neutral-100 px-2 py-1 text-xs font-light">
-          <span className="mr-2">
-            {editor?.storage.characterCount.words() + " words"}
-          </span>
-          <span>
-            {editor?.storage.characterCount.characters() + " characters"}
-          </span>
-        </div>
+      </div>
+      <div
+        className={`${sidebarToggle ? "" : "z-30 -translate-x-[15rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border-0 bg-neutral-200 px-2 py-1 text-sm font-light drop-shadow-lg transition-transform duration-700`}
+      >
+        <span className="mr-2">
+          {editor?.storage.characterCount.words() + " words"}
+        </span>
+        <span>
+          {editor?.storage.characterCount.characters() + " characters"}
+        </span>
       </div>
     </div>
   );
