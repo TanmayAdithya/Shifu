@@ -35,7 +35,7 @@ export default function Notes({ openNotesWidget }: Props) {
   const [openNote, setOpenNote] = useState<Note | null>(
     notes.length > 0 ? notes[0] : null,
   );
-  const [editTitle, setEditTitle] = useState<boolean>(false);
+  const [editMode, setEditMode] = useState<boolean>(false);
   const [originalTitle, setOriginalTitle] = useState<string>(
     openNote ? openNote.title : "",
   );
@@ -93,20 +93,28 @@ export default function Notes({ openNotesWidget }: Props) {
       dispatch(updateNoteTitle({ id: openNote.id, title: newTitle }));
       setOpenNote({ ...openNote, title: newTitle });
     }
+
+    setOriginalTitle(newTitle);
   }
 
   const handleExitEditMode = () => {
     if (openNote) {
       setOpenNote({ ...openNote, title: originalTitle });
     }
-    setEditTitle(false);
+    setEditMode(false);
   };
 
   useEffect(() => {
-    if (editTitle && inputRef.current) {
+    if (editMode && inputRef.current) {
       inputRef.current.select();
     }
-  }, [editTitle]);
+  }, [editMode]);
+
+  useEffect(() => {
+    if (openNote) {
+      setNewTitle(openNote.title);
+    }
+  }, [openNote]);
 
   function handleDeleteNote(noteId: string) {
     const noteIndex = notes.findIndex((note) => note.id === noteId);
@@ -213,23 +221,23 @@ export default function Notes({ openNotesWidget }: Props) {
           />
 
           <div className="flex justify-center">
-            {editTitle && openNote ? (
+            {editMode && openNote ? (
               <div className="flex items-center">
                 <input
                   type="text"
-                  value={openNote.title}
+                  value={newTitle}
                   ref={inputRef}
                   className="max-w-40 rounded focus:outline-none"
                   onChange={(e) => {
-                    handleTitleChange(e.target.value);
                     setNewTitle(e.target.value);
                   }}
                   onKeyDown={(e) => {
                     if (e.key === "Escape") {
+                      setNewTitle(originalTitle);
                       handleExitEditMode();
                     } else if (e.key === "Enter") {
                       handleTitleChange(newTitle);
-                      setEditTitle(false);
+                      setEditMode(false);
                     }
                   }}
                 />
@@ -246,7 +254,7 @@ export default function Notes({ openNotesWidget }: Props) {
                 {openNote.title}
                 <span>
                   <EditTitle
-                    onClick={() => setEditTitle((prev) => !prev)}
+                    onClick={() => setEditMode((prev) => !prev)}
                     className="ml-1 cursor-pointer text-neutral-600 hover:text-neutral-800"
                   />
                 </span>
