@@ -18,7 +18,7 @@ const TodoForm = () => {
   return (
     <form onSubmit={handleAddTodo} className="mb-4">
       <div className="mb-2 flex w-full items-center gap-2">
-        <div className="flex w-full items-center rounded-md border border-[#E8E8E8] bg-white pl-1">
+        <div className="flex w-full items-center rounded-md border border-neutral-400/60 bg-white pl-1">
           <input
             type="text"
             placeholder="Add a new todo"

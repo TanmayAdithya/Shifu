@@ -45,7 +45,7 @@ const TodoItem = ({ content, id, completed }: Props) => {
 
   return (
     <li
-      className={`flex items-start justify-between rounded-md border p-2 ${completed ? "opacity-70" : ""}`}
+      className={`flex items-start justify-between rounded-md border border-neutral-400/60 p-2 ${completed ? "opacity-70" : ""}`}
     >
       <input
         type="checkbox"
@@ -88,12 +88,12 @@ const TodoItem = ({ content, id, completed }: Props) => {
           ""
         ) : (
           <Edit
-            className="mt-1 cursor-pointer text-neutral-400 transition-colors duration-150 hover:text-neutral-800"
+            className="mt-1 cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
             onClick={() => setEditTodo((prev) => !prev)}
           />
         )}
         <Delete
-          className="mt-1 cursor-pointer text-neutral-400 transition-colors duration-150 hover:text-neutral-800"
+          className="mt-1 cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
           onClick={() => handleDeleteTodo(id)}
         />
       </div>

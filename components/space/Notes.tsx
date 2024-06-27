@@ -5,7 +5,8 @@ import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { IoIosSearch as Search } from "react-icons/io";
 import { FiEdit as NewNote } from "react-icons/fi";
 import { MdModeEdit as EditTitle } from "react-icons/md";
-import { MdDelete as DeleteNote } from "react-icons/md";
+
+import { PiTrashSimpleBold as DeleteNote } from "react-icons/pi";
 import { IoClose as ExitEditMode } from "react-icons/io5";
 import {
   addNote,
@@ -169,7 +170,7 @@ export default function Notes({ openNotesWidget }: Props) {
             </span>
             {/* Search Box */}
             <div className="mb-2 flex w-full items-center gap-2">
-              <div className="flex items-center rounded-md border border-[#E8E8E8] bg-white pl-1">
+              <div className="flex items-center rounded-md border border-neutral-400/60 bg-white pl-1">
                 <Search size={"20px"} className="mr-1 fill-neutral-500" />
                 <input
                   type="text"
@@ -179,10 +180,10 @@ export default function Notes({ openNotesWidget }: Props) {
                 />
               </div>
               <div
-                className="h-full w-full flex-1 flex-grow-0 cursor-pointer rounded-md bg-[#8F8F8F] p-2 transition-colors duration-100 hover:bg-neutral-700"
+                className="h-full w-full flex-1 flex-grow-0 cursor-pointer rounded-md border border-neutral-400/60 bg-white p-2 transition-colors duration-100 hover:bg-neutral-200"
                 onClick={handleAddNote}
               >
-                <NewNote size={"17px"} color="#fff" />
+                <NewNote size={"17px"} className="text-neutral-500" />
               </div>
             </div>
           </div>
@@ -191,7 +192,7 @@ export default function Notes({ openNotesWidget }: Props) {
             {filteredNotes.map((note) => (
               <div
                 key={note.id}
-                className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border border-[#E8E8E8] p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 ${openNote?.id === note.id ? "bg-neutral-200 hover:bg-neutral-200" : "bg-white"}`}
+                className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border border-neutral-400/60 p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 ${openNote?.id === note.id ? "bg-neutral-200 hover:bg-neutral-200" : "bg-white"}`}
                 onClick={() => handleOpenNote(note)}
               >
                 <span className="max-w-[10rem] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -210,7 +211,7 @@ export default function Notes({ openNotesWidget }: Props) {
         </div>
       </aside>
       <div
-        className={`relative h-full w-[30rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
+        className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
       >
         <div>
           <SidebarIcon
@@ -273,7 +274,7 @@ export default function Notes({ openNotesWidget }: Props) {
         </div>
       </div>
       <div
-        className={`${sidebarToggle ? "" : "z-30 -translate-x-[15rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-200 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-700`}
+        className={`${sidebarToggle ? "" : "z-30 -translate-x-[15rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-50 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-700`}
       >
         <span className="mr-2">
           {editor?.storage.characterCount.words() + " words"}
