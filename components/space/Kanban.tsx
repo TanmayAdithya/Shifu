@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { KanbanTask } from "@/types/types";
 import { LuPlus as AddCard } from "react-icons/lu";
+import { CgMoreVerticalAlt as ColumnOptions } from "react-icons/cg";
+
 type Props = {
   openKanbanWidget: boolean;
 };
@@ -11,9 +13,9 @@ const Kanban = ({ openKanbanWidget }: Props) => {
   const columns = useSelector((state: RootState) => state.kanban.columns);
   return (
     <div
-      className={`${openKanbanWidget ? "" : "hidden"} absolute left-96 top-56 h-[24.75rem] w-[44rem] overflow-scroll rounded-xl bg-white p-4 shadow-2xl`}
+      className={`${openKanbanWidget ? "" : "hidden"} absolute left-96 top-56 h-[24.75rem] w-[44.5rem] overflow-scroll rounded-xl bg-white shadow-2xl`}
     >
-      <div className="flex h-full w-full gap-2">
+      <div className="flex h-full w-full flex-1 gap-[10px] overflow-auto bg-white p-3">
         {columns.map(({ name, tasks, id }) => {
           return <Column key={id} name={name} tasks={tasks} />;
         })}
@@ -28,25 +30,35 @@ type ColumnProps = {
 };
 
 export const Column = ({ name, tasks }: ColumnProps) => {
-  const headingColor = "#FFF";
+  const handleColumnOptions = () => {};
+
   return (
-    <div className="flex h-full w-52 flex-1 shrink-0 flex-col overflow-hidden rounded-md bg-neutral-100 p-4">
-      <div className="sticky top-0 mb-3 flex w-full items-center justify-between bg-neutral-100">
-        <div className="flex w-full items-center">
+    <div className="flex h-full min-w-52 shrink-0 flex-col items-center rounded-md bg-neutral-100 p-4">
+      <div className="sticky top-0 mb-3 flex min-w-full items-center justify-between bg-neutral-100">
+        <div className="mr-4 flex items-center">
           <div className="mr-2 h-2 w-2 rounded-full bg-green-300"></div>
-          <h3
-            className={`text-md pointer-events-none font-medium ${headingColor}`}
-          >
-            {name}
-          </h3>
-          <span className="pointer-events-none ml-2 rounded-full border border-neutral-300 px-3 py-[2px] text-sm text-neutral-800">
-            {tasks.length}
-          </span>
+          <div className="flex w-full">
+            <h3
+              className={`text-md pointer-events-none font-medium text-neutral-800`}
+            >
+              {name}
+            </h3>
+            <span className="pointer-events-none ml-2 rounded-full border border-neutral-300 px-3 py-[2px] text-sm text-neutral-800">
+              {tasks.length}
+            </span>
+          </div>
         </div>
-        <AddCard
-          size={"20px"}
-          className="cursor-pointer text-neutral-600 hover:text-neutral-900"
-        />
+        <div className="flex items-center">
+          <AddCard
+            size={"20px"}
+            className="cursor-pointer text-neutral-600 transition-colors duration-200 hover:text-neutral-900"
+          />
+          <ColumnOptions
+            size={"20px"}
+            className="cursor-pointer text-neutral-600 transition-colors duration-200 hover:text-neutral-900"
+            onClick={handleColumnOptions}
+          />
+        </div>
       </div>
       <div
         className={`flex h-full w-full flex-col gap-1 overflow-y-scroll transition-colors`}
