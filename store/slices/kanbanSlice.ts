@@ -15,6 +15,13 @@ const initialState: KanbanBoard = {
         { id: "1-1", content: "Task 1" },
         { id: "1-2", content: "Task 2" },
         { id: "1-3", content: "Task 3" },
+        { id: "1-4", content: "Task 4" },
+        { id: "1-5", content: "Task 5" },
+        { id: "1-6", content: "Task 6" },
+        { id: "1-7", content: "Task 7" },
+        { id: "1-8", content: "Task 8" },
+        { id: "1-9", content: "Task 9" },
+        { id: "1-10", content: "Task 10" },
       ],
     },
     {
