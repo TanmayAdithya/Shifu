@@ -1,26 +1,99 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { Column as ColumnType, KanbanTask } from "@/types/types";
 import { LuPlus as AddCard } from "react-icons/lu";
 import { CgMoreVerticalAlt as ColumnOptions } from "react-icons/cg";
-import { DndContext } from "@dnd-kit/core";
-import { SortableContext, useSortable } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  DragEndEvent,
+  DragOverlay,
+  DragStartEvent,
+  DropAnimation,
+  KeyboardSensor,
+  MeasuringConfiguration,
+  MeasuringStrategy,
+  PointerSensor,
+  defaultDropAnimationSideEffects,
+  useSensor,
+  useSensors,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+} from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import { MdDragIndicator as DragHandle } from "react-icons/md";
+import { createPortal } from "react-dom";
 
 type Props = {
   openKanbanWidget: boolean;
 };
 
+const handleColumnOptions = () => {};
+
+const measuring: MeasuringConfiguration = {
+  droppable: {
+    strategy: MeasuringStrategy.Always,
+  },
+};
+
+const dropAnimation: DropAnimation = {
+  keyframes({ transform }) {
+    return [
+      { transform: CSS.Transform.toString(transform.initial) },
+      {
+        transform: CSS.Transform.toString({
+          scaleX: 0.98,
+          scaleY: 0.98,
+          x: transform.final.x - 10,
+          y: transform.final.y - 10,
+        }),
+      },
+    ];
+  },
+  sideEffects: defaultDropAnimationSideEffects({}),
+};
+
+function handleDragCancel() {}
+
+function handleDragEnd({ over }: DragEndEvent) {}
+
 const Kanban = ({ openKanbanWidget }: Props) => {
   const columns = useSelector((state: RootState) => state.kanban.columns);
   const columnsId = useMemo(() => columns.map((col) => col.id), [columns]);
+  const [activeColumn, setActiveColumn] = useState<ColumnType | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    }),
+  );
+  function handleDragStart({ active }: DragStartEvent) {
+    if (active.data.current?.type === "ColumnType") {
+      setActiveColumn(active.data.current.column);
+    }
+  }
 
   return (
     <div
       className={`${openKanbanWidget ? "" : "hidden"} absolute left-96 top-56 h-[24.75rem] w-[44.5rem] overflow-scroll rounded-xl bg-white shadow-2xl`}
     >
-      <DndContext>
+      <DndContext
+        onDragStart={handleDragStart}
+        // onDragEnd={handleDragEnd}
+        // onDragCancel={handleDragCancel}
+        // sensors={sensors}
+        // measuring={measuring}
+        // collisionDetection={closestCenter}
+      >
         <div className="flex h-full w-full flex-1 gap-[10px] overflow-auto bg-white p-3">
           <SortableContext items={columnsId}>
             {columns.map(({ name, tasks, id }) => {
@@ -28,42 +101,66 @@ const Kanban = ({ openKanbanWidget }: Props) => {
             })}
           </SortableContext>
         </div>
+        {isClient &&
+          createPortal(
+            <DragOverlay>
+              {activeColumn && (
+                <Column
+                  id={activeColumn.id}
+                  name={activeColumn.name}
+                  tasks={activeColumn.tasks}
+                />
+              )}
+            </DragOverlay>,
+            document.body,
+          )}
       </DndContext>
     </div>
   );
 };
 
-const handleColumnOptions = () => {};
-
 export const Column = ({ id, name, tasks }: ColumnType) => {
-  const column: ColumnType = { id: id, name: name, tasks: tasks };
+  const column = { id: id, name: name, tasks: tasks };
 
-  const { setNodeRef, attributes, listeners, transform, transition } =
-    useSortable({
-      id: id,
-      data: {
-        type: "Column",
-        column,
-      },
-    });
+  const {
+    setNodeRef,
+    attributes,
+    listeners,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({
+    id: id,
+    data: {
+      type: "ColumnType",
+      column,
+    },
+  });
 
   const style = {
     transition,
-
     transform: CSS.Transform.toString(transform),
   };
+
+  if (isDragging) {
+    return (
+      <div
+        ref={setNodeRef}
+        style={style}
+        className="flex h-full min-w-52 shrink-0 flex-col items-center rounded-md bg-neutral-200 p-4"
+      ></div>
+    );
+  }
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      {...attributes}
-      {...listeners}
       className="flex h-full min-w-52 shrink-0 flex-col items-center rounded-md bg-neutral-100 p-4"
     >
       <div className="sticky top-0 mb-3 flex min-w-full items-center justify-between bg-neutral-100">
-        <div className="mr-4 flex items-center">
-          <div className="mr-2 h-2 w-2 rounded-full bg-green-300"></div>
+        <div className="mr-4 flex items-center justify-start">
+          <DragHandle size={"22px"} {...attributes} {...listeners} />
           <div className="flex w-full">
             <h3
               className={`text-md pointer-events-none font-medium text-neutral-800`}
