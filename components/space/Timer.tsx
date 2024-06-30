@@ -3,6 +3,7 @@ import { useStopwatch, useTimer } from "react-timer-hook";
 import { FaPlay as Start } from "react-icons/fa6";
 import { FaPause as Pause } from "react-icons/fa6";
 import { VscDebugRestart as Restart } from "react-icons/vsc";
+import MinimizeWidget from "./MinimizeWidget";
 
 type Props = {
   expiryTimestamp: Date;
@@ -41,7 +42,7 @@ function MyTimer({ expiryTimestamp }: Props) {
     });
 
   return (
-    <div className={`flex w-full flex-col justify-between`}>
+    <div className={`flex w-full flex-1 flex-col justify-between`}>
       <div className="flex w-full">
         <div className="flex flex-1 flex-grow cursor-pointer items-center justify-center rounded-l-lg border-y border-l border-neutral-200 bg-neutral-50 px-3 py-2 transition-colors duration-100 hover:bg-neutral-100">
           Timer
@@ -92,8 +93,12 @@ const Timer = ({ openTimerWidget }: TimerProps) => {
   time.setSeconds(time.getSeconds() + 3600);
   return (
     <div
-      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-32 right-20 flex h-[15rem] w-80 min-w-[192px] rounded-xl bg-white p-4 shadow-lg`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-32 right-20 flex h-[15rem] w-80 min-w-[192px] flex-col rounded-xl bg-white p-4 shadow-lg`}
     >
+      <div className="absolute right-2 top-2">
+        <MinimizeWidget widgetId="Timer" />
+      </div>
+      <div className="mb-5 w-full"></div>
       <MyTimer expiryTimestamp={time} />
     </div>
   );
