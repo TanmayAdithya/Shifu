@@ -9,7 +9,7 @@ import {
   MdKeyboardArrowRight as Next,
   MdKeyboardArrowLeft as Prev,
 } from "react-icons/md";
-import { FaCircleMinus as MinimizeIcon } from "react-icons/fa6";
+import { FaMinus as MinimizeIcon } from "react-icons/fa6";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 

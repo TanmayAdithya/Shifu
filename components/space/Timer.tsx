@@ -95,7 +95,7 @@ const Timer = ({ openTimerWidget }: TimerProps) => {
     <div
       className={`${openTimerWidget ? "" : "hidden"} absolute bottom-32 right-20 flex h-[15rem] w-80 min-w-[192px] flex-col rounded-xl bg-white p-4 shadow-lg`}
     >
-      <div className="absolute right-2 top-2">
+      <div className="absolute right-3 top-2">
         <MinimizeWidget widgetId="Timer" />
       </div>
       <div className="mb-5 w-full"></div>

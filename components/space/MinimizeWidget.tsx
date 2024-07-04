@@ -1,8 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleWidget } from "@/store/slices/widgetSlice";
-// import { FaCircleMinus as MinimizeIcon } from "react-icons/fa6";
-// import { VscChromeMinimize as MinimizeIcon } from "react-icons/vsc";
 import { FaMinus as MinimizeIcon } from "react-icons/fa6";
 
 type Props = {

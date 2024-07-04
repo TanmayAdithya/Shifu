@@ -6,7 +6,9 @@ type Props = {
 
 const Calendar = ({ openCalendarWidget }: Props) => {
   return (
-    <div className={`${openCalendarWidget ? "" : "hidden"}`}>Calendar</div>
+    <div className={`${openCalendarWidget ? "" : "hidden"} absolute`}>
+      Calendar
+    </div>
   );
 };
 

@@ -285,7 +285,9 @@ export default function Notes({ openNotesWidget }: Props) {
             {editor?.storage.characterCount.characters() + " characters"}
           </span>
         </div>
-        <div className="absolute right-3 top-3">
+        <div
+          className={`absolute right-3 top-3 transition-all duration-700 ${sidebarToggle ? "" : "z-20 -translate-x-[15rem]"}`}
+        >
           <MinimizeWidget widgetId="Notes" />
         </div>
       </div>

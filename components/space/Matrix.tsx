@@ -5,7 +5,9 @@ type Props = {
 };
 
 const Matrix = ({ openMatrixWidget }: Props) => {
-  return <div className={`${openMatrixWidget ? "" : "hidden"}`}>Matrix</div>;
+  return (
+    <div className={`${openMatrixWidget ? "" : "hidden"} absolute`}>Matrix</div>
+  );
 };
 
 export default Matrix;
