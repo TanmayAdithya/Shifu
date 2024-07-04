@@ -84,3 +84,9 @@ export interface AddColumnPayload {
   name: string;
   tasks: KanbanTask[];
 }
+
+export interface TimerProps {
+  pomodoro: number; // seconds
+  shortBreak: number;
+  longBreak: number;
+}
