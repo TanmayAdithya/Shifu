@@ -154,7 +154,7 @@ export default function Notes({ openNotesWidget }: Props) {
   return (
     <>
       <div
-        className={`absolute left-20 top-20 flex h-[30rem] w-auto rounded-xl bg-transparent shadow-lg ${openNotesWidget ? "" : "hidden"} `}
+        className={`absolute left-20 top-20 flex h-[30rem] w-auto rounded-xl bg-transparent ${openNotesWidget ? "" : "hidden"} `}
       >
         <aside
           className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]`}
@@ -213,7 +213,7 @@ export default function Notes({ openNotesWidget }: Props) {
           </div>
         </aside>
         <div
-          className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15rem] rounded-xl border border-neutral-300"} overflow-auto bg-white p-4 transition-all duration-700`}
+          className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15.05rem] rounded-xl"} overflow-auto bg-white p-4 transition-all duration-700`}
         >
           <div>
             <SidebarIcon
@@ -276,7 +276,7 @@ export default function Notes({ openNotesWidget }: Props) {
           </div>
         </div>
         <div
-          className={`${sidebarToggle ? "" : "z-30 -translate-x-[15rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-50 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-700`}
+          className={`${sidebarToggle ? "" : "z-30 -translate-x-[15.05rem]"} absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-50 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-700`}
         >
           <span className="mr-2">
             {editor?.storage.characterCount.words() + " words"}
@@ -286,7 +286,7 @@ export default function Notes({ openNotesWidget }: Props) {
           </span>
         </div>
         <div
-          className={`absolute right-3 top-3 transition-all duration-700 ${sidebarToggle ? "" : "z-20 -translate-x-[15rem]"}`}
+          className={`absolute right-3 top-3 transition-all duration-700 ${sidebarToggle ? "" : "z-20 -translate-x-[15.05rem]"}`}
         >
           <MinimizeWidget widgetId="Notes" />
         </div>

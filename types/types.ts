@@ -84,3 +84,9 @@ export interface AddColumnPayload {
   name: string;
   tasks: KanbanTask[];
 }
+
+export interface TimerProps {
+  seconds: number;
+  minutes: number;
+  hours: number;
+}
