@@ -28,7 +28,7 @@ export default function SpaceBackground({}: Props) {
       <span id="background-container">
         <Image
           id="background-image"
-          src="/parco-chan-BeNerxxCKLU-unsplash.jpg"
+          src="/parco-chan-unsplash.jpg"
           alt="background-image"
           className="pointer-events-none h-full w-full max-w-full object-cover"
           fill={true}
