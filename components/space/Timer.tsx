@@ -28,7 +28,7 @@ const Timer = ({ openTimerWidget }: Props) => {
             return prev + 1;
           });
         } else {
-          setTimerRunning((prev) => !prev);
+          setTimerRunning(true);
           setSeconds((prev) => {
             if (prev === 0) {
               if (minutes === 0) {
@@ -55,6 +55,7 @@ const Timer = ({ openTimerWidget }: Props) => {
 
   const handleReset = () => {
     setStopwatchRunning(false);
+    setTimerRunning(false);
     setMinutes(0);
     setSeconds(0);
   };
@@ -80,6 +81,17 @@ const Timer = ({ openTimerWidget }: Props) => {
           style={{ transform: `translateX(${String(minutes).length * 6}px)` }}
         >
           S
+        </div>
+        <div className="pointer-events-none absolute left-[3%] top-2 select-none text-xs text-neutral-600">
+          {!(seconds === 0 && minutes === 0) ? (
+            timerRunning || stopwatchRunning ? (
+              <Running />
+            ) : (
+              <Paused />
+            )
+          ) : (
+            ""
+          )}
         </div>
         <span className="pointer-events-none mr-1 select-none text-8xl tracking-tighter text-neutral-700">
           {String(minutes).padStart(2, "0")}
@@ -122,7 +134,7 @@ const Timer = ({ openTimerWidget }: Props) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsStopwatch((prev) => !prev)}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 ${isStopwatch ? "bg-neutral-700 text-neutral-100" : "bg-white text-neutral-800"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm transition-all duration-300 hover:bg-neutral-700 hover:text-neutral-100 ${timerRunning ? "pointer-events-none opacity-25" : ""} ${isStopwatch ? "bg-neutral-700 text-neutral-100" : "bg-white text-neutral-800"}`}
         >
           <Stopwatch size={"20px"} />
         </button>
