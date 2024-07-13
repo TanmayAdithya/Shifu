@@ -6,7 +6,9 @@ type Props = {
 
 const Matrix = ({ openMatrixWidget }: Props) => {
   return (
-    <div className={`${openMatrixWidget ? "" : "hidden"} absolute`}>Matrix</div>
+    <div className={`${openMatrixWidget ? "" : "hidden"} absolute z-10`}>
+      Matrix
+    </div>
   );
 };
 

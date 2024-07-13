@@ -93,7 +93,7 @@ function BackgroundChanger({ openChanger }: Props) {
 
   return (
     <div
-      className={`${openChanger ? "" : "hidden"} absolute bottom-2 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
+      className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
     >
       <div className="mt-4">
         <div className="mb-4">

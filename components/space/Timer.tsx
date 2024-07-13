@@ -3,6 +3,8 @@ import MinimizeWidget from "./MinimizeWidget";
 import { PiPlayPauseFill as PlayPause } from "react-icons/pi";
 import { GrPowerReset as Reset } from "react-icons/gr";
 import { GoStopwatch as Stopwatch } from "react-icons/go";
+import { FaPause as Paused } from "react-icons/fa6";
+import { FaPlay as Running } from "react-icons/fa6";
 
 type Props = { openTimerWidget: boolean };
 
@@ -10,6 +12,7 @@ const Timer = ({ openTimerWidget }: Props) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [stopwatchRunning, setStopwatchRunning] = useState(false);
+  const [timerRunning, setTimerRunning] = useState(false);
   const [isStopwatch, setIsStopwatch] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -25,6 +28,7 @@ const Timer = ({ openTimerWidget }: Props) => {
             return prev + 1;
           });
         } else {
+          setTimerRunning((prev) => !prev);
           setSeconds((prev) => {
             if (prev === 0) {
               if (minutes === 0) {
@@ -32,7 +36,7 @@ const Timer = ({ openTimerWidget }: Props) => {
                 setStopwatchRunning(false);
                 return 0;
               }
-              setMinutes((m) => m - 1);
+              setMinutes((m) => (m > 0 ? m - 1 : m));
               return 59;
             }
             return prev - 1;
@@ -62,13 +66,19 @@ const Timer = ({ openTimerWidget }: Props) => {
 
   return (
     <div
-      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] aspect-square w-72 rounded-3xl bg-white p-7`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7`}
     >
       <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center">
-        <div className="pointer-events-none absolute left-[60%] top-1 select-none text-xs text-neutral-600">
+        <div
+          className="pointer-events-none absolute left-[57%] top-1 select-none text-xs text-neutral-600"
+          style={{ transform: `translateX(${String(minutes).length * 7}px)` }}
+        >
           M
         </div>
-        <div className="pointer-events-none absolute bottom-10 right-[10%] select-none text-xs text-neutral-600">
+        <div
+          className="pointer-events-none absolute bottom-10 right-[12%] select-none text-xs text-neutral-600"
+          style={{ transform: `translateX(${String(minutes).length * 6}px)` }}
+        >
           S
         </div>
         <span className="pointer-events-none mr-1 select-none text-8xl tracking-tighter text-neutral-700">
@@ -112,7 +122,7 @@ const Timer = ({ openTimerWidget }: Props) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsStopwatch((prev) => !prev)}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 ${isStopwatch ? "bg-neutral-700 text-neutral-100" : ""}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 ${isStopwatch ? "bg-neutral-700 text-neutral-100" : "bg-white text-neutral-800"}`}
         >
           <Stopwatch size={"20px"} />
         </button>

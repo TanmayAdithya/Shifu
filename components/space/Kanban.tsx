@@ -84,7 +84,7 @@ const Kanban = ({ openKanbanWidget }: Props) => {
 
   return (
     <div
-      className={`${openKanbanWidget ? "" : "hidden"} absolute left-96 top-56 h-[24.75rem] w-[44.5rem] overflow-scroll rounded-xl bg-white shadow-2xl`}
+      className={`${openKanbanWidget ? "" : "hidden"} absolute left-96 top-56 z-10 h-[24.75rem] w-[44.5rem] overflow-scroll rounded-xl bg-white shadow-2xl`}
     >
       <DndContext
         onDragStart={handleDragStart}
