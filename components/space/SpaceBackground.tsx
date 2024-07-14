@@ -1,6 +1,6 @@
 import React from "react";
 
-import Calendar from "@/components/space/Calendar";
+import CalendarWidget from "@/components/space/CalendarWidget";
 import Kanban from "@/components/space/Kanban";
 import Matrix from "@/components/space/Matrix";
 import Navbar from "@/components/space/Navbar";
@@ -23,7 +23,9 @@ export default function SpaceBackground({}: Props) {
       <Todo openTodoWidget={openWidgets["Todo"]} />
       <Kanban openKanbanWidget={openWidgets["Kanban"]} />
       <Matrix openMatrixWidget={openWidgets["Matrix"]} />
-      <Calendar openCalendarWidget={openWidgets["Calendar"]} />
+      <div className="flex justify-center">
+        <CalendarWidget openCalendarWidget={openWidgets["Calendar"]} />
+      </div>
       <Navbar openWidgets={openWidgets} />
       <span id="background-container">
         <Image
