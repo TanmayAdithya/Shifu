@@ -4,6 +4,7 @@ import { MdChevronRight } from "react-icons/md";
 import { IoMdClose as Close } from "react-icons/io";
 import { MdModeEdit as EditEvent } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
+// import { EventProps } from "@/types/types";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -27,6 +28,13 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     "December",
   ];
 
+  const hours = Array.from({ length: 12 }, (_, i) =>
+    (i + 1).toString().padStart(2, "0"),
+  );
+  const minutes = Array.from({ length: 60 }, (_, i) =>
+    i.toString().padStart(2, "0"),
+  );
+
   const currentDate = new Date();
 
   const [currentMonth, setCurrentMonth] = useState<number>(
@@ -38,6 +46,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
   const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
+  // const [events, setEvents] = useState<EventProps[]>([]);
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -54,6 +63,15 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     setCurrentYear((prevYear) =>
       currentMonth === 11 ? prevYear + 1 : prevYear,
     );
+  };
+
+  const handleDayClick = (day: number) => {
+    const clickedDate = new Date(currentYear, currentMonth, day);
+
+    if (clickedDate >= currentDate) {
+      setSelectedDate(clickedDate);
+      setShowEventPopup((prev) => !prev);
+    }
   };
 
   return (
@@ -108,46 +126,67 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
                   ? "rounded-full bg-neutral-800 text-neutral-50"
                   : ""
               }
+              onClick={() => handleDayClick(day + 1)}
             >
               {day + 1}
             </span>
           ))}
         </div>
       </div>
-      <div className="h-full w-full overflow-y-auto rounded bg-neutral-100">
+      <div className="h-full w-full overflow-y-auto rounded">
         {showEventPopup && (
-          <div className="event-popup">
+          <div className="flex aspect-[10/9] w-full flex-col justify-between rounded border border-neutral-200/40 bg-neutral-200/60 p-3">
+            <h1 className="mb-2 text-center font-semibold">Event</h1>
             <div className="time-input">
-              <div className="event-popup-time">Time</div>
-              <input
-                type="number"
-                name="hours"
-                min={0}
-                max={24}
-                className="hours"
-              />
-              <input
-                type="number"
-                name="minutes"
-                min={0}
-                max={60}
-                className="minutes"
-              />
+              <p className="mb-2 text-neutral-800">Time</p>
+              <div className="mb-4 flex gap-1">
+                <select
+                  name="hours"
+                  className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                >
+                  {hours.map((hour) => (
+                    <option key={hour} value={hour}>
+                      {hour}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="minutes"
+                  className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                >
+                  {minutes.map((minute) => (
+                    <option key={minute} value={minute}>
+                      {minute}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="period"
+                  className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                >
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
             </div>
-            <textarea placeholder="Enter event details"></textarea>
-            <button className="event-popup-btn">Add Event</button>
+            <p className="mb-2 text-neutral-800">Details</p>
+            <textarea
+              className="mb-4 resize-none rounded"
+              placeholder=""
+            ></textarea>
+            <button className="cursor-pointer rounded bg-neutral-800 text-white">
+              Add Event
+            </button>
             <button
-              className="close-event-popup"
+              className="absolute right-6 top-6"
               onClick={() => setShowEventPopup(false)}
             >
-              <i>
-                <Close />
-              </i>
+              <Close className="text-neutral-700" />
             </button>
           </div>
         )}
         {/* {events.map((event, index) => (
-          <div className="event" key={index}>
+          <div className="h-full overflow-y-auto" key={index}>
             <div className="event-date-wrapper">
               <div className="event-date">{`${
                 monthsOfYear[event.date.getMonth()]
@@ -156,8 +195,14 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             </div>
             <div className="event-text">{event.text}</div>
             <div className="event-buttons">
-              <i className="bx bxs-edit-alt" onClick={() => handleEditEvent(event)}></i>
-              <i className="bx bxs-message-alt-x" onClick={() => handleDeleteEvent(event.id)}></i>
+              <i
+                className="bx bxs-edit-alt"
+                onClick={() => handleEditEvent(event)}
+              ></i>
+              <i
+                className="bx bxs-message-alt-x"
+                onClick={() => handleDeleteEvent(event.id)}
+              ></i>
             </div>
           </div>
         ))} */}
