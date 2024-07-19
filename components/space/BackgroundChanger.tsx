@@ -9,7 +9,6 @@ import {
   MdKeyboardArrowRight as Next,
   MdKeyboardArrowLeft as Prev,
 } from "react-icons/md";
-import { FaMinus as MinimizeIcon } from "react-icons/fa6";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
@@ -92,9 +91,7 @@ function BackgroundChanger({ openChanger }: Props) {
   };
 
   return (
-    <div
-      className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
-    >
+    <>
       <div className="mt-4">
         <div className="mb-4">
           <input
@@ -186,12 +183,7 @@ function BackgroundChanger({ openChanger }: Props) {
           )}
         </div>
       )}
-      <div className="absolute right-2 top-2">
-        <button>
-          <MinimizeIcon className="cursor-pointer text-neutral-400 transition-colors duration-100 hover:text-neutral-700" />
-        </button>
-      </div>
-    </div>
+    </>
   );
 }
 

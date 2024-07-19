@@ -12,6 +12,7 @@ import { AiOutlinePicture as Picture } from "react-icons/ai";
 import { MdOutlineLibraryMusic as Music } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { toggleWidget } from "@/store/slices/widgetSlice";
+import { FaMinus as MinimizeIcon } from "react-icons/fa6";
 
 type Props = {
   openWidgets: WidgetState;
@@ -33,7 +34,21 @@ const Navbar = ({ openWidgets }: Props) => {
 
   return (
     <div className="absolute bottom-20 left-0 right-0 flex justify-center">
-      <BackgroundChanger openChanger={openChanger} />
+      <div
+        className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
+      >
+        <BackgroundChanger openChanger={openChanger} />
+        <div className="absolute right-2 top-2">
+          <button
+            onClick={() => {
+              setOpenChanger(false);
+              setActiveItem(null);
+            }}
+          >
+            <MinimizeIcon className="cursor-pointer text-neutral-400 transition-colors duration-100 hover:text-neutral-700" />
+          </button>
+        </div>
+      </div>
       <nav className="absolute z-40 mb-[3rem] flex items-center">
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
