@@ -12,11 +12,7 @@ import {
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
-type Props = {
-  openChanger: boolean;
-};
-
-function BackgroundChanger({ openChanger }: Props) {
+function BackgroundChanger() {
   const [backgrounds, setBackgrounds] = useState<background[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
