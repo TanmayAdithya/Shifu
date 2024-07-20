@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { MdChevronLeft } from "react-icons/md";
 import { MdChevronRight } from "react-icons/md";
+import { FiChevronsLeft } from "react-icons/fi";
+import { FiChevronsRight } from "react-icons/fi";
 import { IoMdClose as Close } from "react-icons/io";
 import { MdModeEdit as EditEvent } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
@@ -64,6 +66,13 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
       currentMonth === 11 ? prevYear + 1 : prevYear,
     );
   };
+  const prevYear = () => {
+    setCurrentYear((prevYear) => prevYear - 1);
+  };
+
+  const nextYear = () => {
+    setCurrentYear((prevYear) => prevYear + 1);
+  };
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
@@ -81,25 +90,42 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
       <div className="w-full">
         <h1 className="text-xl text-neutral-800">Calendar</h1>
         <div className="my-3 flex items-center justify-between gap-2">
-          <h2 className="text-neutral-800">
-            {monthsOfYear[currentMonth]}, {currentYear}
-          </h2>
-
-          <div className="flex gap-1">
-            <i>
-              <MdChevronLeft
-                className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
-                size={"20px"}
-                onClick={() => prevMonth()}
-              />
-            </i>
-            <i>
-              <MdChevronRight
-                className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
-                size={"20px"}
-                onClick={() => nextMonth()}
-              />
-            </i>
+          <div className="flex w-full items-center justify-between">
+            <div className="flex gap-1">
+              <i>
+                <FiChevronsLeft
+                  className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                  size={"20px"}
+                  onClick={() => prevYear()}
+                />
+              </i>
+              <i>
+                <MdChevronLeft
+                  className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                  size={"20px"}
+                  onClick={() => prevMonth()}
+                />
+              </i>
+            </div>
+            <h2 className="text-neutral-800">
+              {monthsOfYear[currentMonth]}, {currentYear}
+            </h2>
+            <div className="flex gap-1">
+              <i>
+                <MdChevronRight
+                  className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                  size={"20px"}
+                  onClick={() => nextMonth()}
+                />
+              </i>
+              <i>
+                <FiChevronsRight
+                  className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                  size={"20px"}
+                  onClick={() => nextYear()}
+                />
+              </i>
+            </div>
           </div>
         </div>
         <div className="my-2 flex w-full justify-between">
