@@ -6,7 +6,8 @@ import { FiChevronsRight } from "react-icons/fi";
 import { IoMdClose as Close } from "react-icons/io";
 import { MdModeEdit as EditEvent } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
-// import { EventProps } from "@/types/types";
+import { EventProps } from "@/types/types";
+import { IoMdTime } from "react-icons/io";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -14,7 +15,6 @@ type Props = {
 
 const CalendarWidget = ({ openCalendarWidget }: Props) => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
   const monthsOfYear = [
     "January",
     "February",
@@ -28,6 +28,93 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     "October",
     "November",
     "December",
+  ];
+  const exampleEvents: EventProps[] = [
+    {
+      id: "1",
+      time: {
+        start: {
+          hours: 9,
+          minutes: 30,
+          period: "AM",
+        },
+        end: {
+          hours: 10,
+          minutes: 30,
+          period: "AM",
+        },
+      },
+      details: "Team meeting",
+      date: new Date(2024, 5, 27), // June 27, 2024
+    },
+    {
+      id: "2",
+      time: {
+        start: {
+          hours: 11,
+          minutes: 0,
+          period: "AM",
+        },
+        end: {
+          hours: 12,
+          minutes: 0,
+          period: "PM",
+        },
+      },
+      details: "Project presentation",
+      date: new Date(2024, 5, 27), // June 27, 2024
+    },
+    {
+      id: "3",
+      time: {
+        start: {
+          hours: 1,
+          minutes: 15,
+          period: "PM",
+        },
+        end: {
+          hours: 2,
+          minutes: 0,
+          period: "PM",
+        },
+      },
+      details: "Lunch with client",
+      date: new Date(2024, 5, 27), // June 27, 2024
+    },
+    {
+      id: "4",
+      time: {
+        start: {
+          hours: 3,
+          minutes: 45,
+          period: "PM",
+        },
+        end: {
+          hours: 4,
+          minutes: 30,
+          period: "PM",
+        },
+      },
+      details: "Code review session",
+      date: new Date(2024, 5, 27), // June 27, 2024
+    },
+    {
+      id: "5",
+      time: {
+        start: {
+          hours: 6,
+          minutes: 0,
+          period: "PM",
+        },
+        end: {
+          hours: 7,
+          minutes: 0,
+          period: "PM",
+        },
+      },
+      details: "Gym workout",
+      date: new Date(2024, 5, 27), // June 27, 2024
+    },
   ];
 
   const hours = Array.from({ length: 12 }, (_, i) =>
@@ -48,7 +135,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
   const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
-  // const [events, setEvents] = useState<EventProps[]>([]);
+  const [events, setEvents] = useState<EventProps[]>([]);
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -159,47 +246,94 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
           ))}
         </div>
       </div>
-      <div className="h-full w-full overflow-y-auto rounded">
+      <div className="h-full w-full overflow-y-auto">
         {showEventPopup && (
           <div className="flex aspect-[10/9] w-full flex-col justify-between rounded border border-neutral-200/40 bg-neutral-200/60 p-3">
             <h1 className="mb-2 text-center font-semibold">Event</h1>
+
+            <input
+              className="mb-4 resize-none rounded p-1"
+              placeholder="Event details"
+              type="text"
+            ></input>
             <div className="time-input">
-              <p className="mb-2 text-neutral-800">Time</p>
-              <div className="mb-4 flex gap-1">
-                <select
-                  name="hours"
-                  className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
-                >
-                  {hours.map((hour) => (
-                    <option key={hour} value={hour}>
-                      {hour}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="minutes"
-                  className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
-                >
-                  {minutes.map((minute) => (
-                    <option key={minute} value={minute}>
-                      {minute}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="period"
-                  className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
+              <div className="flex items-start justify-between">
+                <p className="mb-2 text-sm text-neutral-800">
+                  <span>
+                    <IoMdTime />
+                  </span>
+                  From
+                </p>
+                <div className="flex gap-1">
+                  <select
+                    name="hours"
+                    className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                  >
+                    {hours.map((hour) => (
+                      <option key={hour} value={hour}>
+                        {hour}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="minutes"
+                    className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                  >
+                    {minutes.map((minute) => (
+                      <option key={minute} value={minute}>
+                        {minute}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="period"
+                    className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mb-4 flex items-start justify-between">
+                <p className="mb-2 flex text-sm text-neutral-800">
+                  <span>
+                    <IoMdTime className="text-neutral-800" />
+                  </span>
+                  To
+                </p>
+                <div className="flex gap-1">
+                  <select
+                    name="hours"
+                    className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                  >
+                    {hours.map((hour) => (
+                      <option key={hour} value={hour}>
+                        {hour}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="minutes"
+                    className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                  >
+                    {minutes.map((minute) => (
+                      <option key={minute} value={minute}>
+                        {minute}
+                      </option>
+                    ))}
+                  </select>
+                  <select
+                    name="period"
+                    className="rounded-md bg-neutral-800 p-1 text-center text-xs text-white"
+                  >
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                  </select>
+                </div>
               </div>
             </div>
-            <p className="mb-2 text-neutral-800">Details</p>
-            <textarea
-              className="mb-4 resize-none rounded"
-              placeholder=""
-            ></textarea>
+
             <button className="cursor-pointer rounded bg-neutral-800 text-white">
               Add Event
             </button>
@@ -211,27 +345,38 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             </button>
           </div>
         )}
-        {/* {events.map((event, index) => (
-          <div className="h-full overflow-y-auto" key={index}>
-            <div className="event-date-wrapper">
-              <div className="event-date">{`${
-                monthsOfYear[event.date.getMonth()]
-              } ${event.date.getDate()}, ${event.date.getFullYear()}`}</div>
-              <div className="event-time">{event.time}</div>
+        <h1 className="text-center">Events</h1>
+        <div className="flex flex-col gap-2">
+          {exampleEvents.map((event, index) => (
+            <div className="flex">
+              <div className="w-[2px] rounded-full bg-neutral-600"></div>
+              <div className="flex flex-1 bg-neutral-200/40" key={index}>
+                <div className="flex flex-col p-2">
+                  <span className="text-xs text-neutral-800">
+                    {`${String(event.time.start.hours).padStart(2, "0")}:${String(event.time.start.minutes).padStart(2, "0")}
+                     ${event.time.start.period.toLowerCase()} - ${String(event.time.end.hours).padStart(2, "0")}:${String(event.time.end.minutes).padStart(2, "0")}
+                     ${event.time.end.period.toLowerCase()}`}
+                  </span>
+                  <div className="flex items-center justify-start">
+                    <span className="break-words font-medium text-neutral-900">
+                      {event.details}
+                    </span>
+                  </div>
+                </div>
+                <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
+                  <i
+                    className="bx bxs-edit-alt"
+                    // onClick={() => handleEditEvent(event)}
+                  ></i>
+                  <i
+                    className="bx bxs-message-alt-x"
+                    // onClick={() => handleDeleteEvent(event.id)}
+                  ></i>
+                </div>
+              </div>
             </div>
-            <div className="event-text">{event.text}</div>
-            <div className="event-buttons">
-              <i
-                className="bx bxs-edit-alt"
-                onClick={() => handleEditEvent(event)}
-              ></i>
-              <i
-                className="bx bxs-message-alt-x"
-                onClick={() => handleDeleteEvent(event.id)}
-              ></i>
-            </div>
-          </div>
-        ))} */}
+          ))}
+        </div>
       </div>
     </div>
   );

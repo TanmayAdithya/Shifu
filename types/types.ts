@@ -85,12 +85,20 @@ export interface AddColumnPayload {
   tasks: KanbanTask[];
 }
 
-// export interface EventProps {
-//   id: string;
-//   time: {
-//     hours: number;
-//     minutes: number;
-//     period: string;
-//   };
-//   details: string;
-// }
+export interface EventProps {
+  id: string;
+  time: {
+    start: {
+      hours: number;
+      minutes: number;
+      period: string;
+    };
+    end: {
+      hours: number;
+      minutes: number;
+      period: string;
+    };
+  };
+  details: string;
+  date: Date;
+}
