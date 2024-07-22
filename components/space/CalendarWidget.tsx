@@ -98,23 +98,6 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
       details: "Code review session",
       date: new Date(2024, 5, 27), // June 27, 2024
     },
-    {
-      id: "5",
-      time: {
-        start: {
-          hours: 6,
-          minutes: 0,
-          period: "PM",
-        },
-        end: {
-          hours: 7,
-          minutes: 0,
-          period: "PM",
-        },
-      },
-      details: "Gym workout",
-      date: new Date(2024, 5, 27), // June 27, 2024
-    },
   ];
 
   const hours = Array.from({ length: 12 }, (_, i) =>
@@ -175,7 +158,6 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
       className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[10.5rem] z-10 flex aspect-[3/2] w-[34rem] justify-between gap-4 rounded-lg bg-white p-5 shadow-lg`}
     >
       <div className="w-full">
-        <h1 className="text-xl text-neutral-800">Calendar</h1>
         <div className="my-3 flex items-center justify-between gap-2">
           <div className="flex w-full items-center justify-between">
             <div className="flex gap-1">
@@ -247,6 +229,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
         </div>
       </div>
       <div className="h-full w-full overflow-y-auto">
+        <h1 className="text-center">Events</h1>
         {showEventPopup && (
           <div className="flex aspect-[10/9] w-full flex-col justify-between rounded border border-neutral-200/40 bg-neutral-200/60 p-3">
             <h1 className="mb-2 text-center font-semibold">Event</h1>
@@ -345,23 +328,26 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             </button>
           </div>
         )}
-        <h1 className="text-center">Events</h1>
+
         <div className="flex flex-col gap-2">
           {exampleEvents.map((event, index) => (
-            <div className="flex">
-              <div className="w-[2px] rounded-full bg-neutral-600"></div>
-              <div className="flex flex-1 bg-neutral-200/40" key={index}>
-                <div className="flex flex-col p-2">
-                  <span className="text-xs text-neutral-800">
+            <div
+              key={index}
+              className="group flex cursor-pointer rounded bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:bg-neutral-700"
+            >
+              <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+              <div className="flex flex-1">
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-start">
+                    <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                      {event.details}
+                    </span>
+                  </div>
+                  <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
                     {`${String(event.time.start.hours).padStart(2, "0")}:${String(event.time.start.minutes).padStart(2, "0")}
                      ${event.time.start.period.toLowerCase()} - ${String(event.time.end.hours).padStart(2, "0")}:${String(event.time.end.minutes).padStart(2, "0")}
                      ${event.time.end.period.toLowerCase()}`}
                   </span>
-                  <div className="flex items-center justify-start">
-                    <span className="break-words font-medium text-neutral-900">
-                      {event.details}
-                    </span>
-                  </div>
                 </div>
                 <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
                   <i
