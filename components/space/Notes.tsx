@@ -154,7 +154,7 @@ export default function Notes({ openNotesWidget }: Props) {
   return (
     <>
       <div
-        className={`absolute left-20 top-20 z-10 flex h-[30rem] w-auto rounded-xl bg-transparent ${openNotesWidget ? "" : "hidden"} `}
+        className={`absolute left-20 top-20 z-10 flex h-[30rem] w-auto rounded-xl bg-transparent ${openNotesWidget ? "" : "hidden"} overflow-hidden`}
       >
         <aside
           className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]`}
@@ -265,7 +265,7 @@ export default function Notes({ openNotesWidget }: Props) {
               ) : null}
             </div>
           </div>
-          <div className="relative">
+          <div className="relative overflow-auto">
             {openNote && (
               <EditorContent
                 id="editor-wrapper"

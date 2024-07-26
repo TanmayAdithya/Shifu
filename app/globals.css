@@ -81,6 +81,7 @@
 
 ::-webkit-scrollbar {
   width: 7px;
+  height: 7px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -160,20 +161,5 @@
 }
 
 .days span {
-  font-size: 0.875rem;
   width: calc(100% / 7);
-  aspect-ratio: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-  transition: background-color 50ms ease;
-  border: 0;
-  border-radius: 50%;
-}
-
-.days span:hover {
-  background: #e5e5e5;
-  border: 0;
-  border-radius: 50%;
 }
