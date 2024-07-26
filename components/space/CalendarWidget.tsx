@@ -166,6 +166,8 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
       className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[10.5rem] z-10 flex aspect-[3/2] w-[34rem] justify-between gap-4 rounded-lg bg-white p-5 shadow-lg`}
     >
       <div className="w-full">
+        <h1 className="mb-1 text-neutral-700">Calendar</h1>
+        <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
         <div className="my-3 flex items-center justify-between gap-2">
           <div className="flex w-full items-center justify-between">
             <div className="flex gap-1">
@@ -226,8 +228,8 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
                 day + 1 === currentDate.getDate() &&
                 currentMonth === currentDate.getMonth() &&
                 currentYear === currentDate.getFullYear()
-                  ? "rounded-full bg-neutral-800 text-neutral-50"
-                  : ""
+                  ? "duration-50 flex aspect-square cursor-pointer items-center justify-center rounded-full border-0 bg-neutral-800 text-sm text-neutral-50 transition-colors hover:bg-neutral-800"
+                  : "duration-50 ease flex aspect-square cursor-pointer items-center justify-center rounded-full border-0 text-sm transition-colors hover:bg-neutral-200"
               } ${selectedDate?.getDate() === day + 1 ? "bg-neutral-200" : ""} `}
               onClick={() => handleDayClick(day + 1)}
             >
@@ -344,13 +346,13 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
           </div>
         ) : (
           <>
-            <h1 className="mb-1 text-center">Events</h1>
+            <h1 className="mb-1">Events</h1>
             <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
             <div className="flex flex-col gap-2">
               {exampleEvents.map((event, index) => (
                 <div
                   key={index}
-                  className="group flex cursor-pointer rounded bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:bg-neutral-700"
+                  className="group flex cursor-pointer rounded border border-neutral-300/60 bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
                 >
                   <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
                   <div className="flex flex-1">
