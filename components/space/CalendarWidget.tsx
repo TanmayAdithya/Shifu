@@ -8,6 +8,7 @@ import { MdModeEdit as EditEvent } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
 import { EventProps } from "@/types/types";
 import { IoMdTime } from "react-icons/io";
+import { Noto_Kufi_Arabic } from "next/font/google";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -116,7 +117,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     currentDate.getFullYear(),
   );
 
-  const [selectedDate, setSelectedDate] = useState<Date>(currentDate);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(currentDate);
   const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
   const [events, setEvents] = useState<EventProps[]>([]);
 
@@ -144,12 +145,19 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     setCurrentYear((prevYear) => prevYear + 1);
   };
 
+  function handleDeselect() {
+    setSelectedDate(null);
+    setShowEventPopup(false);
+  }
+
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
 
-    if (clickedDate >= currentDate) {
+    if (clickedDate >= currentDate && selectedDate === null) {
       setSelectedDate(clickedDate);
-      setShowEventPopup((prev) => !prev);
+      setShowEventPopup(true);
+    } else {
+      handleDeselect();
     }
   };
 
@@ -214,13 +222,13 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
           {Array.from(Array(daysInMonth).keys()).map((day) => (
             <span
               key={day + 1}
-              className={
+              className={`${
                 day + 1 === currentDate.getDate() &&
                 currentMonth === currentDate.getMonth() &&
                 currentYear === currentDate.getFullYear()
                   ? "rounded-full bg-neutral-800 text-neutral-50"
                   : ""
-              }
+              } ${selectedDate?.getDate() === day + 1 ? "bg-neutral-200" : ""} `}
               onClick={() => handleDayClick(day + 1)}
             >
               {day + 1}
@@ -229,24 +237,23 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
         </div>
       </div>
       <div className="h-full w-full overflow-y-auto">
-        <h1 className="text-center">Events</h1>
-        {showEventPopup && (
-          <div className="flex aspect-[10/9] w-full flex-col justify-between rounded border border-neutral-200/40 bg-neutral-200/60 p-3">
-            <h1 className="mb-2 text-center font-semibold">Event</h1>
-
+        {showEventPopup ? (
+          <div className="relative flex aspect-[10/9] w-full flex-col justify-between rounded border-2 border-neutral-200 bg-neutral-100 p-3">
+            <h1 className="mb-4 font-semibold text-neutral-700">New Event</h1>
+            <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
             <input
-              className="mb-4 resize-none rounded p-1"
-              placeholder="Event details"
+              className="mb-4 resize-none rounded border border-neutral-300 p-1"
+              placeholder="Event name"
               type="text"
             ></input>
             <div className="time-input">
               <div className="flex items-start justify-between">
-                <p className="mb-2 text-sm text-neutral-800">
-                  <span>
-                    <IoMdTime />
+                <div className="mb-2 flex items-center text-neutral-800">
+                  <span className="mr-1">
+                    <IoMdTime size={"18px"} className="text-neutral-800" />
                   </span>
-                  From
-                </p>
+                  <p>Start</p>
+                </div>
                 <div className="flex gap-1">
                   <select
                     name="hours"
@@ -279,12 +286,12 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
               </div>
 
               <div className="mb-4 flex items-start justify-between">
-                <p className="mb-2 flex text-sm text-neutral-800">
-                  <span>
-                    <IoMdTime className="text-neutral-800" />
+                <div className="mb-2 flex items-center text-neutral-800">
+                  <span className="mr-1">
+                    <IoMdTime size={"18px"} className="text-neutral-800" />
                   </span>
-                  To
-                </p>
+                  <p>End</p>
+                </div>
                 <div className="flex gap-1">
                   <select
                     name="hours"
@@ -317,52 +324,64 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
               </div>
             </div>
 
-            <button className="cursor-pointer rounded bg-neutral-800 text-white">
-              Add Event
-            </button>
+            <div className="flex justify-end gap-2">
+              <button
+                className="cursor-pointer rounded border border-neutral-800 px-2 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:border-red-600 hover:bg-red-600 hover:text-neutral-100"
+                onClick={() => handleDeselect()}
+              >
+                Cancel
+              </button>
+              <button className="cursor-pointer rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 transition-colors duration-200 hover:bg-neutral-950">
+                Add Event
+              </button>
+            </div>
             <button
-              className="absolute right-6 top-6"
-              onClick={() => setShowEventPopup(false)}
+              className="absolute right-2 top-2"
+              onClick={() => handleDeselect()}
             >
               <Close className="text-neutral-700" />
             </button>
           </div>
-        )}
-
-        <div className="flex flex-col gap-2">
-          {exampleEvents.map((event, index) => (
-            <div
-              key={index}
-              className="group flex cursor-pointer rounded bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:bg-neutral-700"
-            >
-              <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
-              <div className="flex flex-1">
-                <div className="flex flex-col">
-                  <div className="flex items-center justify-start">
-                    <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
-                      {event.details}
-                    </span>
-                  </div>
-                  <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                    {`${String(event.time.start.hours).padStart(2, "0")}:${String(event.time.start.minutes).padStart(2, "0")}
+        ) : (
+          <>
+            <h1 className="mb-1 text-center">Events</h1>
+            <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
+            <div className="flex flex-col gap-2">
+              {exampleEvents.map((event, index) => (
+                <div
+                  key={index}
+                  className="group flex cursor-pointer rounded bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:bg-neutral-700"
+                >
+                  <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+                  <div className="flex flex-1">
+                    <div className="flex flex-col">
+                      <div className="flex items-center justify-start">
+                        <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                          {event.details}
+                        </span>
+                      </div>
+                      <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                        {`${String(event.time.start.hours).padStart(2, "0")}:${String(event.time.start.minutes).padStart(2, "0")}
                      ${event.time.start.period.toLowerCase()} - ${String(event.time.end.hours).padStart(2, "0")}:${String(event.time.end.minutes).padStart(2, "0")}
                      ${event.time.end.period.toLowerCase()}`}
-                  </span>
+                      </span>
+                    </div>
+                    <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
+                      <i
+                        className="bx bxs-edit-alt"
+                        // onClick={() => handleEditEvent(event)}
+                      ></i>
+                      <i
+                        className="bx bxs-message-alt-x"
+                        // onClick={() => handleDeleteEvent(event.id)}
+                      ></i>
+                    </div>
+                  </div>
                 </div>
-                <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
-                  <i
-                    className="bx bxs-edit-alt"
-                    // onClick={() => handleEditEvent(event)}
-                  ></i>
-                  <i
-                    className="bx bxs-message-alt-x"
-                    // onClick={() => handleDeleteEvent(event.id)}
-                  ></i>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
-        </div>
+          </>
+        )}
       </div>
     </div>
   );
