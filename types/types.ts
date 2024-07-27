@@ -102,3 +102,27 @@ export interface EventProps {
   details: string;
   date: Date;
 }
+
+export interface EventProps2 {
+  id: string;
+  events: EventDetails[];
+}
+
+export interface EventDetails {
+  details: {
+    id: string;
+    time: {
+      start: {
+        hours: number;
+        minutes: number;
+        period: string;
+      };
+      end: {
+        hours: number;
+        minutes: number;
+        period: string;
+      };
+    };
+    title: string;
+  };
+}

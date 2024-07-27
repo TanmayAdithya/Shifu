@@ -7,8 +7,14 @@ import { IoMdClose as Close } from "react-icons/io";
 import { MdModeEdit as EditEvent } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
 import { EventProps } from "@/types/types";
+import { EventProps2 } from "@/types/types";
 import { IoMdTime } from "react-icons/io";
-import { Noto_Kufi_Arabic } from "next/font/google";
+
+// when you first open the widget, it should show all the events schedules on that day
+// if you select any other day it should show the events on the selected day
+// and there is a back button to go back to today's events
+// selected day events will have add event button and so will today's event
+// and when we click add event, another component will show up replacing the events component, after addition it will go back to the events component
 
 type Props = {
   openCalendarWidget: boolean;
@@ -30,74 +36,32 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     "November",
     "December",
   ];
-  const exampleEvents: EventProps[] = [
+
+  const allEvents: EventProps[] = [];
+
+  const exampleEvents: EventProps2[] = [
     {
-      id: "1",
-      time: {
-        start: {
-          hours: 9,
-          minutes: 30,
-          period: "AM",
+      id: "Sat Jul 27 2024",
+      events: [
+        {
+          details: {
+            id: "1",
+            time: {
+              start: {
+                hours: 9,
+                minutes: 30,
+                period: "AM",
+              },
+              end: {
+                hours: 10,
+                minutes: 30,
+                period: "AM",
+              },
+            },
+            title: "Team meeting",
+          },
         },
-        end: {
-          hours: 10,
-          minutes: 30,
-          period: "AM",
-        },
-      },
-      details: "Team meeting",
-      date: new Date(2024, 5, 27), // June 27, 2024
-    },
-    {
-      id: "2",
-      time: {
-        start: {
-          hours: 11,
-          minutes: 0,
-          period: "AM",
-        },
-        end: {
-          hours: 12,
-          minutes: 0,
-          period: "PM",
-        },
-      },
-      details: "Project presentation",
-      date: new Date(2024, 5, 27), // June 27, 2024
-    },
-    {
-      id: "3",
-      time: {
-        start: {
-          hours: 1,
-          minutes: 15,
-          period: "PM",
-        },
-        end: {
-          hours: 2,
-          minutes: 0,
-          period: "PM",
-        },
-      },
-      details: "Lunch with client",
-      date: new Date(2024, 5, 27), // June 27, 2024
-    },
-    {
-      id: "4",
-      time: {
-        start: {
-          hours: 3,
-          minutes: 45,
-          period: "PM",
-        },
-        end: {
-          hours: 4,
-          minutes: 30,
-          period: "PM",
-        },
-      },
-      details: "Code review session",
-      date: new Date(2024, 5, 27), // June 27, 2024
+      ],
     },
   ];
 
@@ -152,6 +116,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
+    console.log(clickedDate.toDateString());
 
     if (clickedDate >= currentDate && selectedDate === null) {
       setSelectedDate(clickedDate);
@@ -349,38 +314,40 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             <h1 className="mb-1">Events</h1>
             <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
             <div className="flex flex-col gap-2">
-              {exampleEvents.map((event, index) => (
-                <div
-                  key={index}
-                  className="group flex cursor-pointer rounded border border-neutral-300/60 bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
-                >
-                  <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
-                  <div className="flex flex-1">
-                    <div className="flex flex-col">
-                      <div className="flex items-center justify-start">
-                        <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
-                          {event.details}
+              {exampleEvents
+                .find((event) => event.id === selectedDate?.toDateString())
+                ?.events.map((day, index) => (
+                  <div
+                    key={index}
+                    className="group flex cursor-pointer rounded border border-neutral-300/60 bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
+                  >
+                    <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+                    <div className="flex flex-1">
+                      <div className="flex flex-col">
+                        <div className="flex items-center justify-start">
+                          <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                            {day.details.title}
+                          </span>
+                        </div>
+                        <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                          {`${String(day.details.time.start.hours).padStart(2, "0")}:${String(day.details.time.start.minutes).padStart(2, "0")}
+                     ${day.details.time.start.period.toLowerCase()} - ${String(day.details.time.end.hours).padStart(2, "0")}:${String(day.details.time.end.minutes).padStart(2, "0")}
+                     ${day.details.time.end.period.toLowerCase()}`}
                         </span>
                       </div>
-                      <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                        {`${String(event.time.start.hours).padStart(2, "0")}:${String(event.time.start.minutes).padStart(2, "0")}
-                     ${event.time.start.period.toLowerCase()} - ${String(event.time.end.hours).padStart(2, "0")}:${String(event.time.end.minutes).padStart(2, "0")}
-                     ${event.time.end.period.toLowerCase()}`}
-                      </span>
-                    </div>
-                    <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
-                      <i
-                        className="bx bxs-edit-alt"
-                        // onClick={() => handleEditEvent(event)}
-                      ></i>
-                      <i
-                        className="bx bxs-message-alt-x"
-                        // onClick={() => handleDeleteEvent(event.id)}
-                      ></i>
+                      <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
+                        <i
+                          className="bx bxs-edit-alt"
+                          // onClick={() => handleEditEvent(event)}
+                        ></i>
+                        <i
+                          className="bx bxs-message-alt-x"
+                          // onClick={() => handleDeleteEvent(event.id)}
+                        ></i>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
             </div>
           </>
         )}
