@@ -6,15 +6,16 @@ import { FiChevronsRight } from "react-icons/fi";
 import { IoMdClose as Close } from "react-icons/io";
 import { MdModeEdit as EditEvent } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
-import { EventProps } from "@/types/types";
-import { EventProps2 } from "@/types/types";
+import { CalendarEvent } from "@/types/types";
 import { IoMdTime } from "react-icons/io";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
-// when you first open the widget, it should show all the events schedules on that day
-// if you select any other day it should show the events on the selected day
 // and there is a back button to go back to today's events
 // selected day events will have add event button and so will today's event
 // and when we click add event, another component will show up replacing the events component, after addition it will go back to the events component
+
+// clicking other dates should check if there is previously selected date and then deselect it and select the current one
 
 type Props = {
   openCalendarWidget: boolean;
@@ -37,33 +38,9 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     "December",
   ];
 
-  const allEvents: EventProps[] = [];
-
-  const exampleEvents: EventProps2[] = [
-    {
-      id: "Sat Jul 27 2024",
-      events: [
-        {
-          details: {
-            id: "1",
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Team meeting",
-          },
-        },
-      ],
-    },
-  ];
+  const calendarEvents = useSelector(
+    (state: RootState) => state.calendar.calendarEvents,
+  );
 
   const hours = Array.from({ length: 12 }, (_, i) =>
     (i + 1).toString().padStart(2, "0"),
@@ -83,7 +60,6 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(currentDate);
   const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
-  const [events, setEvents] = useState<EventProps[]>([]);
 
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
@@ -116,11 +92,13 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
-    console.log(clickedDate.toDateString());
 
     if (clickedDate >= currentDate && selectedDate === null) {
       setSelectedDate(clickedDate);
-      setShowEventPopup(true);
+      console.log(
+        calendarEvents.find((event) => event.id === clickedDate.toDateString()),
+      );
+      // setShowEventPopup(true);
     } else {
       handleDeselect();
     }
@@ -314,8 +292,14 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             <h1 className="mb-1">Events</h1>
             <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
             <div className="flex flex-col gap-2">
-              {exampleEvents
-                .find((event) => event.id === selectedDate?.toDateString())
+              {calendarEvents
+                .find(
+                  (event) =>
+                    event.id ===
+                    (selectedDate
+                      ? selectedDate?.toDateString()
+                      : currentDate.toDateString()),
+                )
                 ?.events.map((day, index) => (
                   <div
                     key={index}
@@ -329,20 +313,22 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
                             {day.details.title}
                           </span>
                         </div>
-                        <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                          {`${String(day.details.time.start.hours).padStart(2, "0")}:${String(day.details.time.start.minutes).padStart(2, "0")}
-                     ${day.details.time.start.period.toLowerCase()} - ${String(day.details.time.end.hours).padStart(2, "0")}:${String(day.details.time.end.minutes).padStart(2, "0")}
-                     ${day.details.time.end.period.toLowerCase()}`}
-                        </span>
+                        {day.details.time &&
+                          day.details.time.start &&
+                          day.details.time.end && (
+                            <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                              {`${String(day.details.time.start.hours).padStart(2, "0")}:${String(day.details.time.start.minutes).padStart(2, "0")}
+    ${day.details.time.start.period.toLowerCase()} - ${String(day.details.time.end.hours).padStart(2, "0")}:${String(day.details.time.end.minutes).padStart(2, "0")}
+    ${day.details.time.end.period.toLowerCase()}`}
+                            </span>
+                          )}
                       </div>
                       <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
                         <i
-                          className="bx bxs-edit-alt"
-                          // onClick={() => handleEditEvent(event)}
+                        // edit
                         ></i>
                         <i
-                          className="bx bxs-message-alt-x"
-                          // onClick={() => handleDeleteEvent(event.id)}
+                        //delete
                         ></i>
                       </div>
                     </div>
