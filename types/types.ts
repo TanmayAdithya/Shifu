@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { IconType } from "react-icons";
 export type widgetItem = {
   id: string;
@@ -122,4 +123,13 @@ export interface AddEventProps {
     };
   };
   title: string;
+}
+
+export interface Tab {
+  label: string;
+  content: ReactNode;
+}
+
+export interface TabsProps {
+  tabs: Tab[];
 }
