@@ -10,11 +10,11 @@ import { CalendarEvent, Tab, TabsProps } from "@/types/types";
 import { IoMdTime } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
+import { PiPlusLight as AddEvent } from "react-icons/pi";
 
 // and there is a back button to go back to today's events
 // selected day events will have add event button and so will today's event
 // and when we click add event, another component will show up replacing the events component, after addition it will go back to the events component
-
 // clicking other dates should check if there is previously selected date and then deselect it and select the current one
 
 type Props = {
@@ -50,7 +50,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   return (
     <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex w-[20rem] justify-between gap-4 rounded-lg bg-white p-5 shadow-lg`}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[21.75rem] w-[20rem] justify-between gap-4 rounded-lg bg-white p-5 shadow-lg`}
     >
       <div className="w-full">
         <Tabs tabs={tabs} />
@@ -102,8 +102,14 @@ export const Events: React.FC<CalendarComponentProps> = ({
   const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
 
   return (
-    <div className="h-full w-full overflow-y-auto">
-      <div className="flex flex-col gap-2">
+    <div className="w-full">
+      <div className="mb-2 flex w-fit cursor-pointer items-center rounded bg-neutral-700 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-800">
+        <span>
+          <AddEvent className="text-neutral-100" size={"16px"} />
+        </span>
+        Add Event
+      </div>
+      <div className="flex max-h-[14rem] flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents
           .find((event) => event.id === currentDate.toDateString())
           ?.events.map((day, index) => (
@@ -258,9 +264,9 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
           </span>
         ))}
       </div>
-      <div className="days">
+      <div className="grid grid-cols-7 gap-1">
         {Array.from(Array(firstDayOfMonth).keys()).map((_, index) => (
-          <span className="pointer-events-none" key={`empty-${index}`} />
+          <span key={`empty-${index}`} className="aspect-square" />
         ))}
         {Array.from(Array(daysInMonth).keys()).map((day) => (
           <span
@@ -269,9 +275,9 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
               day + 1 === currentDate.getDate() &&
               currentMonth === currentDate.getMonth() &&
               currentYear === currentDate.getFullYear()
-                ? "duration-50 flex aspect-square cursor-pointer items-center justify-center rounded-full border-0 bg-neutral-800 text-sm text-neutral-50 transition-colors hover:bg-neutral-800"
-                : "duration-50 ease flex aspect-square cursor-pointer items-center justify-center rounded-full border-0 text-sm transition-colors hover:bg-neutral-200"
-            } `}
+                ? "flex aspect-square cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-sm text-neutral-50 transition-colors hover:bg-neutral-800"
+                : "flex aspect-square cursor-pointer items-center justify-center rounded-full text-sm transition-colors hover:bg-neutral-200"
+            } text-center`}
             onClick={() => handleDayClick(day + 1)}
           >
             {day + 1}
