@@ -157,10 +157,10 @@ export default function Notes({ openNotesWidget }: Props) {
         className={`absolute left-20 top-20 z-10 flex h-[30rem] w-auto rounded-xl bg-transparent ${openNotesWidget ? "" : "hidden"} overflow-hidden`}
       >
         <aside
-          className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-[#F7F7F7]`}
+          className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-white`}
         >
           <div>
-            <div className="sticky top-0 w-full bg-[#F7F7F7] px-3 pb-2 pt-3">
+            <div className="sticky top-0 w-full bg-white px-3 pb-2 pt-3">
               {/* Sidebar */}
               <span>
                 <SidebarIcon
@@ -194,7 +194,7 @@ export default function Notes({ openNotesWidget }: Props) {
               {filteredNotes.map((note) => (
                 <div
                   key={note.id}
-                  className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border border-neutral-400/60 p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 ${openNote?.id === note.id ? "bg-neutral-200 hover:bg-neutral-200" : "bg-white"}`}
+                  className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border border-neutral-300/80 p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 ${openNote?.id === note.id ? "bg-neutral-200/70 hover:bg-neutral-200" : "bg-white"}`}
                   onClick={() => handleOpenNote(note)}
                 >
                   <span className="max-w-[10rem] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -265,7 +265,7 @@ export default function Notes({ openNotesWidget }: Props) {
               ) : null}
             </div>
           </div>
-          <div className="relative overflow-auto">
+          <div className="relative overflow-auto px-1">
             {openNote && (
               <EditorContent
                 id="editor-wrapper"
