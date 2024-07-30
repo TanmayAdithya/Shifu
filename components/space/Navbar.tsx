@@ -36,10 +36,10 @@ const Navbar = ({ openWidgets }: Props) => {
     <div className="absolute bottom-20 left-0 right-0 flex justify-center">
       {/* Background Changer Container */}
       <div
-        className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden overflow-y-scroll rounded-xl bg-neutral-50 p-4 shadow-lg`}
+        className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-lg`}
       >
         <BackgroundChanger />
-        <div className="absolute right-2 top-2">
+        <div className="absolute right-3 top-2">
           <button
             onClick={() => {
               setOpenChanger(false);

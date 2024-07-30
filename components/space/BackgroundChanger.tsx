@@ -89,16 +89,17 @@ function BackgroundChanger() {
   return (
     <>
       <div className="mt-4">
-        <div className="mb-4">
+        <div className="mb-2 p-1">
           <input
             type="text"
             placeholder="Search"
-            className="w-full rounded-md border border-gray-300 p-2"
+            className="w-full rounded-md border border-gray-300 p-2 outline-none"
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
+
         {/* Tags */}
-        <div className="mb-4 flex flex-wrap justify-center gap-2">
+        <div className="mb-3 flex flex-wrap justify-center gap-2">
           {tags.map((tag) => (
             <button
               key={tag}
@@ -112,73 +113,76 @@ function BackgroundChanger() {
       </div>
 
       {/* Image Grid */}
-      <div
-        className={`${debouncedSearch ? "" : "mb-2"} grid grid-cols-2 gap-2`}
-      >
-        {loading &&
-          Array.from({ length: 10 }).map((_, index) => (
-            <Skeleton key={index} className="h-[114.75px] w-[204px] rounded" />
-          ))}
-        {error && <p>Error...</p>}
-        {backgrounds.map(({ id, urls, description }) => {
-          return (
-            <div key={id} className="rounded shadow-lg">
-              <Image
-                key={id}
-                alt={description}
-                src={`${urls.full}&w=1920&h=1080&fit=crop`}
-                width="320"
-                height="180"
-                style={{
-                  border: 0,
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-                onClick={() => handleBackground(urls.full, description)}
-                className={`h-full w-full object-cover`}
-              />
-            </div>
-          );
-        })}
-        <div />
-      </div>
-      {debouncedSearch && (
-        <div className="mb-2 mt-4 flex items-center justify-center gap-6">
-          {page > 1 ? (
-            <button
-              onClick={() => setPage((page) => page - 1)}
-              className="rounded-lg bg-gray-300 p-1"
-            >
-              <Prev />
-            </button>
-          ) : (
-            <button
-              disabled
-              onClick={() => setPage((page) => page - 1)}
-              className="rounded-lg bg-gray-300 p-1"
-            >
-              <Prev />
-            </button>
-          )}
-          {<p>{page}</p>}
-          {page < totalPages ? (
-            <button
-              onClick={() => setPage((page) => page + 1)}
-              className="rounded-lg bg-gray-300 p-1"
-            >
-              <Next />
-            </button>
-          ) : (
-            <button
-              disabled
-              onClick={() => setPage((page) => page + 1)}
-              className="rounded-lg bg-gray-300 p-1"
-            >
-              <Next />
-            </button>
-          )}
+      <div className="max-h-[11rem] w-full overflow-auto">
+        <div
+          className={`${
+            debouncedSearch ? "" : "mb-2"
+          } grid w-full grid-cols-2 gap-2 p-1`}
+        >
+          {loading &&
+            Array.from({ length: 10 }).map((_, index) => (
+              <Skeleton key={index} className="h-[113px] w-[200px] rounded" />
+            ))}
+          {error && <p>Error...</p>}
+          {backgrounds.map(({ id, urls, description }) => {
+            return (
+              <div key={id} className="rounded shadow-lg">
+                <Image
+                  key={id}
+                  alt={description}
+                  src={`${urls.full}&w=1920&h=1080&fit=crop`}
+                  width="320"
+                  height="180"
+                  style={{
+                    border: 0,
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => handleBackground(urls.full, description)}
+                  className="h-full w-full object-cover"
+                />
+              </div>
+            );
+          })}
         </div>
-      )}
+        {debouncedSearch && (
+          <div className="mb-4 mt-4 flex items-center justify-center gap-6">
+            {page > 1 ? (
+              <button
+                onClick={() => setPage((page) => page - 1)}
+                className="rounded-lg bg-gray-300 p-1"
+              >
+                <Prev />
+              </button>
+            ) : (
+              <button
+                disabled
+                onClick={() => setPage((page) => page - 1)}
+                className="rounded-lg bg-gray-300 p-1"
+              >
+                <Prev />
+              </button>
+            )}
+            {<p>{page}</p>}
+            {page < totalPages ? (
+              <button
+                onClick={() => setPage((page) => page + 1)}
+                className="rounded-lg bg-gray-300 p-1"
+              >
+                <Next />
+              </button>
+            ) : (
+              <button
+                disabled
+                onClick={() => setPage((page) => page + 1)}
+                className="rounded-lg bg-gray-300 p-1"
+              >
+                <Next />
+              </button>
+            )}
+          </div>
+        )}
+      </div>
     </>
   );
 }
