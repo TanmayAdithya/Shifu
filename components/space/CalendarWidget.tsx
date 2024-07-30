@@ -10,12 +10,9 @@ import { CalendarEvent, Tab, TabsProps } from "@/types/types";
 import { IoMdTime } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
-import { PiPlusLight as AddEvent } from "react-icons/pi";
-
-// and there is a back button to go back to today's events
-// selected day events will have add event button and so will today's event
-// and when we click add event, another component will show up replacing the events component, after addition it will go back to the events component
-// clicking other dates should check if there is previously selected date and then deselect it and select the current one
+import { PiPlus as NewEvent } from "react-icons/pi";
+import { LuLayoutList as EventsListIcon } from "react-icons/lu";
+import { FiCalendar as CalendarIcon } from "react-icons/fi";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -36,32 +33,20 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
   const tabs: Tab[] = [
     {
       label: "Calendar",
+      icon: <CalendarIcon />,
       content: (
         <Calendar calendarEvents={calendarEvents} currentDate={currentDate} />
       ),
     },
     {
       label: "Events",
+      icon: <EventsListIcon />,
       content: (
         <Events calendarEvents={calendarEvents} currentDate={currentDate} />
       ),
     },
   ];
 
-  return (
-    <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[21.75rem] w-[20rem] justify-between gap-4 rounded-xl bg-white p-5 shadow-lg`}
-    >
-      <div className="w-full">
-        <Tabs tabs={tabs} />
-      </div>
-    </div>
-  );
-};
-
-export default CalendarWidget;
-
-export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   const [activeTab, setActiveTab] = useState<string>(tabs[0].label);
 
   const handleTabClick = (label: string) => {
@@ -69,31 +54,40 @@ export const Tabs: React.FC<TabsProps> = ({ tabs }) => {
   };
 
   return (
-    <>
-      <div className="mb-2 flex gap-1">
-        {tabs.map((tab) => (
-          <button
-            key={tab.label}
-            className={`flex-1 rounded border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-50 ${activeTab === tab.label ? "active" : ""}`}
-            onClick={() => handleTabClick(tab.label)}
-          >
-            {tab.label}
-          </button>
-        ))}
+    <div
+      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white p-5 shadow-lg`}
+    >
+      <div className="w-full">
+        <div className="mb-4 flex gap-1">
+          {tabs.map((tab) => (
+            <div
+              key={tab.label}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:bg-neutral-600 hover:text-neutral-50 ${activeTab === tab.label ? "border-0 bg-neutral-800 text-neutral-50" : ""}`}
+              onClick={() => handleTabClick(tab.label)}
+            >
+              <div className="flex items-center justify-center gap-2">
+                <span>{tab.icon}</span>
+                {tab.label}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="tab-content">
+          {tabs.map((tab) => (
+            <div
+              key={tab.label}
+              className={`tab-panel ${activeTab === tab.label ? "active" : ""}`}
+            >
+              {activeTab === tab.label && tab.content}
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="tab-content">
-        {tabs.map((tab) => (
-          <div
-            key={tab.label}
-            className={`tab-panel ${activeTab === tab.label ? "active" : ""}`}
-          >
-            {activeTab === tab.label && tab.content}
-          </div>
-        ))}
-      </div>
-    </>
+    </div>
   );
 };
+
+export default CalendarWidget;
 
 export const Events: React.FC<CalendarComponentProps> = ({
   calendarEvents,
@@ -103,11 +97,11 @@ export const Events: React.FC<CalendarComponentProps> = ({
 
   return (
     <div className="w-full">
-      <div className="mb-2 flex w-fit cursor-pointer items-center rounded bg-neutral-700 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-800">
+      <div className="mb-2 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900">
         <span>
-          <AddEvent className="text-neutral-100" size={"16px"} />
+          <NewEvent className="mr-1 text-white" size={"16px"} />
         </span>
-        Add Event
+        New Event
       </div>
       <div className="flex max-h-[14rem] flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents
@@ -194,13 +188,6 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
       currentMonth === 11 ? prevYear + 1 : prevYear,
     );
   };
-  const prevYear = () => {
-    setCurrentYear((prevYear) => prevYear - 1);
-  };
-
-  const nextYear = () => {
-    setCurrentYear((prevYear) => prevYear + 1);
-  };
 
   const handleDayClick = (day: number) => {
     const clickedDate = new Date(currentYear, currentMonth, day);
@@ -215,40 +202,26 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
 
   return (
     <div className="w-full">
-      <div className="my-3 flex items-center justify-between gap-2">
+      <div className="my-3 mb-4 flex items-center justify-between gap-2">
         <div className="flex w-full items-center justify-between">
           <div className="flex gap-1">
             <i>
-              <FiChevronsLeft
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
-                size={"20px"}
-                onClick={() => prevYear()}
-              />
-            </i>
-            <i>
               <MdChevronLeft
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-0 hover:bg-neutral-700 hover:text-neutral-50"
                 size={"20px"}
                 onClick={() => prevMonth()}
               />
             </i>
           </div>
-          <h2 className="font-bold text-neutral-800/90">
+          <h2 className="font-semibold text-neutral-800/90">
             {monthsOfYear[currentMonth]} {currentYear}
           </h2>
           <div className="flex gap-1">
             <i>
               <MdChevronRight
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-0 hover:bg-neutral-700 hover:text-neutral-50"
                 size={"20px"}
                 onClick={() => nextMonth()}
-              />
-            </i>
-            <i>
-              <FiChevronsRight
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
-                size={"20px"}
-                onClick={() => nextYear()}
               />
             </i>
           </div>

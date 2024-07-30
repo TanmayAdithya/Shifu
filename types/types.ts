@@ -127,6 +127,7 @@ export interface AddEventProps {
 
 export interface Tab {
   label: string;
+  icon: ReactNode;
   content: ReactNode;
 }
 
