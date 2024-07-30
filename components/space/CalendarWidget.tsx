@@ -50,7 +50,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   return (
     <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[21.75rem] w-[20rem] justify-between gap-4 rounded-lg bg-white p-5 shadow-lg`}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[21.75rem] w-[20rem] justify-between gap-4 rounded-xl bg-white p-5 shadow-lg`}
     >
       <div className="w-full">
         <Tabs tabs={tabs} />
@@ -220,33 +220,33 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
           <div className="flex gap-1">
             <i>
               <FiChevronsLeft
-                className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
                 size={"20px"}
                 onClick={() => prevYear()}
               />
             </i>
             <i>
               <MdChevronLeft
-                className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
                 size={"20px"}
                 onClick={() => prevMonth()}
               />
             </i>
           </div>
-          <h2 className="text-neutral-800">
+          <h2 className="font-bold text-neutral-800/90">
             {monthsOfYear[currentMonth]} {currentYear}
           </h2>
           <div className="flex gap-1">
             <i>
               <MdChevronRight
-                className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
                 size={"20px"}
                 onClick={() => nextMonth()}
               />
             </i>
             <i>
               <FiChevronsRight
-                className="cursor-pointer rounded bg-neutral-100 text-neutral-700 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:bg-neutral-200 hover:text-neutral-800"
                 size={"20px"}
                 onClick={() => nextYear()}
               />
@@ -254,11 +254,11 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
           </div>
         </div>
       </div>
-      <div className="my-2 flex w-full justify-between">
+      <div className="my-2 grid w-full grid-cols-7 text-center">
         {daysOfWeek.map((day) => (
           <span
             key={day}
-            className="w-[calc(100% / 7)] flex justify-center text-sm font-semibold text-neutral-800"
+            className="text-center text-sm font-medium text-neutral-800"
           >
             {day}
           </span>
@@ -276,7 +276,7 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
               currentMonth === currentDate.getMonth() &&
               currentYear === currentDate.getFullYear()
                 ? "flex aspect-square cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-sm text-neutral-50 transition-colors hover:bg-neutral-800"
-                : "flex aspect-square cursor-pointer items-center justify-center rounded-full text-sm transition-colors hover:bg-neutral-200"
+                : "flex aspect-square cursor-pointer items-center justify-center rounded-full text-sm text-neutral-700 transition-colors hover:bg-neutral-200"
             } text-center`}
             onClick={() => handleDayClick(day + 1)}
           >
