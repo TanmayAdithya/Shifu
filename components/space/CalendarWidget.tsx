@@ -1,18 +1,19 @@
 import React, { useState } from "react";
-import { MdChevronLeft } from "react-icons/md";
-import { MdChevronRight } from "react-icons/md";
-import { FiChevronsLeft } from "react-icons/fi";
-import { FiChevronsRight } from "react-icons/fi";
-import { IoMdClose as Close } from "react-icons/io";
-import { MdModeEdit as EditEvent } from "react-icons/md";
-import { PiTrashSimpleBold as DeleteEvent } from "react-icons/pi";
-import { CalendarEvent, Tab, TabsProps } from "@/types/types";
-import { IoMdTime } from "react-icons/io";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "@/store/rootReducer";
-import { PiPlus as NewEvent } from "react-icons/pi";
+import {
+  MdChevronLeft,
+  MdChevronRight,
+  MdModeEdit as EditEvent,
+} from "react-icons/md";
+import { IoMdClose as Close, IoMdTime } from "react-icons/io";
+import {
+  PiTrashSimpleBold as DeleteEvent,
+  PiPlus as NewEvent,
+} from "react-icons/pi";
 import { LuLayoutList as EventsListIcon } from "react-icons/lu";
 import { FiCalendar as CalendarIcon } from "react-icons/fi";
+import { CalendarEvent, Tab, TabsProps } from "@/types/types";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -93,16 +94,154 @@ export const Events: React.FC<CalendarComponentProps> = ({
   calendarEvents,
   currentDate,
 }) => {
-  const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
+  const [showEventPopup, setShowEventPopup] = useState<boolean>(true);
+
+  const times = [
+    "12:00",
+    "12:15",
+    "12:30",
+    "12:45",
+    "1:00",
+    "1:15",
+    "1:30",
+    "1:45",
+    "2:00",
+    "2:15",
+    "2:30",
+    "2:45",
+    "3:00",
+    "3:15",
+    "3:30",
+    "3:45",
+    "4:00",
+    "4:15",
+    "4:30",
+    "4:45",
+    "5:00",
+    "5:15",
+    "5:30",
+    "5:45",
+    "6:00",
+    "6:15",
+    "6:30",
+    "6:45",
+    "7:00",
+    "7:15",
+    "7:30",
+    "7:45",
+    "8:00",
+    "8:15",
+    "8:30",
+    "8:45",
+    "9:00",
+    "9:15",
+    "9:30",
+    "9:45",
+    "10:00",
+    "10:15",
+    "10:30",
+    "10:45",
+    "11:00",
+    "11:15",
+    "11:30",
+    "11:45",
+  ];
 
   return (
-    <div className="w-full">
-      <div className="mb-2 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900">
+    <div className="max-h-[16rem] w-full overflow-auto rounded">
+      <div className="mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900">
         <span>
           <NewEvent className="mr-1 text-white" size={"16px"} />
         </span>
         New Event
       </div>
+      {showEventPopup && (
+        <div className="relative flex aspect-[10/9] w-full flex-col justify-between rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4">
+          <input
+            className="mb-4 resize-none rounded border border-neutral-300 p-1"
+            placeholder="Add New Event"
+            type="text"
+          />
+          <input
+            className="mb-4 resize-none rounded border border-neutral-300 p-1"
+            type="date"
+          />
+          <input
+            className="mb-4 resize-none rounded border border-neutral-300 p-1"
+            placeholder="Add Link"
+            type="text"
+          />
+          <div className="time-input">
+            <div className="flex items-start justify-between">
+              <div className="mb-2 flex items-center text-neutral-800">
+                <span className="mr-1">
+                  <IoMdTime size={"18px"} className="text-neutral-800" />
+                </span>
+                <p>Start</p>
+              </div>
+              <div className="flex">
+                <select
+                  name="start"
+                  className="rounded-s-lg bg-neutral-800 p-1 text-center text-sm text-white"
+                >
+                  {times.map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="period"
+                  className="rounded-e-lg bg-neutral-800 p-1 text-center text-sm text-white"
+                >
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="mb-4 flex items-start justify-between">
+              <div className="mb-2 flex items-center text-neutral-800">
+                <span className="mr-1">
+                  <IoMdTime size={"18px"} className="text-neutral-800" />
+                </span>
+                <p>End</p>
+              </div>
+              <div className="flex">
+                <select
+                  name="end"
+                  className="rounded-s-lg bg-neutral-800 p-1 text-center text-sm text-white"
+                >
+                  {times.map((time) => (
+                    <option key={time} value={time}>
+                      {time}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  name="period"
+                  className="rounded-e-lg bg-neutral-800 p-1 text-center text-sm text-white"
+                >
+                  <option value="AM">AM</option>
+                  <option value="PM">PM</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
+          <div className="mb-4 flex justify-between">
+            <button className="duration-50 flex aspect-square cursor-pointer items-center justify-center rounded border-0 p-2 transition-colors hover:bg-neutral-200">
+              <Close size={"24px"} className="text-neutral-700" />
+            </button>
+            <button className="duration-50 flex aspect-square cursor-pointer items-center justify-center rounded border-0 p-2 transition-colors hover:bg-neutral-200">
+              <EditEvent size={"24px"} className="text-neutral-700" />
+            </button>
+            <button className="duration-50 flex aspect-square cursor-pointer items-center justify-center rounded border-0 p-2 transition-colors hover:bg-neutral-200">
+              <DeleteEvent size={"24px"} className="text-neutral-700" />
+            </button>
+          </div>
+        </div>
+      )}
       <div className="flex max-h-[14rem] flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents
           .find((event) => event.id === currentDate.toDateString())

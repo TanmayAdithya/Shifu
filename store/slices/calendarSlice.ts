@@ -4,8 +4,44 @@ import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 const initialState: { calendarEvents: CalendarEvent[] } = {
   calendarEvents: [
     {
-      id: "Sat Jul 27 2024",
+      id: "Wed Jul 31 2024",
       events: [
+        {
+          id: "1",
+          details: {
+            time: {
+              start: {
+                hours: 9,
+                minutes: 30,
+                period: "AM",
+              },
+              end: {
+                hours: 10,
+                minutes: 30,
+                period: "AM",
+              },
+            },
+            title: "Candidate Interview",
+          },
+        },
+        {
+          id: "1",
+          details: {
+            time: {
+              start: {
+                hours: 9,
+                minutes: 30,
+                period: "AM",
+              },
+              end: {
+                hours: 10,
+                minutes: 30,
+                period: "AM",
+              },
+            },
+            title: "Client Pitching",
+          },
+        },
         {
           id: "1",
           details: {
@@ -24,11 +60,6 @@ const initialState: { calendarEvents: CalendarEvent[] } = {
             title: "Team meeting",
           },
         },
-      ],
-    },
-    {
-      id: "Sun Jul 28 2024",
-      events: [
         {
           id: "1",
           details: {
@@ -44,30 +75,7 @@ const initialState: { calendarEvents: CalendarEvent[] } = {
                 period: "AM",
               },
             },
-            title: "Product Pitch",
-          },
-        },
-      ],
-    },
-    {
-      id: "Mon Jul 29 2024",
-      events: [
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Sprint Planning",
+            title: "Boss meeting",
           },
         },
       ],
