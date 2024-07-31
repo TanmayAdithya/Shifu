@@ -11,9 +11,12 @@ import {
 } from "react-icons/pi";
 import { LuLayoutList as EventsListIcon } from "react-icons/lu";
 import { FiCalendar as CalendarIcon } from "react-icons/fi";
-import { CalendarEvent, Tab, TabsProps } from "@/types/types";
+import { CalendarEvent, Tab } from "@/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
+import { DatePickerWithPresets } from "../ui/datepicker";
+import { IoLinkOutline } from "react-icons/io5";
+import { GoPeople } from "react-icons/go";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -63,7 +66,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
           {tabs.map((tab) => (
             <div
               key={tab.label}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:bg-neutral-600 hover:text-neutral-50 ${activeTab === tab.label ? "border-0 bg-neutral-800 text-neutral-50" : ""}`}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:border-neutral-600 hover:bg-neutral-600 hover:text-neutral-50 ${activeTab === tab.label ? "border-0 bg-neutral-800 text-neutral-50 hover:border-neutral-800 hover:bg-neutral-800" : ""}`}
               onClick={() => handleTabClick(tab.label)}
             >
               <div className="flex items-center justify-center gap-2">
@@ -155,93 +158,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
         </span>
         New Event
       </div>
-      {showEventPopup && (
-        <div className="relative flex aspect-[10/9] w-full flex-col justify-between rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4">
-          <input
-            className="mb-4 resize-none rounded border border-neutral-300 p-1"
-            placeholder="Add New Event"
-            type="text"
-          />
-          <input
-            className="mb-4 resize-none rounded border border-neutral-300 p-1"
-            type="date"
-          />
-          <input
-            className="mb-4 resize-none rounded border border-neutral-300 p-1"
-            placeholder="Add Link"
-            type="text"
-          />
-          <div className="time-input">
-            <div className="flex items-start justify-between">
-              <div className="mb-2 flex items-center text-neutral-800">
-                <span className="mr-1">
-                  <IoMdTime size={"18px"} className="text-neutral-800" />
-                </span>
-                <p>Start</p>
-              </div>
-              <div className="flex">
-                <select
-                  name="start"
-                  className="rounded-s-lg bg-neutral-800 p-1 text-center text-sm text-white"
-                >
-                  {times.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="period"
-                  className="rounded-e-lg bg-neutral-800 p-1 text-center text-sm text-white"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
-              </div>
-            </div>
-
-            <div className="mb-4 flex items-start justify-between">
-              <div className="mb-2 flex items-center text-neutral-800">
-                <span className="mr-1">
-                  <IoMdTime size={"18px"} className="text-neutral-800" />
-                </span>
-                <p>End</p>
-              </div>
-              <div className="flex">
-                <select
-                  name="end"
-                  className="rounded-s-lg bg-neutral-800 p-1 text-center text-sm text-white"
-                >
-                  {times.map((time) => (
-                    <option key={time} value={time}>
-                      {time}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  name="period"
-                  className="rounded-e-lg bg-neutral-800 p-1 text-center text-sm text-white"
-                >
-                  <option value="AM">AM</option>
-                  <option value="PM">PM</option>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div className="mb-4 h-[1px] w-full bg-neutral-300"></div>
-          <div className="mb-4 flex justify-between">
-            <button className="duration-50 flex aspect-square cursor-pointer items-center justify-center rounded border-0 p-2 transition-colors hover:bg-neutral-200">
-              <Close size={"24px"} className="text-neutral-700" />
-            </button>
-            <button className="duration-50 flex aspect-square cursor-pointer items-center justify-center rounded border-0 p-2 transition-colors hover:bg-neutral-200">
-              <EditEvent size={"24px"} className="text-neutral-700" />
-            </button>
-            <button className="duration-50 flex aspect-square cursor-pointer items-center justify-center rounded border-0 p-2 transition-colors hover:bg-neutral-200">
-              <DeleteEvent size={"24px"} className="text-neutral-700" />
-            </button>
-          </div>
-        </div>
-      )}
+      {showEventPopup && <EventPopup times={times} />}
       <div className="flex max-h-[14rem] flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents
           .find((event) => event.id === currentDate.toDateString())
@@ -396,6 +313,93 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
           </span>
         ))}
       </div>
+    </div>
+  );
+};
+
+export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
+  return (
+    <div className="relative mb-4 flex aspect-[10/9] w-full flex-col gap-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4">
+      <div className="flex items-center">
+        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
+          <GoPeople className="h-8 text-neutral-500" size={"18px"} />
+        </span>
+        <input
+          className="w-[12.75rem] resize-none rounded-e-md border-b border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500"
+          placeholder="Add New Event"
+          type="text"
+        />
+      </div>
+
+      <DatePickerWithPresets name="date" />
+
+      <div className="flex items-center">
+        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
+          <IoLinkOutline className="h-8 text-neutral-500" size={"18px"} />
+        </span>
+        <input
+          className="w-[12.75rem] resize-none rounded-e-md border-b border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500"
+          placeholder="Add Link"
+          type="text"
+        />
+      </div>
+
+      <div className="flex items-center justify-between rounded-md border border-neutral-200 bg-white">
+        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4">
+          <IoMdTime size={"18px"} className="mr-1 text-neutral-500" />
+          <p className="text-neutral-500">Start</p>
+        </span>
+        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
+          <select
+            name="start"
+            className="bg-transparent text-center text-neutral-500"
+          >
+            {times.map((time) => (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
+          <select
+            name="period"
+            className="bg-transparent text-center text-neutral-500"
+          >
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+      </div>
+      <div className="flex items-center justify-between rounded-md border border-neutral-200 bg-white">
+        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4">
+          <IoMdTime size={"18px"} className="mr-1 text-neutral-500" />
+          <p className="text-neutral-500">End</p>
+        </span>
+        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
+          <select
+            name="start"
+            className="bg-transparent text-center text-neutral-500"
+          >
+            {times.map((time) => (
+              <option key={time} value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
+          <select
+            name="period"
+            className="bg-transparent text-center text-neutral-500"
+          >
+            <option value="AM">AM</option>
+            <option value="PM">PM</option>
+          </select>
+        </div>
+      </div>
+      <button
+        type="submit"
+        className="rounded-md bg-neutral-800 px-2 py-1 text-white hover:bg-neutral-900"
+      >
+        Add Event
+      </button>
     </div>
   );
 };

@@ -130,7 +130,3 @@ export interface Tab {
   icon: ReactNode;
   content: ReactNode;
 }
-
-export interface TabsProps {
-  tabs: Tab[];
-}
