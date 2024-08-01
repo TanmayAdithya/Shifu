@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { toggleWidget } from "@/store/slices/widgetSlice";
-import { FaMinus as MinimizeIcon } from "react-icons/fa6";
+import { FiMinus as MinimizeIcon } from "react-icons/fi";
 
 type Props = {
   widgetId: string;

@@ -17,6 +17,7 @@ import { RootState } from "@/store/rootReducer";
 import { DatePickerWithPresets } from "../ui/datepicker";
 import { IoClose, IoLinkOutline } from "react-icons/io5";
 import { GoPeople } from "react-icons/go";
+import MinimizeWidget from "./MinimizeWidget";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -59,7 +60,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   return (
     <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white p-5 shadow-lg`}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-lg`}
     >
       <div className="w-full">
         <div className="mb-4 flex gap-1">
@@ -88,6 +89,9 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="absolute right-2 top-1">
+        <MinimizeWidget widgetId="Calendar" />
       </div>
     </div>
   );
@@ -177,14 +181,18 @@ export const Events: React.FC<CalendarComponentProps> = ({
 
           return (
             <div key={i} className="flex w-full flex-col gap-2">
-              <div className="sticky top-0 flex flex-col rounded-md bg-neutral-800 p-2">
+              <div className="sticky top-0 flex items-center justify-between rounded-md bg-neutral-800 p-2">
                 <span className="text-xl font-medium text-neutral-50">
                   {dateArr[2]}{" "}
                   <span className="text-sm font-light text-neutral-50">
                     {dateArr[1]}, {dateArr[0]}
                   </span>
                 </span>
+                <span className="text-sm text-neutral-300">
+                  {day.events.length}
+                </span>
               </div>
+
               <div className="flex w-full flex-col gap-1">
                 {day.events.map((event, i) => {
                   return (
@@ -353,7 +361,7 @@ export const EventPopup: React.FC<{
   closePopup: () => void;
 }> = ({ times, closePopup }) => {
   return (
-    <div className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg border-2 border-neutral-200 bg-white p-5">
+    <div className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md">
       <div className="flex items-center">
         <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
           <GoPeople className="h-8 text-neutral-500" size={"18px"} />
