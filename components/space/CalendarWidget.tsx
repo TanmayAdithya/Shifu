@@ -177,7 +177,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
 
           return (
             <div key={i} className="flex w-full flex-col gap-2">
-              <div className="flex flex-col rounded-md bg-neutral-800 p-2">
+              <div className="sticky top-0 flex flex-col rounded-md bg-neutral-800 p-2">
                 <span className="text-xl font-medium text-neutral-50">
                   {dateArr[2]}{" "}
                   <span className="text-sm font-light text-neutral-50">
