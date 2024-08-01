@@ -171,43 +171,61 @@ export const Events: React.FC<CalendarComponentProps> = ({
         </span>
         New Event
       </div>
-      <div className="flex max-h-[13.5rem] flex-col gap-2 overflow-y-auto rounded">
-        {calendarEvents
-          .find((event) => event.id === currentDate.toDateString())
-          ?.events.map((day, index) => (
-            <div
-              key={index}
-              className="group flex cursor-pointer rounded border border-neutral-300/60 bg-neutral-200/30 p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
-            >
-              <span className="mr-2 w-[1.25px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
-              <div className="flex flex-1">
-                <div className="flex flex-col">
-                  <div className="flex items-center justify-start">
-                    <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
-                      {day.details.title}
-                    </span>
-                  </div>
-                  {day.details.time &&
-                    day.details.time.start &&
-                    day.details.time.end && (
-                      <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                        {`${String(day.details.time.start.hours).padStart(2, "0")}:${String(day.details.time.start.minutes).padStart(2, "0")}
-${day.details.time.start.period.toLowerCase()} - ${String(day.details.time.end.hours).padStart(2, "0")}:${String(day.details.time.end.minutes).padStart(2, "0")}
-${day.details.time.end.period.toLowerCase()}`}
-                      </span>
-                    )}
-                </div>
-                <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
-                  <i
-                  // edit
-                  ></i>
-                  <i
-                  //delete
-                  ></i>
-                </div>
+      <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
+        {calendarEvents.map((day, i) => {
+          const dateArr = day.id.split(" ");
+
+          return (
+            <div key={i} className="flex w-full flex-col gap-2">
+              <div className="flex flex-col rounded-md bg-neutral-800 p-2">
+                <span className="text-xl font-medium text-neutral-50">
+                  {dateArr[2]}{" "}
+                  <span className="text-sm font-light text-neutral-50">
+                    {dateArr[1]}, {dateArr[0]}
+                  </span>
+                </span>
+              </div>
+              <div className="flex w-full flex-col gap-1">
+                {day.events.map((event, i) => {
+                  return (
+                    <div
+                      key={i}
+                      className="group flex cursor-pointer rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
+                    >
+                      <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+                      <div className="flex">
+                        <div className="flex flex-col">
+                          <div className="flex items-center justify-start">
+                            <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                              {event.details.title}
+                            </span>
+                          </div>
+                          {event.details.time &&
+                            event.details.time.start &&
+                            event.details.time.end && (
+                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                                {`${String(event.details.time.start.hours).padStart(2, "0")}:${String(event.details.time.start.minutes).padStart(2, "0")}
+    ${event.details.time.start.period.toLowerCase()} - ${String(event.details.time.end.hours).padStart(2, "0")}:${String(event.details.time.end.minutes).padStart(2, "0")}
+    ${event.details.time.end.period.toLowerCase()}`}
+                              </span>
+                            )}
+                        </div>
+                        <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
+                          <i
+                          // edit
+                          ></i>
+                          <i
+                          //delete
+                          ></i>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          ))}
+          );
+        })}
       </div>
       {showEventPopup && <EventPopup times={times} closePopup={closePopup} />}
     </div>

@@ -25,61 +25,112 @@ const initialState: { calendarEvents: CalendarEvent[] } = {
           },
         },
         {
-          id: "1",
+          id: "2",
           details: {
             time: {
               start: {
-                hours: 9,
-                minutes: 30,
+                hours: 11,
+                minutes: 0,
                 period: "AM",
               },
               end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
+                hours: 12,
+                minutes: 0,
+                period: "PM",
               },
             },
             title: "Client Pitching",
           },
         },
+      ],
+    },
+    {
+      id: "Fri Aug 02 2024",
+      events: [
         {
-          id: "1",
+          id: "3",
           details: {
             time: {
               start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
+                hours: 1,
+                minutes: 0,
+                period: "PM",
               },
               end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
+                hours: 2,
+                minutes: 0,
+                period: "PM",
               },
             },
-            title: "Team meeting",
+            title: "Project Meeting",
           },
         },
         {
-          id: "1",
+          id: "4",
           details: {
             time: {
               start: {
-                hours: 9,
+                hours: 2,
                 minutes: 30,
+                period: "PM",
+              },
+              end: {
+                hours: 3,
+                minutes: 30,
+                period: "PM",
+              },
+            },
+            title: "Team Standup",
+          },
+        },
+      ],
+    },
+    {
+      id: "Sat Aug 03 2024",
+      events: [
+        {
+          id: "5",
+          details: {
+            time: {
+              start: {
+                hours: 10,
+                minutes: 0,
                 period: "AM",
               },
               end: {
-                hours: 10,
-                minutes: 30,
+                hours: 11,
+                minutes: 0,
                 period: "AM",
               },
             },
-            title: "Boss meeting",
+            title: "Strategy Session",
           },
         },
         {
-          id: "1",
+          id: "6",
+          details: {
+            time: {
+              start: {
+                hours: 11,
+                minutes: 30,
+                period: "AM",
+              },
+              end: {
+                hours: 12,
+                minutes: 30,
+                period: "PM",
+              },
+            },
+            title: "Client Presentation",
+          },
+        },
+      ],
+    },
+    {
+      id: "Sun Aug 04 2024",
+      events: [
+        {
+          id: "7",
           details: {
             time: {
               start: {
@@ -93,205 +144,25 @@ const initialState: { calendarEvents: CalendarEvent[] } = {
                 period: "AM",
               },
             },
-            title: "Candidate Interview",
+            title: "Review Meeting",
           },
         },
         {
-          id: "1",
+          id: "8",
           details: {
             time: {
               start: {
-                hours: 9,
-                minutes: 30,
+                hours: 11,
+                minutes: 0,
                 period: "AM",
               },
               end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
+                hours: 12,
+                minutes: 0,
+                period: "PM",
               },
             },
-            title: "Client Pitching",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Team meeting",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Boss meeting",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Candidate Interview",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Client Pitching",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Team meeting",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Boss meeting",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Candidate Interview",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Client Pitching",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Team meeting",
-          },
-        },
-        {
-          id: "1",
-          details: {
-            time: {
-              start: {
-                hours: 9,
-                minutes: 30,
-                period: "AM",
-              },
-              end: {
-                hours: 10,
-                minutes: 30,
-                period: "AM",
-              },
-            },
-            title: "Boss meeting",
+            title: "Team Lunch",
           },
         },
       ],
