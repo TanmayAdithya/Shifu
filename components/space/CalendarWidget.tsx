@@ -15,7 +15,7 @@ import { CalendarEvent, Tab } from "@/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { DatePickerWithPresets } from "../ui/datepicker";
-import { IoLinkOutline } from "react-icons/io5";
+import { IoClose, IoLinkOutline } from "react-icons/io5";
 import { GoPeople } from "react-icons/go";
 
 type Props = {
@@ -66,7 +66,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
           {tabs.map((tab) => (
             <div
               key={tab.label}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:border-neutral-600 hover:bg-neutral-600 hover:text-neutral-50 ${activeTab === tab.label ? "border-0 bg-neutral-800 text-neutral-50 hover:border-neutral-800 hover:bg-neutral-800" : ""}`}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:border-neutral-600 hover:bg-neutral-600 hover:text-neutral-50 ${activeTab === tab.label ? "border-neutral-800 bg-neutral-800 text-neutral-50 hover:border-neutral-800 hover:bg-neutral-800" : ""}`}
               onClick={() => handleTabClick(tab.label)}
             >
               <div className="flex items-center justify-center gap-2">
@@ -76,13 +76,15 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             </div>
           ))}
         </div>
-        <div className="tab-content">
+        <div className="h-full">
           {tabs.map((tab) => (
             <div
               key={tab.label}
               className={`tab-panel ${activeTab === tab.label ? "active" : ""}`}
             >
-              {activeTab === tab.label && tab.content}
+              {activeTab === tab.label && (
+                <div className="h-full">{tab.content}</div>
+              )}
             </div>
           ))}
         </div>
@@ -97,7 +99,15 @@ export const Events: React.FC<CalendarComponentProps> = ({
   calendarEvents,
   currentDate,
 }) => {
-  const [showEventPopup, setShowEventPopup] = useState<boolean>(true);
+  const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
+
+  const openPopup = () => {
+    setShowEventPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowEventPopup(false);
+  };
 
   const times = [
     "12:00",
@@ -151,15 +161,17 @@ export const Events: React.FC<CalendarComponentProps> = ({
   ];
 
   return (
-    <div className="max-h-[16rem] w-full overflow-auto rounded">
-      <div className="mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900">
+    <div className="mb-1 h-full max-h-full w-full rounded">
+      <div
+        className="mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900"
+        onClick={() => openPopup()}
+      >
         <span>
           <NewEvent className="mr-1 text-white" size={"16px"} />
         </span>
         New Event
       </div>
-      {showEventPopup && <EventPopup times={times} />}
-      <div className="flex max-h-[14rem] flex-col gap-2 overflow-y-auto rounded">
+      <div className="flex max-h-[13.5rem] flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents
           .find((event) => event.id === currentDate.toDateString())
           ?.events.map((day, index) => (
@@ -197,6 +209,7 @@ ${day.details.time.end.period.toLowerCase()}`}
             </div>
           ))}
       </div>
+      {showEventPopup && <EventPopup times={times} closePopup={closePopup} />}
     </div>
   );
 };
@@ -257,7 +270,7 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="h-full max-h-full w-full">
       <div className="my-3 mb-4 flex items-center justify-between gap-2">
         <div className="flex w-full items-center justify-between">
           <div className="flex gap-1">
@@ -317,9 +330,12 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
   );
 };
 
-export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
+export const EventPopup: React.FC<{
+  times: string[];
+  closePopup: () => void;
+}> = ({ times, closePopup }) => {
   return (
-    <div className="relative mb-4 flex aspect-[10/9] w-full flex-col gap-4 rounded-lg border-2 border-neutral-200 bg-neutral-100 p-4">
+    <div className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg border-2 border-neutral-200 bg-white p-5">
       <div className="flex items-center">
         <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
           <GoPeople className="h-8 text-neutral-500" size={"18px"} />
@@ -344,7 +360,7 @@ export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
         />
       </div>
 
-      <div className="flex items-center justify-between rounded-md border border-neutral-200 bg-white">
+      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white">
         <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4">
           <IoMdTime size={"18px"} className="mr-1 text-neutral-500" />
           <p className="text-neutral-500">Start</p>
@@ -352,7 +368,7 @@ export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
         <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
           <select
             name="start"
-            className="bg-transparent text-center text-neutral-500"
+            className="bg-transparent text-center text-neutral-700"
           >
             {times.map((time) => (
               <option key={time} value={time}>
@@ -362,14 +378,14 @@ export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
           </select>
           <select
             name="period"
-            className="bg-transparent text-center text-neutral-500"
+            className="bg-transparent text-center text-neutral-700"
           >
             <option value="AM">AM</option>
             <option value="PM">PM</option>
           </select>
         </div>
       </div>
-      <div className="flex items-center justify-between rounded-md border border-neutral-200 bg-white">
+      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white">
         <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4">
           <IoMdTime size={"18px"} className="mr-1 text-neutral-500" />
           <p className="text-neutral-500">End</p>
@@ -377,7 +393,7 @@ export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
         <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
           <select
             name="start"
-            className="bg-transparent text-center text-neutral-500"
+            className="bg-transparent text-center text-neutral-700"
           >
             {times.map((time) => (
               <option key={time} value={time}>
@@ -387,19 +403,34 @@ export const EventPopup: React.FC<{ times: string[] }> = ({ times }) => {
           </select>
           <select
             name="period"
-            className="bg-transparent text-center text-neutral-500"
+            className="bg-transparent text-center text-neutral-700"
           >
             <option value="AM">AM</option>
             <option value="PM">PM</option>
           </select>
         </div>
       </div>
-      <button
-        type="submit"
-        className="rounded-md bg-neutral-800 px-2 py-1 text-white hover:bg-neutral-900"
-      >
-        Add Event
-      </button>
+      <div className="flex gap-1">
+        <button
+          type="submit"
+          className="flex-1 rounded-md bg-neutral-800 px-2 py-1 text-white transition-colors duration-200 hover:bg-neutral-900"
+        >
+          Add Event
+        </button>
+        <button
+          type="submit"
+          className="flex-1 rounded-md bg-red-500 px-2 py-1 text-white transition-colors duration-200 hover:bg-red-600"
+          onClick={() => closePopup()}
+        >
+          Cancel
+        </button>
+      </div>
+      <span className="absolute right-1 top-1">
+        <IoClose
+          className="cursor-pointer text-neutral-600 hover:text-neutral-700"
+          onClick={() => closePopup()}
+        />
+      </span>
     </div>
   );
 };

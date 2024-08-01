@@ -30,7 +30,7 @@ export function DatePickerWithPresets({ name }: { name: string }) {
           <Button
             variant={"outline"}
             className={cn(
-              "w-[240px] justify-start text-left font-normal",
+              "w-[240px] justify-start text-left text-base font-normal",
               !date && "text-muted-foreground",
             )}
           >
