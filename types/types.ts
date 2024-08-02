@@ -88,41 +88,31 @@ export interface AddColumnPayload {
 
 export interface CalendarEvent {
   id: string;
-  events: EventDetails[];
+  events: Event[];
 }
 
-export interface Time {
-  hours: number;
-  minutes: number;
-  period: string;
+export interface Event {
+  id: string;
+  details: EventDetails[];
 }
 
 export interface EventDetails {
-  id: string;
-  details: {
-    time?: {
-      start?: Time;
-      end?: Time;
-    };
-    title: string;
-  };
+  title: string;
+  link?: string;
+  start?: string;
+  startPeriod?: string;
+  end?: string;
+  endPeriod?: string;
 }
 
 export interface AddEventProps {
-  dateId: string;
-  time?: {
-    start?: {
-      hours?: number;
-      minutes?: number;
-      period?: string;
-    };
-    end?: {
-      hours?: number;
-      minutes?: number;
-      period?: string;
-    };
-  };
   title: string;
+  dateId: string;
+  link?: string;
+  start?: string;
+  startPeriod?: string;
+  end?: string;
+  endPeriod?: string;
 }
 
 export interface Tab {

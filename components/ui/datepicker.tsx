@@ -72,7 +72,12 @@ export function DatePickerWithPresets({ name }: { name: string }) {
             />
           </div>
         </PopoverContent>
-        <input type="hidden" name={name} value={date?.toISOString()} />
+        <input
+          type="hidden"
+          name={name}
+          value={date?.toDateString()}
+          required
+        />
       </Popover>
     </>
   );

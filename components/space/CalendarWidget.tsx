@@ -4,20 +4,21 @@ import {
   MdChevronRight,
   MdModeEdit as EditEvent,
 } from "react-icons/md";
-import { IoMdClose as Close, IoMdTime } from "react-icons/io";
+import { IoMdTime } from "react-icons/io";
 import {
   PiTrashSimpleBold as DeleteEvent,
   PiPlus as NewEvent,
 } from "react-icons/pi";
 import { LuLayoutList as EventsListIcon } from "react-icons/lu";
 import { FiCalendar as CalendarIcon } from "react-icons/fi";
-import { CalendarEvent, Tab } from "@/types/types";
+import { AddEventProps, CalendarEvent, Tab } from "@/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { DatePickerWithPresets } from "../ui/datepicker";
 import { IoClose, IoLinkOutline } from "react-icons/io5";
 import { GoPeople } from "react-icons/go";
 import MinimizeWidget from "./MinimizeWidget";
+import { addEvent } from "@/store/slices/calendarSlice";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -205,18 +206,14 @@ export const Events: React.FC<CalendarComponentProps> = ({
                         <div className="flex flex-col">
                           <div className="flex items-center justify-start">
                             <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
-                              {event.details.title}
+                              {event.details[0].title}
                             </span>
                           </div>
-                          {event.details.time &&
-                            event.details.time.start &&
-                            event.details.time.end && (
-                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                                {`${String(event.details.time.start.hours).padStart(2, "0")}:${String(event.details.time.start.minutes).padStart(2, "0")}
-    ${event.details.time.start.period.toLowerCase()} - ${String(event.details.time.end.hours).padStart(2, "0")}:${String(event.details.time.end.minutes).padStart(2, "0")}
-    ${event.details.time.end.period.toLowerCase()}`}
-                              </span>
-                            )}
+                          {event.details[0].start && event.details[0].end && (
+                            <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                              {`${event.details[0].start} ${event.details[0].startPeriod?.toLowerCase()} - ${event.details[0].end} ${event.details[0].endPeriod?.toLowerCase()}`}
+                            </span>
+                          )}
                         </div>
                         <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
                           <i
@@ -284,17 +281,6 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
     );
   };
 
-  const handleDayClick = (day: number) => {
-    const clickedDate = new Date(currentYear, currentMonth, day);
-
-    if (clickedDate >= currentDate) {
-      console.log(
-        calendarEvents.find((event) => event.id === clickedDate.toDateString()),
-      );
-    } else {
-    }
-  };
-
   return (
     <div className="h-full max-h-full w-full">
       <div className="my-3 mb-4 flex items-center justify-between gap-2">
@@ -346,7 +332,6 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
                 ? "flex aspect-square cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-sm text-neutral-50 transition-colors hover:bg-neutral-800"
                 : "flex aspect-square cursor-pointer items-center justify-center rounded-full text-sm text-neutral-700 transition-colors hover:bg-neutral-200"
             } text-center`}
-            onClick={() => handleDayClick(day + 1)}
           >
             {day + 1}
           </span>
@@ -360,20 +345,45 @@ export const EventPopup: React.FC<{
   times: string[];
   closePopup: () => void;
 }> = ({ times, closePopup }) => {
+  const dispatch = useDispatch();
+
+  function handleAddEvent(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const payload: AddEventProps = {
+      title: formData.get("title") as string,
+      dateId: formData.get("dateId") as string,
+      link: formData.get("link") as string,
+      start: formData.get("start") as string,
+      startPeriod: formData.get("startPeriod") as string,
+      end: formData.get("end") as string,
+      endPeriod: formData.get("endPeriod") as string,
+    };
+
+    dispatch(addEvent(payload));
+  }
+
   return (
-    <div className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md">
+    <form
+      onSubmit={handleAddEvent}
+      className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md"
+    >
       <div className="flex items-center">
         <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
           <GoPeople className="h-8 text-neutral-500" size={"18px"} />
         </span>
+        {/* Event Title */}
         <input
           className="w-[12.75rem] resize-none rounded-e-md border-b border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500"
           placeholder="Add New Event"
           type="text"
+          name="title"
+          required
         />
       </div>
 
-      <DatePickerWithPresets name="date" />
+      <DatePickerWithPresets name="dateId" />
 
       <div className="flex items-center">
         <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
@@ -383,6 +393,7 @@ export const EventPopup: React.FC<{
           className="w-[12.75rem] resize-none rounded-e-md border-b border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500"
           placeholder="Add Link"
           type="text"
+          name="link"
         />
       </div>
 
@@ -403,7 +414,7 @@ export const EventPopup: React.FC<{
             ))}
           </select>
           <select
-            name="period"
+            name="startPeriod"
             className="bg-transparent text-center text-neutral-700"
           >
             <option value="AM">AM</option>
@@ -418,7 +429,7 @@ export const EventPopup: React.FC<{
         </span>
         <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
           <select
-            name="start"
+            name="end"
             className="bg-transparent text-center text-neutral-700"
           >
             {times.map((time) => (
@@ -428,7 +439,7 @@ export const EventPopup: React.FC<{
             ))}
           </select>
           <select
-            name="period"
+            name="endPeriod"
             className="bg-transparent text-center text-neutral-700"
           >
             <option value="AM">AM</option>
@@ -444,7 +455,6 @@ export const EventPopup: React.FC<{
           Add Event
         </button>
         <button
-          type="submit"
           className="flex-1 rounded-md bg-red-500 px-2 py-1 text-white transition-colors duration-200 hover:bg-red-600"
           onClick={() => closePopup()}
         >
@@ -457,6 +467,6 @@ export const EventPopup: React.FC<{
           onClick={() => closePopup()}
         />
       </span>
-    </div>
+    </form>
   );
 };
