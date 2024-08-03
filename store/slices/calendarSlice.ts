@@ -1,22 +1,21 @@
 import {
   AddEventProps,
   CalendarEvent,
-  EventDetails,
   Event,
+  UpdateEventProps,
 } from "@/types/types";
 import { createSlice, PayloadAction, nanoid } from "@reduxjs/toolkit";
 
 const initialState: { calendarEvents: CalendarEvent[] } = {
   calendarEvents: [
     {
-      id: "Thu Aug 01 2024",
+      dateId: "Thu Aug 01 2024",
       events: [
         {
           id: "1",
           details: [
             {
               title: "Candidate Interview",
-
               start: "09:30",
               startPeriod: "AM",
               end: "10:30",
@@ -39,7 +38,7 @@ const initialState: { calendarEvents: CalendarEvent[] } = {
       ],
     },
     {
-      id: "Fri Aug 02 2024",
+      dateId: "Fri Aug 02 2024",
       events: [
         {
           id: "3",
@@ -76,7 +75,7 @@ export const calendarSlice = createSlice({
   reducers: {
     addEvent: (state, action: PayloadAction<AddEventProps>) => {
       const calendarEvent = state.calendarEvents.find(
-        (event) => event.id === action.payload.dateId,
+        (event) => event.dateId === action.payload.dateId,
       );
       if (calendarEvent) {
         const newEvent: Event = {
@@ -96,8 +95,42 @@ export const calendarSlice = createSlice({
         console.log("hello");
       }
     },
-    updateEvent: (state, action: PayloadAction<EventDetails>) => {},
-    removeEvent: (state, action: PayloadAction<string>) => {},
+    updateEvent: (state, action: PayloadAction<UpdateEventProps>) => {
+      const { dateId, id, ...updatedFields } = action.payload;
+      const calendarEvent = state.calendarEvents.find(
+        (event) => event.dateId === dateId,
+      );
+
+      if (calendarEvent) {
+        const event = calendarEvent.events.find(
+          (event) => event.id === action.payload.id,
+        );
+
+        if (event) {
+          Object.entries(updatedFields).forEach(([key, value]) => {
+            if (value !== undefined) {
+              (event as any)[key as keyof CalendarEvent] = value;
+            }
+          });
+        }
+      }
+    },
+    removeEvent: (
+      state,
+      action: PayloadAction<{ dateId: string; id: string }>,
+    ) => {
+      const { dateId, id } = action.payload;
+
+      const calendarEvent = state.calendarEvents.find(
+        (event) => event.dateId === dateId,
+      );
+
+      if (calendarEvent) {
+        calendarEvent.events = calendarEvent.events.filter(
+          (event) => event.id !== id,
+        );
+      }
+    },
   },
 });
 

@@ -87,7 +87,7 @@ export interface AddColumnPayload {
 }
 
 export interface CalendarEvent {
-  id: string;
+  dateId: string;
   events: Event[];
 }
 
@@ -108,6 +108,17 @@ export interface EventDetails {
 export interface AddEventProps {
   title: string;
   dateId: string;
+  link?: string;
+  start?: string;
+  startPeriod?: string;
+  end?: string;
+  endPeriod?: string;
+}
+
+export interface UpdateEventProps {
+  id: string;
+  dateId: string;
+  title?: string;
   link?: string;
   start?: string;
   startPeriod?: string;

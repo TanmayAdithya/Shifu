@@ -178,7 +178,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
       </div>
       <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents.map((day, i) => {
-          const dateArr = day.id.split(" ");
+          const dateArr = day.dateId.split(" ");
 
           return (
             <div key={i} className="flex w-full flex-col gap-2">
