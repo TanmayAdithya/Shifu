@@ -129,6 +129,12 @@ export const calendarSlice = createSlice({
         calendarEvent.events = calendarEvent.events.filter(
           (event) => event.id !== id,
         );
+
+        if (!calendarEvent.events.length) {
+          state.calendarEvents = state.calendarEvents.filter(
+            (event) => event.dateId === dateId,
+          );
+        }
       }
     },
   },
