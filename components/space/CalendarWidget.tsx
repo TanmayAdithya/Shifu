@@ -181,6 +181,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
           const dateArr = day.dateId.split(" ");
 
           return (
+            // Event Date heading
             <div key={i} className="flex w-full flex-col gap-2">
               <div className="sticky top-0 flex items-center justify-between rounded-md bg-neutral-800 p-2">
                 <span className="text-xl font-medium text-neutral-50">
@@ -193,36 +194,41 @@ export const Events: React.FC<CalendarComponentProps> = ({
                   {day.events.length}
                 </span>
               </div>
-
+              {/* Events */}
               <div className="flex w-full flex-col gap-1">
                 {day.events.map((event, i) => {
+                  const e = event.details[0];
                   return (
                     <div
                       key={i}
-                      className="group flex cursor-pointer rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
+                      className="group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
                     >
-                      <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
                       <div className="flex">
-                        <div className="flex flex-col">
-                          <div className="flex items-center justify-start">
-                            <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
-                              {event.details[0].title}
-                            </span>
+                        <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+                        <div className="flex">
+                          <div className="flex flex-col">
+                            <div className="flex items-center justify-start">
+                              <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                                {e.title}
+                              </span>
+                            </div>
+                            {e.start && e.end && (
+                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                                {`${e.start} ${e.startPeriod?.toLowerCase()} - ${e.end} ${e.endPeriod?.toLowerCase()}`}
+                              </span>
+                            )}
                           </div>
-                          {event.details[0].start && event.details[0].end && (
-                            <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                              {`${event.details[0].start} ${event.details[0].startPeriod?.toLowerCase()} - ${event.details[0].end} ${event.details[0].endPeriod?.toLowerCase()}`}
-                            </span>
-                          )}
                         </div>
-                        <div className="absolute right-4 top-1/2 flex -translate-y-1/2 transform flex-col space-y-4">
-                          <i
-                          // edit
-                          ></i>
-                          <i
-                          //delete
-                          ></i>
-                        </div>
+                      </div>
+                      <div className="relative flex gap-1">
+                        <EditEvent
+                          size={"14px"}
+                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
+                        />
+                        <DeleteEvent
+                          size={"14px"}
+                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
+                        />
                       </div>
                     </div>
                   );
