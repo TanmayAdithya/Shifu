@@ -74,27 +74,35 @@ export const calendarSlice = createSlice({
   initialState,
   reducers: {
     addEvent: (state, action: PayloadAction<AddEventProps>) => {
-      const calendarEvent = state.calendarEvents.find(
+      let calendarEvent = state.calendarEvents.find(
         (event) => event.dateId === action.payload.dateId,
       );
-      if (calendarEvent) {
-        const newEvent: Event = {
-          id: nanoid(),
-          details: [
-            {
-              title: action.payload.title,
-              link: action.payload.link,
-              start: action.payload.start,
-              startPeriod: action.payload.startPeriod,
-              end: action.payload.end,
-              endPeriod: action.payload.endPeriod,
-            },
-          ],
+
+      if (!calendarEvent) {
+        calendarEvent = {
+          dateId: action.payload.dateId,
+          events: [],
         };
-        calendarEvent.events.push(newEvent);
-        console.log("hello");
+        state.calendarEvents.push(calendarEvent);
       }
+
+      const newEvent: Event = {
+        id: nanoid(),
+        details: [
+          {
+            title: action.payload.title,
+            link: action.payload.link,
+            start: action.payload.start,
+            startPeriod: action.payload.startPeriod,
+            end: action.payload.end,
+            endPeriod: action.payload.endPeriod,
+          },
+        ],
+      };
+
+      calendarEvent.events.push(newEvent);
     },
+
     updateEvent: (state, action: PayloadAction<UpdateEventProps>) => {
       const { dateId, id, ...updatedFields } = action.payload;
       const calendarEvent = state.calendarEvents.find(

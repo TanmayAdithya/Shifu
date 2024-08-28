@@ -100,153 +100,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
 export default CalendarWidget;
 
-export const Events: React.FC<CalendarComponentProps> = ({
-  calendarEvents,
-  currentDate,
-}) => {
-  const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
-
-  const openPopup = () => {
-    setShowEventPopup(true);
-  };
-
-  const closePopup = () => {
-    setShowEventPopup(false);
-  };
-
-  const times = [
-    "12:00",
-    "12:15",
-    "12:30",
-    "12:45",
-    "1:00",
-    "1:15",
-    "1:30",
-    "1:45",
-    "2:00",
-    "2:15",
-    "2:30",
-    "2:45",
-    "3:00",
-    "3:15",
-    "3:30",
-    "3:45",
-    "4:00",
-    "4:15",
-    "4:30",
-    "4:45",
-    "5:00",
-    "5:15",
-    "5:30",
-    "5:45",
-    "6:00",
-    "6:15",
-    "6:30",
-    "6:45",
-    "7:00",
-    "7:15",
-    "7:30",
-    "7:45",
-    "8:00",
-    "8:15",
-    "8:30",
-    "8:45",
-    "9:00",
-    "9:15",
-    "9:30",
-    "9:45",
-    "10:00",
-    "10:15",
-    "10:30",
-    "10:45",
-    "11:00",
-    "11:15",
-    "11:30",
-    "11:45",
-  ];
-
-  return (
-    <div className="mb-1 h-full max-h-full w-full rounded">
-      <div
-        className="mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900"
-        onClick={() => openPopup()}
-      >
-        <span>
-          <NewEvent className="mr-1 text-white" size={"16px"} />
-        </span>
-        New Event
-      </div>
-      <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
-        {calendarEvents.map((day, i) => {
-          const dateArr = day.dateId.split(" ");
-
-          return (
-            // Event Date heading
-            <div key={i} className="flex w-full flex-col gap-2">
-              <div className="sticky top-0 flex items-center justify-between rounded-md bg-neutral-800 p-2">
-                <span className="text-xl font-medium text-neutral-50">
-                  {dateArr[2]}{" "}
-                  <span className="text-sm font-light text-neutral-50">
-                    {dateArr[1]}, {dateArr[0]}
-                  </span>
-                </span>
-                <span className="text-sm text-neutral-300">
-                  {day.events.length}
-                </span>
-              </div>
-              {/* Events */}
-              <div className="flex w-full flex-col gap-1">
-                {day.events.map((event, i) => {
-                  const e = event.details[0];
-                  return (
-                    <div
-                      key={i}
-                      className="group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
-                    >
-                      <div className="flex">
-                        <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
-                        <div className="flex">
-                          <div className="flex flex-col">
-                            <div className="flex items-center justify-start">
-                              <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
-                                {e.title}
-                              </span>
-                            </div>
-                            {e.start && e.end && (
-                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
-                                {`${e.start} ${e.startPeriod?.toLowerCase()} - ${e.end} ${e.endPeriod?.toLowerCase()}`}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="relative flex gap-1">
-                        <EditEvent
-                          size={"14px"}
-                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
-                        />
-                        <DeleteEvent
-                          size={"14px"}
-                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      {showEventPopup && <EventPopup times={times} closePopup={closePopup} />}
-    </div>
-  );
-};
-
-export const Calendar: React.FC<CalendarComponentProps> = ({
-  calendarEvents,
-  currentDate,
-}) => {
+export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthsOfYear = [
     "January",
@@ -347,6 +201,148 @@ export const Calendar: React.FC<CalendarComponentProps> = ({
   );
 };
 
+export const Events: React.FC<CalendarComponentProps> = ({
+  calendarEvents,
+}) => {
+  const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
+
+  const openPopup = () => {
+    setShowEventPopup(true);
+  };
+
+  const closePopup = () => {
+    setShowEventPopup(false);
+  };
+
+  const times = [
+    "12:00",
+    "12:15",
+    "12:30",
+    "12:45",
+    "1:00",
+    "1:15",
+    "1:30",
+    "1:45",
+    "2:00",
+    "2:15",
+    "2:30",
+    "2:45",
+    "3:00",
+    "3:15",
+    "3:30",
+    "3:45",
+    "4:00",
+    "4:15",
+    "4:30",
+    "4:45",
+    "5:00",
+    "5:15",
+    "5:30",
+    "5:45",
+    "6:00",
+    "6:15",
+    "6:30",
+    "6:45",
+    "7:00",
+    "7:15",
+    "7:30",
+    "7:45",
+    "8:00",
+    "8:15",
+    "8:30",
+    "8:45",
+    "9:00",
+    "9:15",
+    "9:30",
+    "9:45",
+    "10:00",
+    "10:15",
+    "10:30",
+    "10:45",
+    "11:00",
+    "11:15",
+    "11:30",
+    "11:45",
+  ];
+
+  return (
+    <div className="mb-1 h-full max-h-full w-full rounded">
+      <div
+        className="mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900"
+        onClick={() => openPopup()}
+      >
+        <span>
+          <NewEvent className="mr-1 text-white" size={"16px"} />
+        </span>
+        New Event
+      </div>
+      <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
+        {calendarEvents.map((day, i) => {
+          const dateArr = day.dateId.split(" ");
+
+          return (
+            // Event Date heading
+            <div key={i} className="flex w-full flex-col gap-2">
+              <div className="sticky top-0 z-10 flex items-center justify-between rounded-md bg-neutral-800 p-2">
+                <span className="text-xl font-medium text-neutral-50">
+                  {dateArr[2]}{" "}
+                  <span className="text-sm font-light text-neutral-50">
+                    {dateArr[1]}, {dateArr[0]}
+                  </span>
+                </span>
+                <span className="text-sm text-neutral-300">
+                  {day.events.length}
+                </span>
+              </div>
+              {/* Events */}
+              <div className="flex w-full flex-col gap-1">
+                {day.events.map((event, i) => {
+                  const e = event.details[0];
+                  return (
+                    <div
+                      key={i}
+                      className="group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
+                    >
+                      <div className="flex">
+                        <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+                        <div className="flex">
+                          <div className="flex flex-col">
+                            <div className="flex items-center justify-start">
+                              <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                                {e.title}
+                              </span>
+                            </div>
+                            {e.start && e.end && (
+                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                                {`${e.start} ${e.startPeriod?.toLowerCase()} - ${e.end} ${e.endPeriod?.toLowerCase()}`}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="relative z-0 flex gap-1">
+                        <EditEvent
+                          size={"14px"}
+                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
+                        />
+                        <DeleteEvent
+                          size={"14px"}
+                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      {showEventPopup && <EventPopup times={times} closePopup={closePopup} />}
+    </div>
+  );
+};
+
 export const EventPopup: React.FC<{
   times: string[];
   closePopup: () => void;
@@ -368,6 +364,7 @@ export const EventPopup: React.FC<{
     };
 
     dispatch(addEvent(payload));
+    closePopup();
   }
 
   return (
