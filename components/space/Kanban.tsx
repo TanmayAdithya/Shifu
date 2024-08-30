@@ -94,7 +94,7 @@ const Kanban = ({ openKanbanWidget }: Props) => {
         // measuring={measuring}
         // collisionDetection={closestCenter}
       >
-        <div className="flex h-full w-full flex-1 gap-[10px] overflow-auto bg-white p-3">
+        <div className="flex h-full w-full flex-1 gap-2 overflow-auto bg-white p-3">
           <SortableContext items={columnsId}>
             {columns.map(({ name, tasks, id }) => {
               return <Column key={id} id={id} name={name} tasks={tasks} />;
@@ -162,9 +162,7 @@ export const Column = ({ id, name, tasks }: ColumnType) => {
         <div className="mr-4 flex items-center justify-start">
           <DragHandle size={"22px"} {...attributes} {...listeners} />
           <div className="flex w-full">
-            <h3
-              className={`text-md pointer-events-none font-medium text-neutral-800`}
-            >
+            <h3 className={`pointer-events-none font-medium text-neutral-800`}>
               {name}
             </h3>
             <span className="pointer-events-none ml-2 rounded-full border border-neutral-300 px-3 py-[2px] text-sm text-neutral-800">
