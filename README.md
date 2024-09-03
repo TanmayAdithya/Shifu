@@ -28,15 +28,17 @@
 
 ## 🌟 Overview
 
-Provide a brief overview of your project and its purpose.
+Shifu is a digital platform designed to boost productivity and focus through immersive virtual environments. It offers a range of tools, including notes, to-do lists, a timer, calendar, events management, and an Eisenhower Matrix for prioritizing tasks.
+
+Users can personalize their environment, collaborate in shared spaces, and maintain balance with built-in mindfulness features. Shifu is perfect for anyone looking to stay organized, focused, and productive in a seamless digital workspace in the browser.
 
 ## ⚒️ Built Using
 
 <a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=ts,next,tailwind,redux,mongo" />
+</a>
     <img width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/139895814?s=280&v=4" alt="Shadcn" />
     <img width="46" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/16939337?v=4" alt="TipTap" />
-  </a>
 
 ## 🚀 Getting Started
 
