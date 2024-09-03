@@ -34,7 +34,7 @@ Users can personalize their environment, collaborate in shared spaces, and maint
 
 ## ⚒️ Built Using
 
-<a>
+<a href="https://skillicons.dev">
     <img src="https://skillicons.dev/icons?i=ts,next,tailwind,redux,mongo" />
     <img width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/139895814?s=280&v=4" alt="Shadcn" />
     <img width="46" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/16939337?v=4" alt="TipTap" />
