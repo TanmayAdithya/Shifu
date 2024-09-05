@@ -1,24 +1,22 @@
-import mongoose from "mongoose";
+import { Collection, MongoClient } from "mongodb";
 
-type ConnectionObject = {
-  isConnected?: number;
-};
-
-const connection: ConnectionObject = {};
-
-export default async function dbConnect(): Promise<void> {
-  if (connection.isConnected) {
-    console.log("Already Connected to Database");
-    return;
-  }
-
-  try {
-    const db = await mongoose.connect(process.env.MONGODB_URI || "", {});
-
-    connection.isConnected = db.connections[0].readyState;
-
-    console.log("DB Connected Successfully");
-  } catch (error) {
-    console.log("Database connection failed", error);
-  }
+interface UserDoc {
+  _id: string;
+  username: string;
+  hashed_password: string;
 }
+
+interface SessionDoc {
+  _id: string;
+  expires_at: Date;
+  user_id: string;
+}
+
+const client = new MongoClient(process.env.MONGODB_URI!);
+await client.connect();
+
+const db = client.db("ShifuDB");
+export const UserCollection = db.collection("users") as Collection<UserDoc>;
+export const SessionCollection = db.collection(
+  "sessions",
+) as Collection<SessionDoc>;
