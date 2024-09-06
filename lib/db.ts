@@ -13,9 +13,11 @@ interface SessionDoc {
 }
 
 const client = new MongoClient(process.env.MONGODB_URI!);
-await client.connect();
+async () => {
+  await client.connect();
+};
 
-const db = client.db("ShifuDB");
+export const db = client.db("ShifuDB");
 export const UserCollection = db.collection("users") as Collection<UserDoc>;
 export const SessionCollection = db.collection(
   "sessions",
