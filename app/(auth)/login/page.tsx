@@ -28,14 +28,8 @@ const page = () => {
         <CardContent>
           <div className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                name="email"
-                placeholder="name@example.com"
-                required
-              />
+              <Label htmlFor="username">Username</Label>
+              <Input id="username" type="text" name="username" required />
             </div>
             <div className="space-y-2">
               <Label htmlFor="password">Password</Label>
