@@ -1,11 +1,12 @@
 "use client";
 import { signupAction } from "@/actions/signup-action";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React, { FormEvent, useState } from "react";
+import React from "react";
+import { FaGithub } from "react-icons/fa6";
 
 const page = () => {
   return (
@@ -33,8 +34,18 @@ const page = () => {
           <div className="grid gap-6">
             <form action={signupAction}>
               <div className="grid gap-2">
-                <div className="flex flex-col">
-                  <div className="mb-3 flex flex-col gap-2">
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <Label>Username</Label>
+                    <Input
+                      id="username"
+                      name="username"
+                      placeholder="e.g. potatobangbang"
+                      type="text"
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
@@ -44,9 +55,10 @@ const page = () => {
                       autoCapitalize="none"
                       autoComplete="email"
                       autoCorrect="off"
+                      required
                     />
                   </div>
-                  <div className="flex flex-col gap-2">
+                  <div className="space-y-2">
                     <Label htmlFor="password">Password</Label>
                     <Input
                       type="password"
@@ -55,8 +67,8 @@ const page = () => {
                       required
                     />
                   </div>
+                  <Button className="w-full">Sign Up</Button>
                 </div>
-                <button className={cn(buttonVariants())}>Sign Up</button>
               </div>
             </form>
             <div className="relative">
@@ -73,26 +85,9 @@ const page = () => {
               type="button"
               className={cn(buttonVariants({ variant: "outline" }))}
             >
-              Github
+              <FaGithub className="mr-1" /> Github
             </button>
           </div>
-          <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our
-            <Link
-              href="/terms"
-              className="hover:text-brand underline underline-offset-4"
-            >
-              Terms of Service
-            </Link>
-            and
-            <Link
-              href="/privacy"
-              className="hover:text-brand underline underline-offset-4"
-            >
-              Privacy Policy
-            </Link>
-            .
-          </p>
         </div>
       </div>
     </div>
