@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
 import MinimizeWidget from "./MinimizeWidget";
 import { PiPlayPauseFill as PlayPause } from "react-icons/pi";

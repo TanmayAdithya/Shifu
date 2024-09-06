@@ -1,3 +1,5 @@
+"use client";
+
 import MinimizeWidget from "../MinimizeWidget";
 import TodoForm from "./TodoForm";
 import TodoList from "./TodoList";
