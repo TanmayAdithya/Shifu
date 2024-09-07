@@ -19,6 +19,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { logoutAction } from "@/actions/logout-action";
+import { IoVideocamOutline as VideoCall } from "react-icons/io5";
+import { CiLight as LightMode } from "react-icons/ci";
+import FullScreenIcon from "@/components/space/FullScreenIcon";
 
 export default async function page() {
   const { user } = await validateRequest();
@@ -36,10 +39,25 @@ export default async function page() {
   return (
     <div className="h-full w-full bg-neutral-900">
       <SpaceBackground />
-      <div className="fixed right-2 top-2">
+      <div className="fixed right-2 top-3 flex items-center gap-2">
+        <div className="flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-sm">
+          <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200">
+            <div>
+              <VideoCall size={"1.25rem"} />
+            </div>
+          </div>
+          <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200">
+            <FullScreenIcon />
+          </div>
+          <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200">
+            <div>
+              <LightMode size={"1.25rem"} />
+            </div>
+          </div>
+        </div>
         <DropdownMenu modal={false}>
           <DropdownMenuTrigger>
-            <Avatar className="h-12 w-12">
+            <Avatar className="h-12 w-12 border-2 border-neutral-50 shadow-md">
               <AvatarImage
                 className="shadow-xl"
                 src="https://avatars.githubusercontent.com/u/120048605?v=4"

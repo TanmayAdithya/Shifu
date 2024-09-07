@@ -77,7 +77,7 @@ const Navbar = ({ openWidgets }: Props) => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="w-[20rem] items-center justify-center rounded-xl border-0 bg-neutral-50 px-1 py-1 shadow-lg">
+        <div className="w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-lg">
           <div className="flex flex-1 justify-between">
             {widgetItems.map(({ id, icon: Icon }) => {
               return (
@@ -90,7 +90,7 @@ const Navbar = ({ openWidgets }: Props) => {
                     <TooltipTrigger>
                       <li
                         key={id}
-                        className={`4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 ${openWidgets[id] ? "bg-neutral-200" : ""}`}
+                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 ${openWidgets[id] ? "bg-neutral-200" : ""}`}
                         onClick={() => handleToggleWidget(id)}
                       >
                         <span>
