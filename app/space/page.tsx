@@ -18,6 +18,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { logoutAction } from "@/actions/logout-action";
 
 export default async function page() {
   const { user } = await validateRequest();
@@ -90,7 +91,9 @@ export default async function page() {
             </Dialog>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer">
-              Log out
+              <form action={logoutAction}>
+                <button type="submit">Log out</button>
+              </form>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
