@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-
 import CalendarWidget from "@/components/space/CalendarWidget";
 import Kanban from "@/components/space/Kanban";
 import Matrix from "@/components/space/Matrix";
@@ -32,9 +31,9 @@ export default function SpaceBackground({}: Props) {
       <span id="background-container">
         <Image
           id="background-image"
-          src="/parco-chan-unsplash.jpg"
+          src="https://images.unsplash.com/photo-1610389151865-5db005614988?q=80&w=2074&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
           alt="background-image"
-          className="pointer-events-none h-full w-full max-w-full object-cover"
+          className="pointer-events-none h-full w-full max-w-full select-none object-cover"
           fill={true}
         />
       </span>
