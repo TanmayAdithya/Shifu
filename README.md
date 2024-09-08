@@ -14,7 +14,7 @@
 
 </div>
 
-<p align="center">A a productivity web app designed to create customizable virtual workspaces with immersive environments, time management tools, and focus-enhancing features to boost productivity and concentration.</p>
+<p align="center">A productivity web app designed to create customizable virtual workspaces with immersive environments, time management tools, and focus-enhancing features to boost productivity and concentration.</p>
 
 ## 📋 Table of Contents
 
@@ -34,10 +34,10 @@ Users can personalize their environment, collaborate in shared spaces, and maint
 
 ## ⚒️ Built Using
 
-<div href="https://skillicons.dev">
+<div>
     <img src="https://skillicons.dev/icons?i=ts,next,tailwind,redux,mongo" />
-    <img width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/139895814?s=280&v=4" alt="Shadcn" />
-    <img width="46" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/16939337?v=4" alt="TipTap" />
+    <div href='https://ui.shadcn.com/'><img href="https://ui.shadcn.com/" width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/139895814?s=280&v=4" alt="Shadcn" /></div>
+    <div href="https://tiptap.dev/"><img href='https://tiptap.dev/' width="46" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/16939337?v=4" alt="TipTap" /></div>
 </div>
 
 ## 🚀 Getting Started
