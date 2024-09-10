@@ -6,6 +6,7 @@ import { cookies } from "next/headers";
 
 interface DatabaseUserAttributes {
   username: string;
+  email: string;
 }
 
 const adapter = new MongodbAdapter(
@@ -23,6 +24,7 @@ export const lucia = new Lucia(adapter, {
   getUserAttributes: (attributes) => {
     return {
       username: attributes.username,
+      email: attributes.email,
     };
   },
 });

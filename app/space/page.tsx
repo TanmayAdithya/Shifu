@@ -32,11 +32,7 @@ export default async function Page() {
     return redirect("/login");
   }
 
-  // make each dropdown item set some state on click
-  // pass that state into your dialog component.
-  // render different content inside the dialog component depending on the state
-
-  const { username } = user;
+  const { username, email } = user;
   const fallback = username.split(" ");
 
   return (
@@ -73,7 +69,7 @@ export default async function Page() {
               </AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
-          <DropdownMenuContent className="mr-4 min-w-52">
+          <DropdownMenuContent className="mr-2 min-w-52 rounded-xl">
             <div className="ml-1 flex items-center">
               <Avatar className="h-8 w-8">
                 <AvatarImage
@@ -92,7 +88,7 @@ export default async function Page() {
                   {username}
                 </DropdownMenuLabel>
                 <DropdownMenuLabel className="py-0 text-xs font-normal text-neutral-600">
-                  m@example.com
+                  {email}
                 </DropdownMenuLabel>
               </div>
             </div>

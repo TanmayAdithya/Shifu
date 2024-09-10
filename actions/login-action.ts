@@ -4,7 +4,6 @@ import { lucia } from "@/lib/auth";
 import { UserCollection } from "@/lib/db";
 import { verify } from "@node-rs/argon2";
 import { cookies } from "next/headers";
-import { redirect } from "next/navigation";
 
 export async function loginAction(formData: FormData) {
   const username = formData.get("username");
@@ -48,5 +47,5 @@ export async function loginAction(formData: FormData) {
     sessionCookie.attributes,
   );
 
-  return redirect("/space");
+  return { success: true };
 }

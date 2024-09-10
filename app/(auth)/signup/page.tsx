@@ -7,18 +7,18 @@ import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React from "react";
-import { useFormStatus } from "react-dom";
+import React, { useState } from "react";
 import { FaGithub } from "react-icons/fa6";
 import { ThreeDots } from "react-loader-spinner";
 import { useRouter } from "next/navigation";
 
 const Page = () => {
-  const status = useFormStatus();
+  const [loading, setLoading] = useState<boolean>(false);
   const router = useRouter();
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true);
 
     const formData = new FormData(e.target as HTMLFormElement);
     const result = await signupAction(formData);
@@ -31,11 +31,13 @@ const Page = () => {
       });
     } else {
       toast({
-        title: `${status.pending ? "Signing up" : "Signed up successfully"}`,
-        description: `${status.pending ? "" : "Redirecting you to login page..."}`,
+        title: `${"Signed up successfully"}`,
+        description: `${"Redirecting to your dashboard..."}`,
       });
-      router.push("/login");
+      router.push("/space");
     }
+
+    setLoading(false);
   };
 
   return (
@@ -99,9 +101,9 @@ const Page = () => {
 
                   <Button
                     type="submit"
-                    className={`w-full ${status.pending ? "pointer-events-none opacity-50" : ""}`}
+                    className={`w-full ${loading ? "pointer-events-none opacity-50" : ""}`}
                   >
-                    {status.pending ? (
+                    {loading ? (
                       <>
                         <span className="mr-2">Signing up</span>
                         <ThreeDots
@@ -111,8 +113,6 @@ const Page = () => {
                           color="#fff"
                           radius="9"
                           ariaLabel="three-dots-loading"
-                          wrapperStyle={{}}
-                          wrapperClass=""
                         />
                       </>
                     ) : (

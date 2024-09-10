@@ -1,3 +1,5 @@
+"use client";
+
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -8,14 +10,38 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { loginAction } from "@/actions/login-action";
-import LoginButton from "@/components/auth/LoginButton";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { ThreeDots } from "react-loader-spinner";
 
-const page = () => {
+const Page = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    const formData = new FormData(e.target as HTMLFormElement);
+    const result = await loginAction(formData);
+
+    if (result.error) {
+      toast({
+        variant: "destructive",
+        title: `Uh oh! Something went wrong.`,
+        description: `${result.error}`,
+      });
+    } else {
+      router.push("/space");
+    }
+    setLoading(false);
+  };
   return (
     <form
       action={loginAction}
+      onSubmit={handleFormSubmit}
       className="flex h-full flex-col items-center justify-center gap-3"
     >
       <Card className="mx-auto max-w-sm">
@@ -35,7 +61,28 @@ const page = () => {
               <Label htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" required />
             </div>
-            <LoginButton />
+            <Button
+              type="submit"
+              className={`w-full ${loading ? "pointer-events-none opacity-50" : ""}`}
+            >
+              {loading ? (
+                <>
+                  <span className="mr-2">Logging in</span>
+                  <ThreeDots
+                    visible={true}
+                    height="20"
+                    width="20"
+                    color="#fff"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                  />
+                </>
+              ) : (
+                "Login"
+              )}
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -49,4 +96,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
