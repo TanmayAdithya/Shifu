@@ -6,9 +6,12 @@ import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React from "react";
+import { useFormStatus } from "react-dom";
 import { FaGithub } from "react-icons/fa6";
+import { ThreeDots } from "react-loader-spinner";
 
 const page = () => {
+  const status = useFormStatus();
   return (
     <div className="container grid h-screen w-screen flex-col items-center justify-center">
       <Link
@@ -67,7 +70,28 @@ const page = () => {
                       required
                     />
                   </div>
-                  <Button className="w-full">Sign Up</Button>
+                  <Button
+                    type="submit"
+                    className={`w-full ${status.pending ? "pointer-events-none opacity-50" : ""}`}
+                  >
+                    {status.pending ? (
+                      <>
+                        <span className="mr-2">Signing up</span>
+                        <ThreeDots
+                          visible={true}
+                          height="20"
+                          width="20"
+                          color="#fff"
+                          radius="9"
+                          ariaLabel="three-dots-loading"
+                          wrapperStyle={{}}
+                          wrapperClass=""
+                        />
+                      </>
+                    ) : (
+                      "Sign up"
+                    )}
+                  </Button>
                 </div>
               </div>
             </form>

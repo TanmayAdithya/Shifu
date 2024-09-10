@@ -7,10 +7,10 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import React from "react";
 import { loginAction } from "@/actions/login-action";
+import LoginButton from "@/components/auth/LoginButton";
 
 const page = () => {
   return (
@@ -35,9 +35,7 @@ const page = () => {
               <Label htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
+            <LoginButton />
           </div>
         </CardContent>
       </Card>
