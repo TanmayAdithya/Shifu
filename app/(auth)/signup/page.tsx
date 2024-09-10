@@ -13,7 +13,7 @@ import { FaGithub } from "react-icons/fa6";
 import { ThreeDots } from "react-loader-spinner";
 import { useRouter } from "next/navigation";
 
-const page = () => {
+const Page = () => {
   const status = useFormStatus();
   const router = useRouter();
 
@@ -145,4 +145,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

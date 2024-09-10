@@ -26,7 +26,7 @@ import { IoMdSettings as SettingsIcon } from "react-icons/io";
 import { TbUserFilled as UserIcon } from "react-icons/tb";
 import LogoutButton from "@/components/auth/LogoutButton";
 
-export default async function page() {
+export default async function Page() {
   const { user } = await validateRequest();
   if (!user) {
     return redirect("/login");

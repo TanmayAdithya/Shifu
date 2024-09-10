@@ -19,5 +19,5 @@ export async function logoutAction() {
     sessionCookie.value,
     sessionCookie.attributes,
   );
-  return redirect("/login");
+  return redirect("/");
 }

@@ -1,14 +1,18 @@
 import { Collection, MongoClient } from "mongodb";
+
 interface UserDoc {
   _id: string;
   username: string;
+  email: string;
   hashed_password: string;
 }
+
 interface SessionDoc {
   _id: string;
   expires_at: Date;
   user_id: string;
 }
+
 let client: MongoClient | null = null;
 let dbInstance: any = null;
 if (!client) {
@@ -24,6 +28,7 @@ if (!client) {
     }
   };
 }
+
 dbInstance = client?.db("ShifuDB");
 if (!dbInstance) {
   throw new Error("Failed to connect to the database.");
@@ -33,6 +38,7 @@ export const UserCollection = db.collection("users") as Collection<UserDoc>;
 export const SessionCollection = db.collection(
   "sessions",
 ) as Collection<SessionDoc>;
+
 process.on("SIGINT", async () => {
   try {
     if (client) {
