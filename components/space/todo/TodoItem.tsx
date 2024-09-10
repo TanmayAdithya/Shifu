@@ -4,6 +4,7 @@ import { RiEditFill as Edit } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import { completeTodo, removeTodo, updateTodo } from "@/store/slices/todoSlice";
 import { IoClose as ExitEditMode } from "react-icons/io5";
+import { FaTag as Label } from "react-icons/fa";
 
 type Props = {
   content: string;
@@ -45,55 +46,61 @@ const TodoItem = ({ content, id, completed }: Props) => {
 
   return (
     <li
-      className={`flex items-start justify-between rounded-md border border-neutral-400/60 p-2 ${completed ? "opacity-70" : ""}`}
+      className={`flex flex-col justify-between gap-2 rounded-md border border-neutral-400/60 p-2 ${completed ? "opacity-70" : ""}`}
     >
-      <input
-        type="checkbox"
-        className="mr-2 mt-1"
-        onChange={() => handleCompleteTodo(id)}
-      />
-      <p
-        className={`mr-2 w-52 flex-1 text-balance break-words leading-tight text-neutral-700 ${completed ? "line-through" : ""}`}
-      >
-        {editTodo ? (
-          <div className="flex items-center">
-            <input
-              value={newTodoContent}
-              ref={inputRef}
-              className="w-[13.5rem] break-words rounded focus:outline-none"
-              onChange={(e) => {
-                setNewTodoContent(e.target.value);
-              }}
-              onKeyDown={(e) => {
-                if (e.key === "Escape") {
-                  setNewTodoContent(originalContent);
-                  handleExitEditMode();
-                } else if (e.key === "Enter") {
-                  handleEditTodo(newTodoContent);
-                  setEditTodo(false);
-                }
-              }}
-            />
-            <ExitEditMode
-              className="cursor-pointer text-neutral-600 hover:text-neutral-800"
-              onClick={handleExitEditMode}
-            />
-          </div>
-        ) : (
-          content
-        )}
-      </p>
-      <div className="flex space-x-2">
+      <div className="flex items-start justify-between">
+        <input
+          type="checkbox"
+          className="mr-2 mt-1"
+          onChange={() => handleCompleteTodo(id)}
+        />
+        <p
+          className={`mr-2 w-52 flex-1 text-balance break-words leading-tight text-neutral-700 ${completed ? "line-through" : ""}`}
+        >
+          {editTodo ? (
+            <div className="flex items-center">
+              <input
+                value={newTodoContent}
+                ref={inputRef}
+                className="w-[13.5rem] break-words rounded focus:outline-none"
+                onChange={(e) => {
+                  setNewTodoContent(e.target.value);
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Escape") {
+                    setNewTodoContent(originalContent);
+                    handleExitEditMode();
+                  } else if (e.key === "Enter") {
+                    handleEditTodo(newTodoContent);
+                    setEditTodo(false);
+                  }
+                }}
+              />
+              <ExitEditMode
+                className="cursor-pointer text-neutral-600 hover:text-neutral-800"
+                onClick={handleExitEditMode}
+              />
+            </div>
+          ) : (
+            content
+          )}
+        </p>
+      </div>
+      <div className="flex items-center space-x-2 self-end">
         {editTodo ? (
           ""
         ) : (
           <Edit
-            className="mt-1 cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
+            className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
             onClick={() => setEditTodo((prev) => !prev)}
           />
         )}
+        <Label
+          size={"13px"}
+          className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
+        />
         <Delete
-          className="mt-1 cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
+          className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
           onClick={() => handleDeleteTodo(id)}
         />
       </div>
