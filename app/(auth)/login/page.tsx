@@ -42,7 +42,7 @@ const page = () => {
       <p className="text-sm text-muted-foreground">
         Don&apos;t have an account?{" "}
         <Link href="/signup">
-          <span className="cursor-pointer underline">SignUp</span>
+          <span className="cursor-pointer underline">Sign up</span>
         </Link>
       </p>
     </form>

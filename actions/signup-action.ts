@@ -35,6 +35,14 @@ export async function signupAction(formData: FormData) {
     return { error: "Invalid password" };
   }
 
+  const existingUser = await UserCollection.findOne({
+    $or: [{ username }, { email }],
+  });
+
+  if (existingUser) {
+    return { error: "Username or email already taken" };
+  }
+
   const hashedPassword = await hash(password, {
     memoryCost: 19485,
     timeCost: 2,
@@ -45,6 +53,7 @@ export async function signupAction(formData: FormData) {
   await UserCollection.insertOne({
     _id: userId,
     username: username,
+    email: email,
     hashed_password: hashedPassword,
   });
 
@@ -58,5 +67,5 @@ export async function signupAction(formData: FormData) {
     sessionCookie.attributes,
   );
 
-  return redirect("/login");
+  return { success: true };
 }

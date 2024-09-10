@@ -4,10 +4,9 @@ import { useFormStatus } from "react-dom";
 import { Button } from "../ui/button";
 import { ThreeDots } from "react-loader-spinner";
 
-type Props = {};
-
-const LoginButton = (props: Props) => {
+const LoginButton = () => {
   const status = useFormStatus();
+
   return (
     <Button
       type="submit"
