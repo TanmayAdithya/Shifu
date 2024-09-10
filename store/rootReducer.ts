@@ -4,6 +4,7 @@ import widgetReducer from "@/store/slices/widgetSlice";
 import notesReducer from "@/store/slices/notesSlice";
 import kanbanReducer from "./slices/kanbanSlice";
 import calendarReducer from "./slices/calendarSlice";
+import backgroundReducer from "./slices/backgroundSlice";
 
 const rootReducer = combineReducers({
   todos: todoReducer,
@@ -11,6 +12,7 @@ const rootReducer = combineReducers({
   notes: notesReducer,
   kanban: kanbanReducer,
   calendar: calendarReducer,
+  background: backgroundReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

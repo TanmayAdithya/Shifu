@@ -9,6 +9,8 @@ import {
   MdKeyboardArrowRight as Next,
   MdKeyboardArrowLeft as Prev,
 } from "react-icons/md";
+import { useDispatch } from "react-redux";
+import { setBackground } from "@/store/slices/backgroundSlice";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
@@ -21,69 +23,65 @@ function BackgroundChanger() {
   const [page, setPage] = useState<number>(1);
   const backgroundImage = useRef<string>("");
   const debouncedSearch = useDebounce(search, 1000);
+  const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   const signal = controller.signal;
-  //   const fetchData = async () => {
-  //     try {
-  //       if (debouncedSearch) {
-  //         const res = await fetch(
-  //           `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
-  //           { signal },
-  //         );
-  //         if (!res.ok) {
-  //           throw new Error("Something went wrong!");
-  //         }
-  //         const data = await res.json();
-  //         const backgrounds = data.results;
-  //         const pages = data.total_pages;
-  //         console.log(backgrounds);
-  //         setBackgrounds(backgrounds);
-  //         setTotalPages(pages);
-  //       } else {
-  //         const res = await fetch(
-  //           `https://api.unsplash.com/photos/?client_id=${apiKey}`,
-  //           { signal },
-  //         );
-  //         if (!res.ok) {
-  //           throw new Error("Something went wrong!");
-  //         }
-  //         const backgrounds = await res.json();
-  //         console.log(backgrounds);
-  //         setBackgrounds(backgrounds);
-  //       }
-  //       setLoading(false);
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         if (error.name === "AbortError") {
-  //           console.log("Fetch aborted");
-  //         } else {
-  //           setError(error.message);
-  //         }
-  //       } else {
-  //         setError("An unknown error occurred");
-  //       }
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, [debouncedSearch, page]);
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+    const fetchData = async () => {
+      try {
+        if (debouncedSearch) {
+          const res = await fetch(
+            `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
+            { signal },
+          );
+          if (!res.ok) {
+            throw new Error("Something went wrong!");
+          }
+          const data = await res.json();
+          const backgrounds = data.results;
+          const pages = data.total_pages;
+          console.log(backgrounds);
+          setBackgrounds(backgrounds);
+          setTotalPages(pages);
+        } else {
+          const res = await fetch(
+            `https://api.unsplash.com/photos/?client_id=${apiKey}`,
+            { signal },
+          );
+          if (!res.ok) {
+            throw new Error("Something went wrong!");
+          }
+          const backgrounds = await res.json();
+          console.log(backgrounds);
+          setBackgrounds(backgrounds);
+        }
+        setLoading(false);
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+          } else {
+            setError(error.message);
+          }
+        } else {
+          setError("An unknown error occurred");
+        }
+        setLoading(false);
+      }
+    };
+    fetchData();
+    return () => {
+      controller.abort();
+    };
+  }, [debouncedSearch, page]);
 
   const tags = ["Nature", "Spring", "Summer", "Winter"];
 
   const handleBackground = (url: string, description: string) => {
-    backgroundImage.current = url;
-    const currentImage = document.querySelector(
-      "#background-image",
-    ) as HTMLImageElement | null;
-    if (currentImage) {
-      currentImage.src = `${backgroundImage.current}&w=1920&h=1080&fit=crop`;
-      currentImage.alt = `${description}`;
-    }
+    console.log("invoked");
+    dispatch(setBackground(url));
+    console.log("Background sent");
   };
 
   return (
