@@ -1,94 +1,61 @@
 "use client";
 
-import React, { useState } from "react";
-
-interface Task {
-  id: number;
-  text: string;
-  quadrant: Quadrant;
-}
-
-type Quadrant =
-  | "urgent-important"
-  | "urgent-not-important"
-  | "not-urgent-important"
-  | "not-urgent-not-important";
+import React from "react";
+import MinimizeWidget from "./MinimizeWidget";
 
 type Props = {
   openMatrixWidget: boolean;
 };
 
 const Matrix = ({ openMatrixWidget }: Props) => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [taskText, setTaskText] = useState<string>("");
-  const [selectedQuadrant, setSelectedQuadrant] =
-    useState<Quadrant>("urgent-important");
-
-  const addTask = () => {
-    const newTask: Task = {
-      id: tasks.length + 1,
-      text: taskText,
-      quadrant: selectedQuadrant,
-    };
-    setTasks([...tasks, newTask]);
-    setTaskText("");
-  };
-
-  const renderQuadrantTasks = (quadrant: Quadrant) => {
-    return tasks
-      .filter((task) => task.quadrant === quadrant)
-      .map((task) => <li key={task.id}>{task.text}</li>);
-  };
-
   return (
-    <div className={`${openMatrixWidget ? "" : "hidden"} absolute z-10`}>
-      <div className="grid grid-cols-2 gap-5 bg-white">
-        <div>
-          <h2>Urgent & Important</h2>
-          <ul>{renderQuadrantTasks("urgent-important")}</ul>
+    <div
+      className={`${
+        openMatrixWidget ? "" : "hidden"
+      } absolute left-72 top-20 z-10 aspect-square w-[30rem] rounded-3xl bg-white p-6 pt-8 shadow-md`}
+    >
+      <div className="relative grid h-full grid-cols-2 grid-rows-2 rounded-xl">
+        {/* Quadrant 1: Do First */}
+        <div className="rounded-tl-xl border-[2px] border-r-0 border-neutral-800 p-3">
+          <div className="-translate-y-7 rounded-full bg-neutral-800 p-6 py-1 text-center">
+            <p className="pointer-events-none text-sm text-neutral-50">
+              Do First
+            </p>
+          </div>
         </div>
-        <div>
-          <h2>Urgent & Not Important</h2>
-          <ul>{renderQuadrantTasks("urgent-not-important")}</ul>
+
+        {/* Quadrant 2: Schedule */}
+        <div className="rounded-tr-xl border-[2px] border-neutral-800 p-3">
+          <div className="-translate-y-7 rounded-full bg-neutral-800 p-6 py-1 text-center">
+            <p className="pointer-events-none text-sm text-neutral-50">
+              Schedule
+            </p>
+          </div>
         </div>
-        <div>
-          <h2>Not Urgent & Important</h2>
-          <ul>{renderQuadrantTasks("not-urgent-important")}</ul>
+
+        {/* Quadrant 3: Delegate */}
+        <div className="rounded-bl-xl border-[2px] border-r-0 border-t-0 border-neutral-800 p-3">
+          <div className="-translate-y-7 rounded-full bg-neutral-800 p-6 py-1 text-center">
+            <p className="pointer-events-none text-sm text-neutral-50">
+              Delegate
+            </p>
+          </div>
         </div>
-        <div>
-          <h2>Not Urgent & Not Important</h2>
-          <ul>{renderQuadrantTasks("not-urgent-not-important")}</ul>
+
+        {/* Quadrant 4: Eliminate */}
+        <div className="rounded-br-xl border-[2px] border-t-0 border-neutral-800 p-3">
+          <div className="-translate-y-7 rounded-full bg-neutral-800 p-6 py-1 text-center">
+            <p className="pointer-events-none text-sm text-neutral-50">
+              Eliminate
+            </p>
+          </div>
         </div>
-        <div style={{ gridColumn: "span 2", marginTop: "20px" }}>
-          <h3>Add Task</h3>
-          <input
-            type="text"
-            value={taskText}
-            onChange={(e) => setTaskText(e.target.value)}
-            placeholder="Task Description"
-          />
-          <select
-            value={selectedQuadrant}
-            onChange={(e) => setSelectedQuadrant(e.target.value as Quadrant)}
-          >
-            <option value="urgent-important">Urgent & Important</option>
-            <option value="urgent-not-important">Urgent & Not Important</option>
-            <option value="not-urgent-important">Not Urgent & Important</option>
-            <option value="not-urgent-not-important">
-              Not Urgent & Not Important
-            </option>
-          </select>
-          <button onClick={addTask}>Add Task</button>
-        </div>
+      </div>
+      <div className="absolute right-3 top-[6px]">
+        <MinimizeWidget widgetId="Matrix" />
       </div>
     </div>
   );
-
-  // return (
-  //   <div className={`${openMatrixWidget ? "" : "hidden"} absolute z-10`}>
-  //     Matrix
-  //   </div>
-  // );
 };
 
 export default Matrix;

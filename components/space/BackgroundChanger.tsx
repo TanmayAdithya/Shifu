@@ -25,56 +25,56 @@ function BackgroundChanger() {
   const debouncedSearch = useDebounce(search, 1000);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
-    const fetchData = async () => {
-      try {
-        if (debouncedSearch) {
-          const res = await fetch(
-            `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
-            { signal },
-          );
-          if (!res.ok) {
-            throw new Error("Something went wrong!");
-          }
-          const data = await res.json();
-          const backgrounds = data.results;
-          const pages = data.total_pages;
-          console.log(backgrounds);
-          setBackgrounds(backgrounds);
-          setTotalPages(pages);
-        } else {
-          const res = await fetch(
-            `https://api.unsplash.com/photos/?client_id=${apiKey}`,
-            { signal },
-          );
-          if (!res.ok) {
-            throw new Error("Something went wrong!");
-          }
-          const backgrounds = await res.json();
-          console.log(backgrounds);
-          setBackgrounds(backgrounds);
-        }
-        setLoading(false);
-      } catch (error) {
-        if (error instanceof Error) {
-          if (error.name === "AbortError") {
-            console.log("Fetch aborted");
-          } else {
-            setError(error.message);
-          }
-        } else {
-          setError("An unknown error occurred");
-        }
-        setLoading(false);
-      }
-    };
-    fetchData();
-    return () => {
-      controller.abort();
-    };
-  }, [debouncedSearch, page]);
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+  //   const fetchData = async () => {
+  //     try {
+  //       if (debouncedSearch) {
+  //         const res = await fetch(
+  //           `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
+  //           { signal },
+  //         );
+  //         if (!res.ok) {
+  //           throw new Error("Something went wrong!");
+  //         }
+  //         const data = await res.json();
+  //         const backgrounds = data.results;
+  //         const pages = data.total_pages;
+  //         console.log(backgrounds);
+  //         setBackgrounds(backgrounds);
+  //         setTotalPages(pages);
+  //       } else {
+  //         const res = await fetch(
+  //           `https://api.unsplash.com/photos/?client_id=${apiKey}`,
+  //           { signal },
+  //         );
+  //         if (!res.ok) {
+  //           throw new Error("Something went wrong!");
+  //         }
+  //         const backgrounds = await res.json();
+  //         console.log(backgrounds);
+  //         setBackgrounds(backgrounds);
+  //       }
+  //       setLoading(false);
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         if (error.name === "AbortError") {
+  //           console.log("Fetch aborted");
+  //         } else {
+  //           setError(error.message);
+  //         }
+  //       } else {
+  //         setError("An unknown error occurred");
+  //       }
+  //       setLoading(false);
+  //     }
+  //   };
+  //   fetchData();
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, [debouncedSearch, page]);
 
   const tags = ["Nature", "Spring", "Summer", "Winter"];
 
@@ -86,7 +86,7 @@ function BackgroundChanger() {
 
   return (
     <>
-      <div className="mt-4">
+      <div className="z-10 mt-4">
         <div className="mb-2 p-1">
           <input
             type="text"
