@@ -157,7 +157,7 @@ export default function Notes({ openNotesWidget }: Props) {
         className={`absolute left-20 top-20 z-10 flex h-[30rem] w-auto rounded-xl bg-transparent ${openNotesWidget ? "" : "hidden"} overflow-hidden`}
       >
         <aside
-          className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-white`}
+          className={`min-w-[14.5rem] ${sidebarToggle ? "" : "z-10"} overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-white shadow-md`}
         >
           <div>
             <div className="sticky top-0 w-full bg-white px-3 pb-2 pt-3">
@@ -213,7 +213,7 @@ export default function Notes({ openNotesWidget }: Props) {
           </div>
         </aside>
         <div
-          className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15.05rem] rounded-xl"} overflow-auto bg-white p-4 transition-all duration-700`}
+          className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15.05rem] rounded-xl"} overflow-auto bg-white p-4 shadow-lg transition-all duration-700`}
         >
           <div>
             <SidebarIcon

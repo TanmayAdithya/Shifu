@@ -39,7 +39,7 @@ export default async function Page() {
     <div className="h-full w-full bg-neutral-900">
       <SpaceBackground />
       <div className="fixed right-2 top-3 flex items-center gap-2">
-        <div className="flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-sm">
+        <div className="flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-md">
           <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200">
             <div>
               <VideoCall size={"1.25rem"} />
