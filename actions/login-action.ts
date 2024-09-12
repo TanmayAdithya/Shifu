@@ -25,7 +25,7 @@ export async function loginAction(formData: FormData) {
   const existingUser = await UserCollection.findOne({ username });
 
   if (!existingUser) {
-    return { error: "Invalid username or password" };
+    return { error: "Account does not exist." };
   }
 
   const validPassword = await verify(existingUser.hashed_password, password, {

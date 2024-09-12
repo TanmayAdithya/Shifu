@@ -35,6 +35,8 @@ if (!dbInstance) {
 }
 const db = dbInstance;
 export const UserCollection = db.collection("users") as Collection<UserDoc>;
+export const NotesCollection = db.collection("notes") as Collection<UserDoc>;
+export const TasksCollection = db.collection("tasks") as Collection<UserDoc>;
 export const SessionCollection = db.collection(
   "sessions",
 ) as Collection<SessionDoc>;

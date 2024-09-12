@@ -1,15 +1,32 @@
-import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
-import { TodosState } from "@/types/types";
+import {
+  PayloadAction,
+  createAsyncThunk,
+  createSlice,
+  nanoid,
+} from "@reduxjs/toolkit";
+import { Todo, TodosState } from "@/types/types";
+
+export const fetchTasks = createAsyncThunk<Todo[] | undefined>(
+  "tasks/fetchTasks",
+  async () => {
+    try {
+      const response = await fetch("/api/tasks");
+      if (!response.ok) {
+        console.log("Error fetching tasks");
+      }
+      const data: Todo[] = await response.json();
+      return data;
+    } catch (error) {
+      console.log("Error", error);
+      return undefined;
+    }
+  },
+);
 
 const initialState: TodosState = {
-  todos: [
-    {
-      id: "1",
-      content:
-        "Buy groceries, including fruits, vegetables, dairy, and others.",
-      completed: false,
-    },
-  ],
+  todos: [],
+  status: "idle",
+  error: null,
 };
 
 export const todoSlice = createSlice({
@@ -41,6 +58,26 @@ export const todoSlice = createSlice({
         todo.content = action.payload.content;
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchTasks.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(
+        fetchTasks.fulfilled,
+        (state, action: PayloadAction<Todo[] | undefined>) => {
+          state.status = "succeeded";
+          if (action?.payload) {
+            state.todos = action.payload;
+          }
+        },
+      )
+      .addCase(fetchTasks.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message || "Failed to fetch tasks";
+      });
   },
 });
 
