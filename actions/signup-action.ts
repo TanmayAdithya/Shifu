@@ -5,6 +5,7 @@ import { UserCollection } from "@/lib/db";
 import { hash } from "@node-rs/argon2";
 import { generateIdFromEntropySize } from "lucia";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export async function signupAction(formData: FormData) {
   const username = formData.get("username");
@@ -50,7 +51,7 @@ export async function signupAction(formData: FormData) {
   const userId = generateIdFromEntropySize(10);
 
   await UserCollection.insertOne({
-    user_id: userId,
+    _id: userId,
     username: username,
     email: email,
     hashed_password: hashedPassword,

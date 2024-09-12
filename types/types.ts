@@ -133,24 +133,3 @@ export interface Tab {
   icon: ReactNode;
   content: ReactNode;
 }
-
-export interface UserDoc {
-  user_id: string;
-  username: string;
-  email: string;
-  hashed_password: string;
-}
-
-export interface SessionDoc {
-  _id: string;
-  expires_at: Date;
-  user_id: string;
-}
-
-export interface TasksDoc extends Todo {
-  user_id: string;
-}
-
-export interface NotesDoc extends Note {
-  user_id: string;
-}
