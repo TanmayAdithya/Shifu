@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { background } from "@/types/types";
-import Image from "next/image";
 import useDebounce from "@/hooks/useDebounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -78,10 +77,8 @@ function BackgroundChanger() {
 
   const tags = ["Nature", "Spring", "Summer", "Winter"];
 
-  const handleBackground = (url: string, description: string) => {
-    console.log("invoked");
+  const handleBackground = (url: string) => {
     dispatch(setBackground(url));
-    console.log("Background sent");
   };
 
   return (
@@ -121,11 +118,11 @@ function BackgroundChanger() {
             Array.from({ length: 10 }).map((_, index) => (
               <Skeleton key={index} className="h-[113px] w-[200px] rounded" />
             ))}
-          {error && <p>Error...</p>}
+          {error && <p>Something went wrong while fetching images: {error}</p>}
           {backgrounds.map(({ id, urls, description }) => {
             return (
               <div key={id} className="rounded shadow-lg">
-                <Image
+                <img
                   key={id}
                   alt={description}
                   src={`${urls.full}&w=1920&h=1080&fit=crop`}
@@ -136,7 +133,7 @@ function BackgroundChanger() {
                     borderRadius: "4px",
                     cursor: "pointer",
                   }}
-                  onClick={() => handleBackground(urls.full, description)}
+                  onClick={() => handleBackground(urls.full)}
                   className="h-full w-full object-cover"
                 />
               </div>

@@ -9,7 +9,6 @@ import Notes from "@/components/space/Notes";
 import Timer from "@/components/space/Timer";
 import Todo from "@/components/space/todo/Todo";
 import { RootState } from "@/store/rootReducer";
-import Image from "next/image";
 import { useSelector } from "react-redux";
 
 type Props = {};
@@ -29,12 +28,11 @@ export default function SpaceBackground({}: Props) {
       </div>
       <Navbar openWidgets={openWidgets} />
       <span id="background-container" className="relative block h-full w-full">
-        <Image
+        <img
           id="background-image"
           src={backgroundUrl}
           alt="background-image"
           className="pointer-events-none h-full w-full max-w-full select-none object-cover"
-          fill={true}
         />
       </span>
     </>
