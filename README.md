@@ -36,8 +36,8 @@ Users can personalize their environment, collaborate in shared spaces, and maint
 
 <div>
     <img src="https://skillicons.dev/icons?i=ts,next,tailwind,redux,mongo" />
-    <img href="https://ui.shadcn.com/" width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/139895814?s=280&v=4" alt="Shadcn" />
-    <img href='https://tiptap.dev/' width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://avatars.githubusercontent.com/u/16939337?v=4" alt="TipTap" />
+    <img href="https://ui.shadcn.com/" width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://i.postimg.cc/yxcWQsB6/shadcn-modified-1.png" alt="Shadcn" />
+    <img href='https://tiptap.dev/' width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://i.postimg.cc/4N2jLtLd/tiptap-modified-1.png" alt="TipTap" />
 </div>
 
 ## 🚀 Getting Started
