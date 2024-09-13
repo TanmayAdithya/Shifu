@@ -24,7 +24,7 @@ const FullScreenIcon = () => {
   return (
     <div onClick={toggleFullScreen}>
       {isFullScreen ? (
-        <ExitFullScreen size="1.25rem" />
+        <ExitFullScreen size="1rem" />
       ) : (
         <FullScreen size="1.25rem" />
       )}

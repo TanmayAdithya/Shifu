@@ -36,7 +36,7 @@ const Page = () => {
     } else {
       router.push("/space");
     }
-    setLoading(false);
+    setTimeout(() => setLoading(false), 3000);
   };
   return (
     <form

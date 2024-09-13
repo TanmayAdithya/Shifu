@@ -1,17 +1,5 @@
+import { NotesDoc, SessionDoc, TasksDoc, UserDoc } from "@/types/types";
 import { Collection, MongoClient } from "mongodb";
-
-interface UserDoc {
-  _id: string;
-  username: string;
-  email: string;
-  hashed_password: string;
-}
-
-interface SessionDoc {
-  _id: string;
-  expires_at: Date;
-  user_id: string;
-}
 
 let client: MongoClient | null = null;
 let dbInstance: any = null;
@@ -35,8 +23,8 @@ if (!dbInstance) {
 }
 const db = dbInstance;
 export const UserCollection = db.collection("users") as Collection<UserDoc>;
-export const NotesCollection = db.collection("notes") as Collection<UserDoc>;
-export const TasksCollection = db.collection("tasks") as Collection<UserDoc>;
+export const NotesCollection = db.collection("notes") as Collection<NotesDoc>;
+export const TasksCollection = db.collection("tasks") as Collection<TasksDoc>;
 export const SessionCollection = db.collection(
   "sessions",
 ) as Collection<SessionDoc>;
