@@ -20,7 +20,8 @@ const LogoutButton = () => {
   return (
     <form className="w-full" action={logoutAction} onSubmit={handleLogout}>
       <button type="submit" className="flex w-full items-center">
-        <LogoutIcon className="mr-1 text-neutral-700" /> Log out
+        <LogoutIcon className="mr-1 text-neutral-700 dark:text-neutral-100" />
+        Log out
       </button>
     </form>
   );

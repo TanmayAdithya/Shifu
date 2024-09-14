@@ -69,22 +69,22 @@ const Timer = ({ openTimerWidget }: Props) => {
 
   return (
     <div
-      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 dark:bg-neutral-900`}
     >
-      <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center">
+      <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center dark:border-neutral-700 dark:bg-neutral-800">
         <div
-          className="pointer-events-none absolute left-[57%] top-1 select-none text-xs text-neutral-600"
+          className="pointer-events-none absolute left-[57%] top-1 select-none text-xs text-neutral-600 dark:text-neutral-50"
           style={{ transform: `translateX(${String(minutes).length * 7}px)` }}
         >
           M
         </div>
         <div
-          className="pointer-events-none absolute bottom-10 right-[12%] select-none text-xs text-neutral-600"
+          className="pointer-events-none absolute bottom-10 right-[12%] select-none text-xs text-neutral-600 dark:text-neutral-50"
           style={{ transform: `translateX(${String(minutes).length * 6}px)` }}
         >
           S
         </div>
-        <div className="pointer-events-none absolute left-[3%] top-2 select-none text-xs text-neutral-600">
+        <div className="pointer-events-none absolute left-[3%] top-2 select-none text-xs text-neutral-600 dark:text-neutral-50">
           {!(seconds === 0 && minutes === 0) ? (
             timerRunning || stopwatchRunning ? (
               <Running />
@@ -95,10 +95,10 @@ const Timer = ({ openTimerWidget }: Props) => {
             ""
           )}
         </div>
-        <span className="pointer-events-none mr-1 select-none text-8xl tracking-tighter text-neutral-700">
+        <span className="pointer-events-none mr-1 select-none text-8xl tracking-tighter text-neutral-700 dark:text-neutral-50">
           {String(minutes).padStart(2, "0")}
         </span>
-        <span className="pointer-events-none select-none text-5xl tracking-tighter text-neutral-700">
+        <span className="pointer-events-none select-none text-5xl tracking-tighter text-neutral-700 dark:text-neutral-50">
           {String(seconds).padStart(2, "0")}
         </span>
       </div>
@@ -107,28 +107,28 @@ const Timer = ({ openTimerWidget }: Props) => {
         <button
           onClick={() => handleSetTime(10, 0)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           10M
         </button>
         <button
           onClick={() => handleSetTime(5, 0)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           5M
         </button>
         <button
           onClick={() => handleSetTime(1, 0)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           1M
         </button>
         <button
           onClick={() => handleSetTime(0, 1)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           1S
         </button>
@@ -136,19 +136,19 @@ const Timer = ({ openTimerWidget }: Props) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsStopwatch((prev) => !prev)}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm transition-all duration-300 hover:bg-neutral-700 hover:text-neutral-100 ${timerRunning ? "pointer-events-none opacity-25" : ""} ${isStopwatch ? "bg-neutral-700 text-neutral-100" : "bg-white text-neutral-800"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm transition-all duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:hover:border-neutral-50 hover:dark:bg-neutral-50 dark:hover:text-neutral-800 ${timerRunning ? "pointer-events-none opacity-25" : ""} ${isStopwatch ? "bg-neutral-700 text-neutral-100 dark:bg-neutral-50 dark:text-neutral-800" : "bg-white text-neutral-800 dark:bg-neutral-900 dark:text-neutral-50"}`}
         >
           <Stopwatch size={"20px"} />
         </button>
         <button
           onClick={handleReset}
-          className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100"
+          className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-colors duration-300 hover:bg-neutral-50 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
         >
           <Reset size={"20px"} />
         </button>
         <button
           onClick={handleStartPause}
-          className="flex h-12 w-28 items-center justify-center rounded-full border-[1.5px] border-neutral-700 bg-neutral-700 text-white transition-colors duration-300 hover:bg-neutral-900"
+          className="flex h-12 w-28 items-center justify-center rounded-full border-[1.5px] border-neutral-700 bg-neutral-700 text-white transition-colors duration-300 hover:bg-neutral-900 dark:bg-neutral-50 dark:text-neutral-800 dark:hover:bg-neutral-200"
         >
           <PlayPause size={"30px"} />
         </button>

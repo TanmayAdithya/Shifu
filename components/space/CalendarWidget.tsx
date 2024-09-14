@@ -21,6 +21,7 @@ import { IoClose, IoLinkOutline } from "react-icons/io5";
 import { GoPeople } from "react-icons/go";
 import MinimizeWidget from "./MinimizeWidget";
 import { addEvent } from "@/store/slices/calendarSlice";
+import { Input } from "../ui/input";
 
 type Props = {
   openCalendarWidget: boolean;
@@ -63,14 +64,14 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   return (
     <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md`}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:bg-neutral-900`}
     >
       <div className="w-full">
         <div className="mb-4 flex gap-1">
           {tabs.map((tab) => (
             <div
               key={tab.label}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-300 px-2 py-1 transition-colors duration-300 hover:border-neutral-600 hover:bg-neutral-600 hover:text-neutral-50 ${activeTab === tab.label ? "border-neutral-800 bg-neutral-800 text-neutral-50 hover:border-neutral-800 hover:bg-neutral-800" : ""}`}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-400 px-2 py-1 transition-colors duration-300 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 ${activeTab === tab.label ? "border-neutral-800 bg-neutral-800 text-neutral-50 hover:border-neutral-800 hover:bg-neutral-800" : "border-neutral-500"}`}
               onClick={() => handleTabClick(tab.label)}
             >
               <div className="flex items-center justify-center gap-2">
@@ -150,19 +151,19 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
           <div className="flex gap-1">
             <i>
               <MdChevronLeft
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-0 hover:bg-neutral-700 hover:text-neutral-50"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 dark:border-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
                 size={"20px"}
                 onClick={() => prevMonth()}
               />
             </i>
           </div>
-          <h2 className="font-semibold text-neutral-800/90">
+          <h2 className="font-semibold text-neutral-800/90 dark:text-neutral-100">
             {monthsOfYear[currentMonth]} {currentYear}
           </h2>
           <div className="flex gap-1">
             <i>
               <MdChevronRight
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-0 hover:bg-neutral-700 hover:text-neutral-50"
+                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 dark:border-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
                 size={"20px"}
                 onClick={() => nextMonth()}
               />
@@ -174,7 +175,7 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
         {daysOfWeek.map((day) => (
           <span
             key={day}
-            className="text-center text-sm font-medium text-neutral-800"
+            className="text-center text-sm font-medium text-neutral-800 dark:text-neutral-300"
           >
             {day}
           </span>
@@ -191,8 +192,8 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
               day + 1 === currentDate.getDate() &&
               currentMonth === currentDate.getMonth() &&
               currentYear === currentDate.getFullYear()
-                ? "flex aspect-square cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-sm text-neutral-50 transition-colors hover:bg-neutral-800"
-                : "flex aspect-square cursor-pointer items-center justify-center rounded-full text-sm text-neutral-700 transition-colors hover:bg-neutral-200"
+                ? "flex aspect-square cursor-pointer items-center justify-center rounded-full bg-neutral-800 text-sm text-neutral-100 transition-colors hover:bg-neutral-900 dark:bg-neutral-300 dark:text-neutral-800 dark:hover:bg-neutral-300 dark:hover:text-neutral-800"
+                : "flex aspect-square cursor-pointer items-center justify-center rounded-full text-sm text-neutral-800 transition-colors hover:bg-neutral-200 dark:text-neutral-300 dark:hover:bg-neutral-800"
             } text-center`}
           >
             {day + 1}
@@ -270,14 +271,15 @@ export const Events: React.FC<CalendarComponentProps> = ({
   return (
     <div className="mb-1 h-full max-h-full w-full rounded">
       <div
-        className="mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 hover:bg-neutral-900"
+        className="group mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 transition-colors duration-200 hover:bg-neutral-900 dark:border dark:border-neutral-500 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
         onClick={() => openPopup()}
       >
-        <span>
-          <NewEvent className="mr-1 text-white" size={"16px"} />
+        <span className="mr-1 transition-colors duration-200 group-hover:text-neutral-800 dark:group-hover:text-neutral-800">
+          <NewEvent size={"16px"} />
         </span>
         New Event
       </div>
+
       <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
         {calendarEvents.map((day, i) => {
           const dateArr = day.dateId.split(" ");
@@ -303,19 +305,19 @@ export const Events: React.FC<CalendarComponentProps> = ({
                   return (
                     <div
                       key={i}
-                      className="group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors hover:border-neutral-700 hover:bg-neutral-700"
+                      className="group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors duration-200 hover:border-neutral-700 hover:bg-neutral-700 dark:border-neutral-700 dark:bg-transparent dark:text-neutral-200"
                     >
                       <div className="flex">
-                        <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100"></span>
+                        <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100 dark:bg-neutral-400"></span>
                         <div className="flex">
                           <div className="flex flex-col">
                             <div className="flex items-center justify-start">
-                              <span className="font-medium text-neutral-900 group-hover:text-neutral-50">
+                              <span className="font-medium text-neutral-900 group-hover:text-neutral-50 dark:text-neutral-300 dark:group-hover:text-neutral-200">
                                 {e.title}
                               </span>
                             </div>
                             {e.start && e.end && (
-                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200">
+                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200 dark:text-neutral-400">
                                 {`${e.start} ${e.startPeriod?.toLowerCase()} - ${e.end} ${e.endPeriod?.toLowerCase()}`}
                               </span>
                             )}
@@ -372,15 +374,18 @@ export const EventPopup: React.FC<{
   return (
     <form
       onSubmit={handleAddEvent}
-      className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md"
+      className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md dark:bg-neutral-900"
     >
       <div className="flex items-center">
-        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
-          <GoPeople className="h-8 text-neutral-500" size={"18px"} />
+        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[1px] pl-4 dark:border-neutral-800 dark:bg-transparent">
+          <GoPeople
+            className="h-8 text-neutral-500 dark:text-neutral-200"
+            size={"18px"}
+          />
         </span>
         {/* Event Title */}
-        <input
-          className="w-[12.75rem] resize-none rounded-e-md border-b border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500"
+        <Input
+          className="w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none"
           placeholder="Add New Event"
           type="text"
           name="title"
@@ -391,71 +396,88 @@ export const EventPopup: React.FC<{
       <DatePickerWithPresets name="dateId" />
 
       <div className="flex items-center">
-        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[2px] pl-4">
-          <IoLinkOutline className="h-8 text-neutral-500" size={"18px"} />
+        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[1px] pl-4 dark:border-neutral-800 dark:bg-transparent">
+          <IoLinkOutline
+            className="h-8 text-neutral-500 dark:text-neutral-200"
+            size={"18px"}
+          />
         </span>
-        <input
-          className="w-[12.75rem] resize-none rounded-e-md border-b border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500"
+        <Input
+          className="active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0"
           placeholder="Add Link"
           type="text"
           name="link"
         />
       </div>
 
-      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white">
-        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4">
-          <IoMdTime size={"18px"} className="mr-1 text-neutral-500" />
-          <p className="text-neutral-500">Start</p>
+      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-transparent">
+        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent">
+          <IoMdTime
+            size={"18px"}
+            className="mr-2 text-neutral-500 dark:text-neutral-200"
+          />
+          <p className="text-neutral-500 dark:text-neutral-500">Start</p>
         </span>
-        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
+        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500 dark:bg-neutral-800">
           <select
             name="start"
-            className="bg-transparent text-center text-neutral-700"
+            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
           >
             {times.map((time) => (
-              <option key={time} value={time}>
+              <option key={time} className="dark:text-neutral-800" value={time}>
                 {time}
               </option>
             ))}
           </select>
           <select
             name="startPeriod"
-            className="bg-transparent text-center text-neutral-700"
+            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
           >
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
+            <option className="dark:text-neutral-800" value="AM">
+              AM
+            </option>
+            <option className="dark:text-neutral-800" value="PM">
+              PM
+            </option>
           </select>
         </div>
       </div>
-      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white">
-        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4">
-          <IoMdTime size={"18px"} className="mr-1 text-neutral-500" />
-          <p className="text-neutral-500">End</p>
+      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-transparent">
+        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent">
+          <IoMdTime
+            size={"18px"}
+            className="mr-2 text-neutral-500 dark:text-neutral-200"
+          />
+          <p className="text-neutral-500 dark:text-neutral-500">End</p>
         </span>
-        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500">
+        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500 dark:bg-neutral-800">
           <select
             name="end"
-            className="bg-transparent text-center text-neutral-700"
+            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
           >
             {times.map((time) => (
-              <option key={time} value={time}>
+              <option key={time} className="dark:text-neutral-800" value={time}>
                 {time}
               </option>
             ))}
           </select>
           <select
             name="endPeriod"
-            className="bg-transparent text-center text-neutral-700"
+            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
           >
-            <option value="AM">AM</option>
-            <option value="PM">PM</option>
+            <option className="dark:text-neutral-800" value="AM">
+              AM
+            </option>
+            <option className="dark:text-neutral-800" value="PM">
+              PM
+            </option>
           </select>
         </div>
       </div>
       <div className="flex gap-1">
         <button
           type="submit"
-          className="flex-1 rounded-md bg-neutral-800 px-2 py-1 text-white transition-colors duration-200 hover:bg-neutral-900"
+          className="flex-1 rounded-md px-2 py-1 text-white transition-colors duration-200 hover:bg-neutral-900 dark:border dark:border-neutral-300 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
         >
           Add Event
         </button>
@@ -468,7 +490,7 @@ export const EventPopup: React.FC<{
       </div>
       <span className="absolute right-1 top-1">
         <IoClose
-          className="cursor-pointer text-neutral-600 hover:text-neutral-700"
+          className="cursor-pointer text-neutral-600 hover:text-neutral-700 dark:text-neutral-300 dark:hover:text-neutral-100"
           onClick={() => closePopup()}
         />
       </span>

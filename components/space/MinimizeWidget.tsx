@@ -16,7 +16,7 @@ const MinimizeWidget = ({ widgetId }: Props) => {
   return (
     <button>
       <MinimizeIcon
-        className="cursor-pointer text-neutral-600 transition-colors duration-100 hover:text-neutral-800"
+        className="cursor-pointer text-neutral-600 transition-colors duration-100 hover:text-neutral-800 dark:text-neutral-50"
         onClick={handleToggleWidget}
         size={"18px"}
       />

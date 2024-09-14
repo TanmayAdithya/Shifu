@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { completeTodo, removeTodo, updateTodo } from "@/store/slices/todoSlice";
 import { IoClose as ExitEditMode } from "react-icons/io5";
 import { FaTag as Label } from "react-icons/fa";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type Props = {
   content: string;
@@ -46,16 +47,16 @@ const TodoItem = ({ content, id, completed }: Props) => {
 
   return (
     <li
-      className={`flex flex-col justify-between gap-2 rounded-md border border-neutral-400/60 p-2 ${completed ? "opacity-70" : ""}`}
+      className={`flex flex-col justify-between gap-2 rounded-md border border-neutral-400/60 p-2 transition-colors duration-200 ${completed ? "opacity-70" : "dark:hover:border-neutral-100"}`}
     >
       <div className="flex items-start justify-between">
-        <input
-          type="checkbox"
-          className="mr-2 mt-1"
-          onChange={() => handleCompleteTodo(id)}
+        <Checkbox
+          checked={completed}
+          onCheckedChange={() => handleCompleteTodo(id)}
+          className="mr-2 mt-[2px]"
         />
         <p
-          className={`mr-2 w-52 flex-1 text-balance break-words leading-tight text-neutral-700 ${completed ? "line-through" : ""}`}
+          className={`mr-2 w-52 flex-1 text-balance break-words leading-tight text-neutral-700 dark:text-neutral-100 ${completed ? "line-through" : ""}`}
         >
           {editTodo ? (
             <div className="flex items-center">
@@ -91,16 +92,16 @@ const TodoItem = ({ content, id, completed }: Props) => {
           ""
         ) : (
           <Edit
-            className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
+            className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-50 dark:text-neutral-50 dark:hover:text-neutral-300"
             onClick={() => setEditTodo((prev) => !prev)}
           />
         )}
         <Label
           size={"13px"}
-          className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
+          className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-50 dark:text-neutral-50 dark:hover:text-neutral-300"
         />
         <Delete
-          className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-800"
+          className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-50 dark:text-neutral-50 dark:hover:text-neutral-300"
           onClick={() => handleDeleteTodo(id)}
         />
       </div>

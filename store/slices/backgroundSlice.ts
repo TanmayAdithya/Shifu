@@ -5,7 +5,7 @@ interface BackgroundState {
 }
 
 const initialState: BackgroundState = {
-  url: "/parco-chan-unsplash.jpg",
+  url: "/clay-banks-unsplash.jpg",
 };
 
 const backgroundSlice = createSlice({

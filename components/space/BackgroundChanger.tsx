@@ -10,6 +10,7 @@ import {
 } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { setBackground } from "@/store/slices/backgroundSlice";
+import { Input } from "../ui/input";
 
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
@@ -75,7 +76,7 @@ function BackgroundChanger() {
   //   };
   // }, [debouncedSearch, page]);
 
-  const tags = ["Nature", "Spring", "Summer", "Winter"];
+  const tags = ["Nature", "Spring", "Summer", "Winter", "Orange"];
 
   const handleBackground = (url: string) => {
     dispatch(setBackground(url));
@@ -85,20 +86,20 @@ function BackgroundChanger() {
     <>
       <div className="z-10 mt-4">
         <div className="mb-2 p-1">
-          <input
+          <Input
             type="text"
             placeholder="Search"
-            className="w-full rounded-md border border-gray-300 p-2 outline-none"
+            className="w-full rounded-md p-2 outline-none"
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
 
         {/* Tags */}
-        <div className="mb-3 flex flex-wrap justify-center gap-2">
+        <div className="mb-3 flex flex-wrap justify-center gap-2 px-1">
           {tags.map((tag) => (
             <button
               key={tag}
-              className="rounded-md border border-gray-600 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-gray-600 hover:text-neutral-100 focus:bg-gray-600 focus:text-neutral-100"
+              className="flex-1 rounded-md px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-gray-600 hover:text-neutral-100 focus:bg-gray-600 focus:text-neutral-100 dark:bg-neutral-50 dark:text-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:focus:bg-neutral-800 dark:focus:text-neutral-50"
               onClick={() => setSearch(tag)}
             >
               {tag}

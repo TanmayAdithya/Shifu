@@ -28,13 +28,13 @@ export function DatePickerWithPresets({ name }: { name: string }) {
       <Popover>
         <PopoverTrigger asChild>
           <Button
-            variant={"outline"}
+            variant={"ghost"}
             className={cn(
-              "w-[240px] justify-start text-left text-base font-normal",
+              "w-[240px] justify-start text-left text-base font-normal dark:border dark:border-neutral-800",
               !date && "text-muted-foreground",
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 dark:text-neutral-200" />
             {date ? (
               format(date, "PPP")
             ) : (
@@ -44,7 +44,7 @@ export function DatePickerWithPresets({ name }: { name: string }) {
         </PopoverTrigger>
         <PopoverContent
           align="start"
-          className="flex w-auto flex-col space-y-2 p-2"
+          className="flex w-auto flex-col space-y-2 p-2 dark:bg-neutral-900"
         >
           <Select
             onValueChange={(value) =>
@@ -54,7 +54,7 @@ export function DatePickerWithPresets({ name }: { name: string }) {
             <SelectTrigger>
               <SelectValue placeholder="Select" />
             </SelectTrigger>
-            <SelectContent position="popper">
+            <SelectContent className="dark:bg-neutral-900" position="popper">
               <SelectItem value="0">Today</SelectItem>
               <SelectItem value="1">Tomorrow</SelectItem>
               <SelectItem value="3">In 3 days</SelectItem>
