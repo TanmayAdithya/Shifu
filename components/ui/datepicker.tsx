@@ -30,7 +30,7 @@ export function DatePickerWithPresets({ name }: { name: string }) {
           <Button
             variant={"ghost"}
             className={cn(
-              "w-[240px] justify-start text-left text-base font-normal dark:border dark:border-neutral-800",
+              "w-[240px] justify-start border border-neutral-200 text-left text-base font-normal dark:border dark:border-neutral-800",
               !date && "text-muted-foreground",
             )}
           >

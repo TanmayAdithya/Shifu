@@ -69,7 +69,7 @@ const Timer = ({ openTimerWidget }: Props) => {
 
   return (
     <div
-      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 dark:bg-neutral-900`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:bg-neutral-900`}
     >
       <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center dark:border-neutral-700 dark:bg-neutral-800">
         <div
@@ -142,7 +142,7 @@ const Timer = ({ openTimerWidget }: Props) => {
         </button>
         <button
           onClick={handleReset}
-          className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-colors duration-300 hover:bg-neutral-50 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
+          className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
         >
           <Reset size={"20px"} />
         </button>

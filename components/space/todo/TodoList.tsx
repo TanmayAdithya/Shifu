@@ -20,7 +20,7 @@ const TodoList = () => {
           key={todo.id}
           id={todo.id}
           content={todo.content}
-          completed={todo.completed}
+          status={todo.status}
         />
       ))}
     </ul>

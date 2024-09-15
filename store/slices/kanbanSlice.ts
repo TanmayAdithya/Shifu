@@ -1,9 +1,4 @@
-import {
-  AddColumnPayload,
-  AddTaskPayload,
-  Column,
-  KanbanBoard,
-} from "@/types/types";
+import { AddTaskPayload, KanbanBoard } from "@/types/types";
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState: KanbanBoard = {
@@ -53,13 +48,6 @@ export const kanbanSlice = createSlice({
       );
 
       column?.tasks.push({ id: nanoid(), content: action.payload.taskContent });
-    },
-    addColumn: (state, action: PayloadAction<AddColumnPayload>) => {
-      state.columns.push({
-        id: nanoid(),
-        name: action.payload.name,
-        tasks: action.payload.tasks,
-      });
     },
   },
 });

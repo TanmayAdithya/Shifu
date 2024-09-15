@@ -269,7 +269,7 @@ export default function Notes({ openNotesWidget }: Props) {
             {openNote && (
               <EditorContent
                 id="editor-wrapper"
-                className="prose-code:after:content=[''] text-md /* Dark mode variants */ for bold and code For text in Background color blocks Text inside Border Rounded corners better visual Remove background pre prose-pre code:bg-transparent <code> <pre> dark:prose-pre Ensure it's also removed dark prose block py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:bg-transparent prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1 dark:prose-headings:text-neutral-200 dark:prose-p:text-neutral-200 dark:prose-blockquote:text-neutral-300 dark:prose-strong:text-neutral-200 dark:prose-code:bg-neutral-800 dark:prose-code:bg-transparent dark:prose-code:text-neutral-300 dark:prose-pre:rounded-md dark:prose-pre:border dark:prose-pre:border-neutral-700 dark:prose-pre:bg-neutral-900 dark:prose-pre:text-neutral-300"
+                className="prose-code:after:content=[''] text-md prose block py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:bg-transparent prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1 dark:prose-headings:text-neutral-200 dark:prose-p:text-neutral-200 dark:prose-blockquote:text-neutral-300 dark:prose-strong:text-neutral-200 dark:prose-code:bg-neutral-800 dark:prose-code:bg-transparent dark:prose-code:text-neutral-300 dark:prose-pre:rounded-md dark:prose-pre:border dark:prose-pre:border-neutral-700 dark:prose-pre:bg-neutral-900 dark:prose-pre:text-neutral-300"
                 editor={editor}
               />
             )}

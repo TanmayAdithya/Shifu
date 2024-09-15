@@ -29,7 +29,9 @@ export type background = {
 export interface Todo {
   id: string;
   content: string;
-  completed: boolean;
+  urgent?: boolean;
+  important?: boolean;
+  status?: "on going" | "complete";
 }
 
 export interface TodosState {
@@ -81,11 +83,6 @@ export interface KanbanTask {
 export interface AddTaskPayload {
   columnId: string;
   taskContent: string;
-}
-
-export interface AddColumnPayload {
-  name: string;
-  tasks: KanbanTask[];
 }
 
 export interface CalendarEvent {

@@ -380,12 +380,12 @@ export const EventPopup: React.FC<{
         <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[1px] pl-4 dark:border-neutral-800 dark:bg-transparent">
           <GoPeople
             className="h-8 text-neutral-500 dark:text-neutral-200"
-            size={"18px"}
+            size={"17px"}
           />
         </span>
         {/* Event Title */}
         <Input
-          className="w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none"
+          className="w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none"
           placeholder="Add New Event"
           type="text"
           name="title"
@@ -403,7 +403,7 @@ export const EventPopup: React.FC<{
           />
         </span>
         <Input
-          className="active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0"
+          className="active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0"
           placeholder="Add Link"
           type="text"
           name="link"
@@ -477,7 +477,7 @@ export const EventPopup: React.FC<{
       <div className="flex gap-1">
         <button
           type="submit"
-          className="flex-1 rounded-md px-2 py-1 text-white transition-colors duration-200 hover:bg-neutral-900 dark:border dark:border-neutral-300 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
+          className="flex-1 rounded-md border border-neutral-800 px-2 py-1 text-neutral-800 transition-colors duration-200 hover:bg-neutral-900 hover:text-neutral-100 dark:border dark:border-neutral-300 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
         >
           Add Event
         </button>
