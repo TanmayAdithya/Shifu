@@ -99,7 +99,7 @@ function BackgroundChanger() {
           {tags.map((tag) => (
             <button
               key={tag}
-              className="flex-1 rounded-md px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-gray-600 hover:text-neutral-100 focus:bg-gray-600 focus:text-neutral-100 dark:bg-neutral-50 dark:text-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:focus:bg-neutral-800 dark:focus:text-neutral-50"
+              className="flex-1 rounded-md border border-gray-400 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:bg-gray-600 hover:text-neutral-100 focus:bg-gray-600 focus:text-neutral-100 dark:bg-neutral-50 dark:text-neutral-800 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:focus:bg-neutral-800 dark:focus:text-neutral-50"
               onClick={() => setSearch(tag)}
             >
               {tag}
