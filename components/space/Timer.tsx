@@ -7,10 +7,12 @@ import { GrPowerReset as Reset } from "react-icons/gr";
 import { GoStopwatch as Stopwatch } from "react-icons/go";
 import { FaPause as Paused } from "react-icons/fa6";
 import { FaPlay as Running } from "react-icons/fa6";
+import { Position } from "@/types/types";
+import { useDraggable } from "@dnd-kit/core";
 
-type Props = { openTimerWidget: boolean };
+type Props = { openTimerWidget: boolean; id: string; position: Position };
 
-const Timer = ({ openTimerWidget }: Props) => {
+const Timer = ({ openTimerWidget, id, position }: Props) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [stopwatchRunning, setStopwatchRunning] = useState(false);
@@ -67,10 +69,30 @@ const Timer = ({ openTimerWidget }: Props) => {
     setSeconds((prevSec) => prevSec + sec);
   };
 
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
+  });
+
+  const style = {
+    left: `${position.x}px`,
+    top: `${position.y}px`,
+    transform:
+      transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } as React.CSSProperties;
+
   return (
     <div
+      ref={setNodeRef}
+      style={style}
       className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
+      <div className="absolute left-0 top-2 w-full">
+        <div
+          {...listeners}
+          {...attributes}
+          className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
+        ></div>
+      </div>
       <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center dark:border-neutral-700 dark:bg-neutral-800">
         <div
           className="pointer-events-none absolute left-[57%] top-1 select-none text-xs text-neutral-600 dark:text-neutral-50"

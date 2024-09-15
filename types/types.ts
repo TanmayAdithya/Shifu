@@ -155,3 +155,13 @@ export interface TasksDoc extends Todo {
 export interface NotesDoc extends Note {
   user_id: string;
 }
+
+export interface Position {
+  x: number;
+  y: number;
+}
+
+export interface WidgetPosition {
+  id: string;
+  position: Position;
+}
