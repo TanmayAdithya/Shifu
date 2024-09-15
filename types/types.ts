@@ -31,7 +31,7 @@ export interface Todo {
   content: string;
   urgent?: boolean;
   important?: boolean;
-  status?: "on going" | "complete";
+  status?: "todo" | "in-progress" | "complete";
 }
 
 export interface TodosState {

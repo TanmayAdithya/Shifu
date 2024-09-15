@@ -37,18 +37,25 @@ export const todoSlice = createSlice({
       state.todos.push({
         id: nanoid(),
         content: action.payload,
-        completed: false,
+        status: "todo",
       });
     },
+
     removeTodo: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
+
     completeTodo: (state, action: PayloadAction<string>) => {
       const todo = state.todos.find((todo) => todo.id === action.payload);
       if (todo) {
-        todo.completed = !todo.completed;
+        if (todo.status === "todo") {
+          todo.status = "complete";
+        } else {
+          todo.status = "todo";
+        }
       }
     },
+
     updateTodo: (
       state,
       action: PayloadAction<{ id: string; content: string }>,
@@ -56,6 +63,33 @@ export const todoSlice = createSlice({
       const todo = state.todos.find((todo) => todo.id === action.payload.id);
       if (todo) {
         todo.content = action.payload.content;
+      }
+    },
+
+    setInProgress: (state, action: PayloadAction<string>) => {
+      const todo = state.todos.find((todo) => todo.id === action.payload);
+      if (todo) {
+        todo.status = "in-progress";
+      }
+    },
+
+    toggleUrgency: (
+      state,
+      action: PayloadAction<{ id: string; urgent: boolean }>,
+    ) => {
+      const todo = state.todos.find((todo) => todo.id === action.payload.id);
+      if (todo) {
+        todo.urgent = action.payload.urgent;
+      }
+    },
+
+    toggleImportance: (
+      state,
+      action: PayloadAction<{ id: string; important: boolean }>,
+    ) => {
+      const todo = state.todos.find((todo) => todo.id === action.payload.id);
+      if (todo) {
+        todo.important = action.payload.important;
       }
     },
   },
@@ -81,7 +115,14 @@ export const todoSlice = createSlice({
   },
 });
 
-export const { addTodo, removeTodo, completeTodo, updateTodo } =
-  todoSlice.actions;
+export const {
+  addTodo,
+  removeTodo,
+  completeTodo,
+  updateTodo,
+  setInProgress,
+  toggleUrgency,
+  toggleImportance,
+} = todoSlice.actions;
 
 export default todoSlice.reducer;
