@@ -38,7 +38,7 @@ const Navbar = ({ openWidgets }: Props) => {
     <div className="absolute bottom-20 left-0 right-0 flex justify-center">
       {/* Background Changer Container */}
       <div
-        className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:bg-neutral-900`}
+        className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
         <BackgroundChanger />
         <div className="absolute right-3 top-2">
@@ -54,7 +54,7 @@ const Navbar = ({ openWidgets }: Props) => {
       </div>
       <nav className="absolute z-40 mb-[3rem] flex items-center">
         {/* Background Changer Tab */}
-        <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:bg-neutral-900">
+        <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
             <Tooltip>
               <TooltipTrigger>
@@ -80,7 +80,7 @@ const Navbar = ({ openWidgets }: Props) => {
             </Tooltip>
           </TooltipProvider>
         </div>
-        <div className="w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-md dark:bg-neutral-900">
+        <div className="w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <div className="flex flex-1 justify-between">
             {widgetItems.map(({ id, icon: Icon }) => {
               return (
@@ -114,7 +114,7 @@ const Navbar = ({ openWidgets }: Props) => {
           </div>
         </div>
         {/* Media Player Tab*/}
-        <div className="ml-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:bg-neutral-900">
+        <div className="ml-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
             <Tooltip>
               <TooltipTrigger>

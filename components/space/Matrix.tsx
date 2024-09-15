@@ -12,7 +12,7 @@ const Matrix = ({ openMatrixWidget }: Props) => {
     <div
       className={`${
         openMatrixWidget ? "" : "hidden"
-      } absolute left-72 top-20 z-10 aspect-square w-[30rem] rounded-3xl bg-white p-6 pt-8 shadow-md dark:bg-neutral-900`}
+      } absolute left-72 top-20 z-10 aspect-square w-[30rem] rounded-3xl bg-white p-6 pt-8 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="relative grid h-full grid-cols-2 grid-rows-2 rounded-xl">
         {/* Quadrant 1: Do First */}

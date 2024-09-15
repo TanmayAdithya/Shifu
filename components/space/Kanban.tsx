@@ -11,11 +11,11 @@ const Kanban = ({ openKanbanWidget }: Props) => {
     <div
       className={`${
         openKanbanWidget ? "" : "hidden"
-      } absolute bottom-56 left-56 z-10 h-[18.75rem] w-[33rem] rounded-xl bg-neutral-100 shadow-2xl dark:bg-neutral-900`}
+      } absolute bottom-56 left-56 z-10 h-[18.75rem] w-[33rem] rounded-xl bg-neutral-100 shadow-2xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="flex gap-2 p-2">
         {/* To Do Column */}
-        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/40">
+        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15">
           <div className="mb-2 flex items-center">
             <span className="ml-1 mr-2 size-1 rounded-full bg-blue-300"></span>
             <h2 className="font-semibold text-gray-900 dark:text-gray-100">
@@ -42,7 +42,7 @@ const Kanban = ({ openKanbanWidget }: Props) => {
         </div>
 
         {/* In Progress Column */}
-        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/40">
+        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15">
           <div className="mb-2 flex items-center">
             <span className="ml-1 mr-2 size-1 rounded-full bg-yellow-500"></span>
             <h2 className="font-semibold text-gray-900 dark:text-gray-100">
@@ -60,7 +60,7 @@ const Kanban = ({ openKanbanWidget }: Props) => {
         </div>
 
         {/* Complete Column */}
-        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/40">
+        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15">
           <div className="mb-2 flex items-center">
             <span className="ml-1 mr-2 size-1 rounded-full bg-green-500"></span>
             <h2 className="font-semibold text-gray-900 dark:text-gray-100">

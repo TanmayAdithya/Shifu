@@ -11,7 +11,7 @@ type Props = {
 const Todo = ({ openTodoWidget }: Props) => {
   return (
     <div
-      className={`${openTodoWidget ? "" : "hidden"} absolute right-56 top-10 z-10 mx-auto w-[20rem] max-w-xs rounded-xl bg-white p-4 dark:bg-neutral-900`}
+      className={`${openTodoWidget ? "" : "hidden"} absolute right-56 top-10 z-10 mx-auto w-[20rem] max-w-xs rounded-xl bg-white p-4 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <h1 className="mb-4 text-xl font-medium">Todo</h1>
       <div className="absolute right-4 top-4">

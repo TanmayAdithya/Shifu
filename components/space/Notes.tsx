@@ -213,7 +213,7 @@ export default function Notes({ openNotesWidget }: Props) {
           </div>
         </aside>
         <div
-          className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15.05rem] rounded-xl"} overflow-auto bg-white p-4 shadow-lg transition-all duration-700 dark:bg-neutral-900`}
+          className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 -translate-x-[15.05rem] rounded-xl"} overflow-auto bg-white p-4 shadow-lg transition-all duration-700 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
         >
           <div>
             <SidebarIcon

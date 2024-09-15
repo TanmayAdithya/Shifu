@@ -69,7 +69,7 @@ const Timer = ({ openTimerWidget }: Props) => {
 
   return (
     <div
-      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:bg-neutral-900`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center dark:border-neutral-700 dark:bg-neutral-800">
         <div

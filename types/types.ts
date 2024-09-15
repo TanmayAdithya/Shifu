@@ -24,6 +24,10 @@ export type background = {
     full: string;
   };
   description: string;
+  user: {
+    name: string;
+    portfolio_url: string;
+  };
 };
 
 export interface Todo {

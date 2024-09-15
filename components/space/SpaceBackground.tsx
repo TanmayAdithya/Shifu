@@ -10,31 +10,50 @@ import Timer from "@/components/space/Timer";
 import Todo from "@/components/space/todo/Todo";
 import { RootState } from "@/store/rootReducer";
 import { useSelector } from "react-redux";
+import { TiCamera as CameraIcon } from "react-icons/ti";
+import { DndContext } from "@dnd-kit/core";
 
 type Props = {};
 
 export default function SpaceBackground({}: Props) {
   const openWidgets = useSelector((state: RootState) => state.widgets.widgets);
-  const backgroundUrl = useSelector((state: RootState) => state.background.url);
+  const { url, portfolio_url, name } = useSelector(
+    (state: RootState) => state.background,
+  );
   return (
     <>
-      <Notes openNotesWidget={openWidgets["Notes"]} />
-      <Timer openTimerWidget={openWidgets["Timer"]} />
-      <Todo openTodoWidget={openWidgets["Todo"]} />
-      <Kanban openKanbanWidget={openWidgets["Kanban"]} />
-      <Matrix openMatrixWidget={openWidgets["Matrix"]} />
-      <div className="flex justify-center">
-        <CalendarWidget openCalendarWidget={openWidgets["Calendar"]} />
-      </div>
-      <Navbar openWidgets={openWidgets} />
-      <span id="background-container" className="relative block h-full w-full">
-        <img
-          id="background-image"
-          src={backgroundUrl}
-          alt="background-image"
-          className="pointer-events-none h-full w-full max-w-full select-none object-cover"
-        />
-      </span>
+      <DndContext>
+        <Notes openNotesWidget={openWidgets["Notes"]} />
+        <Timer openTimerWidget={openWidgets["Timer"]} />
+        <Todo openTodoWidget={openWidgets["Todo"]} />
+        <Kanban openKanbanWidget={openWidgets["Kanban"]} />
+        <Matrix openMatrixWidget={openWidgets["Matrix"]} />
+        <div className="flex justify-center">
+          <CalendarWidget openCalendarWidget={openWidgets["Calendar"]} />
+        </div>
+        <Navbar openWidgets={openWidgets} />
+        <span
+          id="background-container"
+          className="relative block h-full w-full"
+        >
+          <img
+            id="background-image"
+            src={url}
+            alt="background-image"
+            className="pointer-events-none h-full w-full max-w-full select-none object-cover"
+          />
+          <p className="absolute bottom-2 left-2 flex items-center text-sm text-neutral-800 dark:text-neutral-200">
+            <CameraIcon size={"18px"} className="mr-1" />
+            <a
+              className={` ${portfolio_url ? "underline" : ""} `}
+              href={portfolio_url}
+              target="_blank"
+            >
+              {name}
+            </a>{" "}
+          </p>
+        </span>
+      </DndContext>
     </>
   );
 }

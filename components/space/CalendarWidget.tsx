@@ -64,7 +64,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
 
   return (
     <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:bg-neutral-900`}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="w-full">
         <div className="mb-4 flex gap-1">
