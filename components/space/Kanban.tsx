@@ -1,9 +1,27 @@
 "use client";
 
 import { Position } from "@/types/types";
-import { useDraggable } from "@dnd-kit/core";
-import React from "react";
+import {
+  closestCenter,
+  DndContext,
+  DragEndEvent,
+  DragStartEvent,
+  UniqueIdentifier,
+  useDraggable,
+  DragOverlay,
+  DropAnimation,
+  defaultDropAnimationSideEffects,
+} from "@dnd-kit/core";
+import React, { useState } from "react";
 import MinimizeWidget from "./MinimizeWidget";
+import KanbanTask from "./KanbanTask";
+import { SortableContext } from "@dnd-kit/sortable";
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/store/rootReducer";
+import {
+  moveTaskBetweenColumns,
+  reorderTaskInColumn,
+} from "@/store/slices/kanbanSlice";
 
 type Props = {
   openKanbanWidget: boolean;
@@ -19,13 +37,89 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
+
+  const columns = useSelector((state: RootState) => state.kanban.columns);
+  const dispatch = useDispatch();
+
+  const [activeTask, setActiveTask] = useState<{
+    taskId: UniqueIdentifier;
+    fromColumnId: UniqueIdentifier;
+  } | null>(null);
+
+  const [draggedTask, setDraggedTask] = useState<{
+    id: string;
+    content: string;
+    color: string;
+  } | null>(null);
+
+  const handleDragStart = (event: DragStartEvent) => {
+    const { active } = event;
+    const activeTaskId = active.id;
+    const fromColumn = columns.find((column) =>
+      column.tasks.some((task) => task.id === activeTaskId),
+    );
+
+    if (fromColumn) {
+      const task = fromColumn.tasks.find((task) => task.id === activeTaskId);
+      setActiveTask({ taskId: activeTaskId, fromColumnId: fromColumn.id });
+      setDraggedTask({
+        id: task!.id,
+        content: task!.content,
+        color: `bg-${fromColumn.color}-500 dark:bg-${fromColumn.color}-800`,
+      });
+    }
+  };
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (!over || !activeTask) return;
+
+    const fromColumnId = activeTask.fromColumnId;
+    const toColumnId =
+      columns.find((column) => column.tasks.some((task) => task.id === over.id))
+        ?.id || over.id;
+
+    if (fromColumnId === toColumnId) {
+      const fromColumn = columns.find((col) => col.id === fromColumnId);
+      if (fromColumn) {
+        const oldIndex = fromColumn.tasks.findIndex(
+          (task) => task.id === active.id,
+        );
+        const newIndex = fromColumn.tasks.findIndex(
+          (task) => task.id === over.id,
+        );
+        if (oldIndex !== newIndex) {
+          dispatch(
+            reorderTaskInColumn({
+              columnId: fromColumnId.toString(),
+              oldIndex,
+              newIndex,
+            }),
+          );
+        }
+      }
+    } else {
+      dispatch(
+        moveTaskBetweenColumns({
+          fromColumnId,
+          toColumnId,
+          taskId: active.id,
+        }),
+      );
+    }
+
+    setActiveTask(null);
+    setDraggedTask(null);
+  };
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       className={`${
         openKanbanWidget ? "" : "hidden"
-      } absolute bottom-56 left-56 z-10 h-[19.5rem] w-[33.5rem] rounded-xl bg-neutral-100 p-1 shadow-2xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      } absolute z-10 h-[19.5rem] w-[33.5rem] rounded-xl bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-1 w-full">
         <div
@@ -34,69 +128,49 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
           className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
         ></div>
       </div>
-      <div className="mt-1 flex gap-2 p-2">
-        {/* To Do Column */}
-        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15">
-          <div className="mb-2 flex items-center">
-            <span className="ml-1 mr-2 size-1 rounded-full bg-blue-300"></span>
-            <h2 className="font-semibold text-gray-900 dark:text-gray-100">
-              To Do
-            </h2>
-          </div>
-          <div className="h- max-h-[236px] space-y-2 overflow-scroll rounded-lg border-gray-300 dark:border-gray-700">
-            <div className="rounded-lg bg-blue-500 p-2 text-sm text-neutral-100 dark:bg-blue-800">
-              Buy groceries
+      <div className="mt-1 flex h-full gap-2 p-2">
+        <DndContext
+          collisionDetection={closestCenter}
+          onDragStart={handleDragStart}
+          onDragEnd={handleDragEnd}
+        >
+          {columns.map((column) => (
+            <div
+              key={column.id}
+              className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15"
+            >
+              <div className="mb-2 flex items-center">
+                <span
+                  className={`ml-1 mr-2 size-1 rounded-full bg-${column.color}-500`}
+                ></span>
+                <h2 className="font-semibold text-gray-900 dark:text-gray-100">
+                  {column.column_name}
+                </h2>
+              </div>
+              <div className="max-h-[236px] space-y-2 overflow-scroll rounded-lg border-gray-300 dark:border-gray-700">
+                <SortableContext items={column.tasks.map((task) => task.id)}>
+                  {column.tasks.map((task) => (
+                    <KanbanTask
+                      key={task.id}
+                      id={task.id}
+                      color={`bg-${column.color}-500 dark:bg-${column.color}-800`}
+                      content={task.content}
+                    />
+                  ))}
+                </SortableContext>
+              </div>
             </div>
-            <div className="rounded-lg bg-blue-500 p-2 text-sm text-neutral-100 dark:bg-blue-800">
-              Call the plumber
-            </div>
-            <div className="rounded-lg bg-blue-500 p-2 text-sm text-neutral-100 dark:bg-blue-800">
-              Read a book
-            </div>
-            <div className="rounded-lg bg-blue-500 p-2 text-sm text-neutral-100 dark:bg-blue-800">
-              Prepare presentation slides
-            </div>
-            <div className="rounded-lg bg-blue-500 p-2 text-sm text-neutral-100 dark:bg-blue-800">
-              Plan weekend trip
-            </div>
-          </div>
-        </div>
-
-        {/* In Progress Column */}
-        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15">
-          <div className="mb-2 flex items-center">
-            <span className="ml-1 mr-2 size-1 rounded-full bg-yellow-500"></span>
-            <h2 className="font-semibold text-gray-900 dark:text-gray-100">
-              On Going
-            </h2>
-          </div>
-          <div className="h-full max-h-[240px] space-y-2 overflow-scroll rounded-lg border-gray-300 dark:border-gray-700">
-            <div className="rounded-lg bg-yellow-500 p-2 text-sm text-neutral-100 dark:bg-yellow-800">
-              Finish project report
-            </div>
-            <div className="rounded-lg bg-yellow-500 p-2 text-sm text-neutral-100 dark:bg-yellow-800">
-              Design new logo
-            </div>
-          </div>
-        </div>
-
-        {/* Complete Column */}
-        <div className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15">
-          <div className="mb-2 flex items-center">
-            <span className="ml-1 mr-2 size-1 rounded-full bg-green-500"></span>
-            <h2 className="font-semibold text-gray-900 dark:text-gray-100">
-              Complete
-            </h2>
-          </div>
-          <div className="h-full max-h-[240px] space-y-2 overflow-scroll rounded-lg border-gray-300 dark:border-gray-700">
-            <div className="rounded-lg bg-green-500 p-2 text-sm text-neutral-100 dark:bg-green-800">
-              Pay utility bills
-            </div>
-            <div className="rounded-lg bg-green-500 p-2 text-sm text-neutral-100 dark:bg-green-800">
-              Organize files
-            </div>
-          </div>
-        </div>
+          ))}
+          <DragOverlay>
+            {draggedTask ? (
+              <KanbanTask
+                id={draggedTask.id}
+                color={draggedTask.color}
+                content={draggedTask.content}
+              />
+            ) : null}
+          </DragOverlay>
+        </DndContext>
       </div>
       <div className={`absolute right-1 top-0`}>
         <MinimizeWidget widgetId="Kanban" />

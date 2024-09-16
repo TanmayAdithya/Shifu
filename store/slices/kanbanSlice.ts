@@ -1,11 +1,13 @@
-import { AddTaskPayload, KanbanBoard } from "@/types/types";
+import { KanbanBoard } from "@/types/types";
+import { UniqueIdentifier } from "@dnd-kit/core";
 import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
 
 const initialState: KanbanBoard = {
   columns: [
     {
       id: "1",
-      name: "To Do",
+      column_name: "To Do",
+      color: "blue",
       tasks: [
         { id: "1-1", content: "Task 1" },
         { id: "1-2", content: "Task 2" },
@@ -21,7 +23,8 @@ const initialState: KanbanBoard = {
     },
     {
       id: "2",
-      name: "In Progress",
+      column_name: "In Progress",
+      color: "yellow",
       tasks: [
         { id: "2-1", content: "Task 4" },
         { id: "2-2", content: "Task 5" },
@@ -29,7 +32,8 @@ const initialState: KanbanBoard = {
     },
     {
       id: "3",
-      name: "Completed",
+      column_name: "Complete",
+      color: "green",
       tasks: [
         { id: "3-1", content: "Task 8" },
         { id: "3-2", content: "Task 9" },
@@ -38,20 +42,53 @@ const initialState: KanbanBoard = {
   ],
 };
 
-export const kanbanSlice = createSlice({
+// kanbanSlice.ts
+
+const kanbanSlice = createSlice({
   name: "kanban",
   initialState,
   reducers: {
-    addTask: (state, action: PayloadAction<AddTaskPayload>) => {
+    reorderTaskInColumn: (
+      state,
+      action: PayloadAction<{
+        columnId: string;
+        oldIndex: number;
+        newIndex: number;
+      }>,
+    ) => {
       const column = state.columns.find(
-        (column) => column.id === action.payload.columnId,
+        (col) => col.id === action.payload.columnId,
       );
-
-      column?.tasks.push({ id: nanoid(), content: action.payload.taskContent });
+      if (column) {
+        const [movedTask] = column.tasks.splice(action.payload.oldIndex, 1);
+        column.tasks.splice(action.payload.newIndex, 0, movedTask);
+      }
+    },
+    moveTaskBetweenColumns: (
+      state,
+      action: PayloadAction<{
+        fromColumnId: UniqueIdentifier;
+        toColumnId: UniqueIdentifier;
+        taskId: UniqueIdentifier;
+      }>,
+    ) => {
+      const fromColumn = state.columns.find(
+        (col) => col.id === action.payload.fromColumnId,
+      );
+      const toColumn = state.columns.find(
+        (col) => col.id === action.payload.toColumnId,
+      );
+      if (fromColumn && toColumn) {
+        const taskIndex = fromColumn.tasks.findIndex(
+          (task) => task.id === action.payload.taskId,
+        );
+        const [movedTask] = fromColumn.tasks.splice(taskIndex, 1);
+        toColumn.tasks.push(movedTask);
+      }
     },
   },
 });
 
-export const { addTask } = kanbanSlice.actions;
-
+export const { reorderTaskInColumn, moveTaskBetweenColumns } =
+  kanbanSlice.actions;
 export default kanbanSlice.reducer;

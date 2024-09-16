@@ -71,7 +71,8 @@ export interface UpdateTitlePayload {
 
 export interface Column {
   id: string;
-  name: string;
+  column_name: string;
+  color: string;
   tasks: KanbanTask[];
 }
 
@@ -82,11 +83,6 @@ export interface KanbanBoard {
 export interface KanbanTask {
   id: string;
   content: string;
-}
-
-export interface AddTaskPayload {
-  columnId: string;
-  taskContent: string;
 }
 
 export interface CalendarEvent {

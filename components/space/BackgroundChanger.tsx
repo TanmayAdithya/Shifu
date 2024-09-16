@@ -27,52 +27,52 @@ function BackgroundChanger() {
     Record<string, boolean>
   >({});
 
-  useEffect(() => {
-    const controller = new AbortController();
-    const signal = controller.signal;
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
 
-    const fetchData = async () => {
-      setLoading(true);
-      setBackgrounds([]);
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     setBackgrounds([]);
 
-      try {
-        let url = debouncedSearch
-          ? `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`
-          : `https://api.unsplash.com/photos/?client_id=${apiKey}`;
+  //     try {
+  //       let url = debouncedSearch
+  //         ? `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`
+  //         : `https://api.unsplash.com/photos/?client_id=${apiKey}`;
 
-        const res = await fetch(url, { signal });
+  //       const res = await fetch(url, { signal });
 
-        if (!res.ok) {
-          throw new Error("Something went wrong!");
-        }
+  //       if (!res.ok) {
+  //         throw new Error("Something went wrong!");
+  //       }
 
-        const data = await res.json();
-        const fetchedBackgrounds = debouncedSearch ? data.results : data;
-        const pages = debouncedSearch ? data.total_pages : 1;
+  //       const data = await res.json();
+  //       const fetchedBackgrounds = debouncedSearch ? data.results : data;
+  //       const pages = debouncedSearch ? data.total_pages : 1;
 
-        setBackgrounds(fetchedBackgrounds);
-        setTotalPages(pages);
-        setLoading(false);
-      } catch (error) {
-        if (error instanceof Error) {
-          if (error.name === "AbortError") {
-            console.log("Fetch aborted");
-          } else {
-            setError(error.message);
-          }
-        } else {
-          setError("An unknown error occurred");
-        }
-        setLoading(false);
-      }
-    };
+  //       setBackgrounds(fetchedBackgrounds);
+  //       setTotalPages(pages);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         if (error.name === "AbortError") {
+  //           console.log("Fetch aborted");
+  //         } else {
+  //           setError(error.message);
+  //         }
+  //       } else {
+  //         setError("An unknown error occurred");
+  //       }
+  //       setLoading(false);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
 
-    return () => {
-      controller.abort();
-    };
-  }, [debouncedSearch, page]);
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, [debouncedSearch, page]);
 
   const handleImageLoad = (id: string) => {
     setImageLoadingState((prevState) => ({ ...prevState, [id]: true }));
