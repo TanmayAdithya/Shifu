@@ -84,7 +84,7 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openTimerWidget ? "" : "hidden"} absolute bottom-80 right-[35rem] z-10 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      className={`${openTimerWidget ? "" : "hidden"} absolute z-10 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div

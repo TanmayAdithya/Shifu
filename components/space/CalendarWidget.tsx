@@ -13,7 +13,7 @@ import {
 } from "react-icons/pi";
 import { LuLayoutList as EventsListIcon } from "react-icons/lu";
 import { FiCalendar as CalendarIcon } from "react-icons/fi";
-import { AddEventProps, CalendarEvent, Tab } from "@/types/types";
+import { AddEventProps, CalendarEvent, Position, Tab } from "@/types/types";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { DatePickerWithPresets } from "../ui/datepicker";
@@ -22,9 +22,12 @@ import { GoPeople } from "react-icons/go";
 import MinimizeWidget from "./MinimizeWidget";
 import { addEvent } from "@/store/slices/calendarSlice";
 import { Input } from "../ui/input";
+import { useDraggable } from "@dnd-kit/core";
 
 type Props = {
   openCalendarWidget: boolean;
+  id: string;
+  position: Position;
 };
 
 interface CalendarComponentProps {
@@ -32,7 +35,7 @@ interface CalendarComponentProps {
   currentDate: Date;
 }
 
-const CalendarWidget = ({ openCalendarWidget }: Props) => {
+const CalendarWidget = ({ openCalendarWidget, id, position }: Props) => {
   const calendarEvents = useSelector(
     (state: RootState) => state.calendar.calendarEvents,
   );
@@ -62,10 +65,27 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
     setActiveTab(label);
   };
 
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
+  const style = {
+    left: `${position.x}px`,
+    top: `${position.y}px`,
+    transform:
+      transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+  } as React.CSSProperties;
+
   return (
     <div
-      className={`${openCalendarWidget ? "" : "hidden"} absolute bottom-[8.5rem] z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      ref={setNodeRef}
+      style={style}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
+      <div className="absolute left-0 top-2 w-full">
+        <div
+          {...listeners}
+          {...attributes}
+          className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
+        ></div>
+      </div>
       <div className="w-full">
         <div className="mb-4 flex gap-1">
           {tabs.map((tab) => (
@@ -81,7 +101,7 @@ const CalendarWidget = ({ openCalendarWidget }: Props) => {
             </div>
           ))}
         </div>
-        <div className="h-full">
+        <div className="">
           {tabs.map((tab) => (
             <div
               key={tab.label}
@@ -269,7 +289,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
   ];
 
   return (
-    <div className="mb-1 h-full max-h-full w-full rounded">
+    <div className="h-full max-h-full w-full rounded">
       <div
         className="group mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 transition-colors duration-200 hover:bg-neutral-900 dark:border dark:border-neutral-500 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
         onClick={() => openPopup()}
@@ -374,7 +394,7 @@ export const EventPopup: React.FC<{
   return (
     <form
       onSubmit={handleAddEvent}
-      className="absolute -right-72 top-2 mb-4 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md dark:bg-neutral-900"
+      className="absolute -right-72 top-2 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md dark:bg-neutral-900"
     >
       <div className="flex items-center">
         <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[1px] pl-4 dark:border-neutral-800 dark:bg-transparent">

@@ -24,7 +24,42 @@ export default function SpaceBackground() {
 
   const [widgetPosition, setWidgetPosition] = useState<WidgetPosition[]>([
     {
+      id: "Notes",
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    {
       id: "Timer",
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    {
+      id: "Todo",
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    {
+      id: "Calendar",
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    {
+      id: "Kanban",
+      position: {
+        x: 0,
+        y: 0,
+      },
+    },
+    {
+      id: "Matrix",
       position: {
         x: 0,
         y: 0,
@@ -54,18 +89,38 @@ export default function SpaceBackground() {
     <>
       <DndContext modifiers={[restrictToWindowEdges]} onDragEnd={handleDragEnd}>
         <div ref={setNodeRef} id="background" className="h-full w-full">
-          <Notes openNotesWidget={openWidgets["Notes"]} />
-          <Timer
-            openTimerWidget={openWidgets["Timer"]}
+          <Notes
+            openNotesWidget={openWidgets["Notes"]}
             id={widgetPosition[0].id}
             position={widgetPosition[0].position}
           />
-          <Todo openTodoWidget={openWidgets["Todo"]} />
-          <Kanban openKanbanWidget={openWidgets["Kanban"]} />
-          <Matrix openMatrixWidget={openWidgets["Matrix"]} />
+          <Timer
+            openTimerWidget={openWidgets["Timer"]}
+            id={widgetPosition[1].id}
+            position={widgetPosition[1].position}
+          />
+          <Todo
+            openTodoWidget={openWidgets["Todo"]}
+            id={widgetPosition[2].id}
+            position={widgetPosition[2].position}
+          />
           <div className="flex justify-center">
-            <CalendarWidget openCalendarWidget={openWidgets["Calendar"]} />
+            <CalendarWidget
+              openCalendarWidget={openWidgets["Calendar"]}
+              id={widgetPosition[3].id}
+              position={widgetPosition[3].position}
+            />
           </div>
+          <Kanban
+            openKanbanWidget={openWidgets["Kanban"]}
+            id={widgetPosition[4].id}
+            position={widgetPosition[4].position}
+          />
+          <Matrix
+            openMatrixWidget={openWidgets["Matrix"]}
+            id={widgetPosition[5].id}
+            position={widgetPosition[5].position}
+          />
           <Navbar openWidgets={openWidgets} />
           <span
             id="background-container"
