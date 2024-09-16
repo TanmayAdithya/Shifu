@@ -42,8 +42,6 @@ const initialState: KanbanBoard = {
   ],
 };
 
-// kanbanSlice.ts
-
 const kanbanSlice = createSlice({
   name: "kanban",
   initialState,

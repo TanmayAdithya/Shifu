@@ -8,6 +8,16 @@ const config = {
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
   ],
+  options: {
+    safelist: [
+      "bg-red-500",
+      "bg-blue-500",
+      "bg-green-500",
+      "dark:bg-red-800",
+      "dark:bg-blue-800",
+      "dark:bg-green-800",
+    ],
+  },
   prefix: "",
   theme: {
     container: {

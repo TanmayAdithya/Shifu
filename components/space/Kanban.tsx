@@ -9,8 +9,6 @@ import {
   UniqueIdentifier,
   useDraggable,
   DragOverlay,
-  DropAnimation,
-  defaultDropAnimationSideEffects,
 } from "@dnd-kit/core";
 import React, { useState } from "react";
 import MinimizeWidget from "./MinimizeWidget";
@@ -22,6 +20,7 @@ import {
   moveTaskBetweenColumns,
   reorderTaskInColumn,
 } from "@/store/slices/kanbanSlice";
+import { cn } from "@/lib/utils";
 
 type Props = {
   openKanbanWidget: boolean;
@@ -125,7 +124,7 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
+          className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
         ></div>
       </div>
       <div className="mt-1 flex h-full gap-2 p-2">
@@ -137,11 +136,14 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
           {columns.map((column) => (
             <div
               key={column.id}
-              className="w-1/3 rounded-lg border border-neutral-300/60 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15"
+              className="w-1/3 rounded-lg border border-neutral-300/80 bg-neutral-200/30 p-2 dark:border-neutral-700/30 dark:bg-neutral-800/15"
             >
               <div className="mb-2 flex items-center">
                 <span
-                  className={`ml-1 mr-2 size-1 rounded-full bg-${column.color}-500`}
+                  className={cn(
+                    `ml-1 mr-2 size-1 rounded-full`,
+                    `bg-${column.color}-500`,
+                  )}
                 ></span>
                 <h2 className="font-semibold text-gray-900 dark:text-gray-100">
                   {column.column_name}

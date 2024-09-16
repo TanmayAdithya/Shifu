@@ -30,7 +30,7 @@ const KanbanTask = ({ color, content, id }: Props) => {
       {...listeners}
       {...attributes}
       className={`rounded-lg p-2 text-sm text-neutral-100 ${color} ${
-        isDragging ? "shadow-lg transition-colors duration-1000" : ""
+        isDragging ? "shadow-lg" : ""
       }`}
     >
       {content}
