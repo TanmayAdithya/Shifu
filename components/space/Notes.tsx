@@ -174,7 +174,7 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-24 rounded-full bg-neutral-300 dark:bg-neutral-700"
+          className="mx-auto h-1 w-24 rounded-full bg-neutral-400 dark:bg-neutral-700"
         ></div>
       </div>
 

@@ -83,7 +83,7 @@ const CalendarWidget = ({ openCalendarWidget, id, position }: Props) => {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
+          className="mx-auto h-1 w-16 rounded-full bg-neutral-500 dark:bg-neutral-700"
         ></div>
       </div>
       <div className="w-full">

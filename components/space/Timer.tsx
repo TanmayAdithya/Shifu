@@ -90,7 +90,7 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
+          className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
         ></div>
       </div>
       <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center dark:border-neutral-700 dark:bg-neutral-800">

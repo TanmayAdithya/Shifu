@@ -26,7 +26,7 @@ const Todo = ({ openTodoWidget, id, position }: Props) => {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-700"
+          className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
         ></div>
       </div>
       <h1 className="mb-4 text-xl font-medium">Todo</h1>
