@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { background } from "@/types/types";
 import useDebounce from "@/hooks/useDebounce";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,7 +11,6 @@ import {
 import { useDispatch } from "react-redux";
 import { setBackground } from "@/store/slices/backgroundSlice";
 import { Input } from "../ui/input";
-
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
 function BackgroundChanger() {
@@ -24,56 +23,60 @@ function BackgroundChanger() {
   const debouncedSearch = useDebounce(search, 1000);
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   const controller = new AbortController();
-  //   const signal = controller.signal;
-  //   const fetchData = async () => {
-  //     try {
-  //       if (debouncedSearch) {
-  //         const res = await fetch(
-  //           `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`,
-  //           { signal },
-  //         );
-  //         if (!res.ok) {
-  //           throw new Error("Something went wrong!");
-  //         }
-  //         const data = await res.json();
-  //         const backgrounds = data.results;
-  //         const pages = data.total_pages;
-  //         console.log(backgrounds);
-  //         setBackgrounds(backgrounds);
-  //         setTotalPages(pages);
-  //       } else {
-  //         const res = await fetch(
-  //           `https://api.unsplash.com/photos/?client_id=${apiKey}`,
-  //           { signal },
-  //         );
-  //         if (!res.ok) {
-  //           throw new Error("Something went wrong!");
-  //         }
-  //         const backgrounds = await res.json();
-  //         console.log(backgrounds);
-  //         setBackgrounds(backgrounds);
-  //       }
-  //       setLoading(false);
-  //     } catch (error) {
-  //       if (error instanceof Error) {
-  //         if (error.name === "AbortError") {
-  //           console.log("Fetch aborted");
-  //         } else {
-  //           setError(error.message);
-  //         }
-  //       } else {
-  //         setError("An unknown error occurred");
-  //       }
-  //       setLoading(false);
-  //     }
-  //   };
-  //   fetchData();
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, [debouncedSearch, page]);
+  const [imageLoadingState, setImageLoadingState] = useState<
+    Record<string, boolean>
+  >({});
+
+  useEffect(() => {
+    const controller = new AbortController();
+    const signal = controller.signal;
+
+    const fetchData = async () => {
+      setLoading(true);
+      setBackgrounds([]);
+
+      try {
+        let url = debouncedSearch
+          ? `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`
+          : `https://api.unsplash.com/photos/?client_id=${apiKey}`;
+
+        const res = await fetch(url, { signal });
+
+        if (!res.ok) {
+          throw new Error("Something went wrong!");
+        }
+
+        const data = await res.json();
+        const fetchedBackgrounds = debouncedSearch ? data.results : data;
+        const pages = debouncedSearch ? data.total_pages : 1;
+
+        setBackgrounds(fetchedBackgrounds);
+        setTotalPages(pages);
+        setLoading(false);
+      } catch (error) {
+        if (error instanceof Error) {
+          if (error.name === "AbortError") {
+            console.log("Fetch aborted");
+          } else {
+            setError(error.message);
+          }
+        } else {
+          setError("An unknown error occurred");
+        }
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
+    return () => {
+      controller.abort();
+    };
+  }, [debouncedSearch, page]);
+
+  const handleImageLoad = (id: string) => {
+    setImageLoadingState((prevState) => ({ ...prevState, [id]: true }));
+  };
 
   const tags = ["Nature", "Spring", "Summer", "Winter", "Orange"];
 
@@ -113,39 +116,45 @@ function BackgroundChanger() {
 
       {/* Image Grid */}
       <div className="max-h-[11rem] w-full overflow-auto">
-        <div
-          className={`${
-            debouncedSearch ? "" : "mb-2"
-          } grid w-full grid-cols-2 gap-2 p-1`}
-        >
+        <div className={`grid w-full grid-cols-2 gap-2 p-1`}>
           {loading &&
             Array.from({ length: 10 }).map((_, index) => (
               <Skeleton key={index} className="h-[113px] w-[200px] rounded" />
             ))}
           {error && <p>Something went wrong while fetching images: {error}</p>}
-          {backgrounds.map(({ id, urls, user }) => {
-            return (
-              <div key={id} className="rounded shadow-lg">
-                <img
-                  key={id}
-                  alt={`Photo by ${user.name}`}
-                  src={`${urls.full}&w=1920&h=1080&fit=crop`}
-                  width="320"
-                  height="180"
-                  style={{
-                    border: 0,
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                  }}
-                  onClick={() =>
-                    handleBackground(urls.full, user.name, user.portfolio_url)
-                  }
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            );
-          })}
+
+          {backgrounds.map(({ id, urls, user }) => (
+            <div
+              key={id}
+              className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
+            >
+              {!imageLoadingState[id] && (
+                <div className="absolute inset-0">
+                  <Skeleton key={id} className="h-[113px] w-[200px] rounded" />
+                </div>
+              )}
+
+              <img
+                alt={`Photo by ${user.name}`}
+                src={`${urls.full}&w=1920&h=1080&fit=crop`}
+                width="320"
+                height="180"
+                style={{
+                  opacity: imageLoadingState[id] ? 1 : 0,
+                  transition: "opacity 0.5s ease-in-out",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                }}
+                onClick={() =>
+                  handleBackground(urls.full, user.name, user.portfolio_url)
+                }
+                onLoad={() => handleImageLoad(id)}
+                className="h-full w-full object-cover"
+              />
+            </div>
+          ))}
         </div>
+
         {debouncedSearch && (
           <div className="mb-4 mt-4 flex items-center justify-center gap-6">
             {page > 1 ? (
@@ -158,13 +167,12 @@ function BackgroundChanger() {
             ) : (
               <button
                 disabled
-                onClick={() => setPage((page) => page - 1)}
                 className="rounded-lg bg-gray-300 p-1 opacity-20 dark:bg-neutral-700"
               >
                 <Prev />
               </button>
             )}
-            {<p>{page}</p>}
+            <p>{page}</p>
             {page < totalPages ? (
               <button
                 onClick={() => setPage((page) => page + 1)}
@@ -175,7 +183,6 @@ function BackgroundChanger() {
             ) : (
               <button
                 disabled
-                onClick={() => setPage((page) => page + 1)}
                 className="rounded-lg bg-gray-300 p-1 opacity-20 dark:bg-neutral-700"
               >
                 <Next />
