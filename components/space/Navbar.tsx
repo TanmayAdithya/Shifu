@@ -17,7 +17,7 @@ import { toggleWidget } from "@/store/slices/widgetSlice";
 import { FaMinus as MinimizeIcon } from "react-icons/fa6";
 
 type Props = {
-  openWidgets: WidgetState;
+  openWidgets: WidgetState[];
 };
 
 const Navbar = ({ openWidgets }: Props) => {
@@ -38,7 +38,9 @@ const Navbar = ({ openWidgets }: Props) => {
     <div className="absolute bottom-20 left-0 right-0 flex justify-center">
       {/* Background Changer Container */}
       <div
-        className={`${openChanger ? "" : "hidden"} absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        className={`${
+          openChanger ? "" : "hidden"
+        } absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
         <BackgroundChanger />
         <div className="absolute right-3 top-2">
@@ -61,7 +63,11 @@ const Navbar = ({ openWidgets }: Props) => {
                 <li
                   key="background-changer"
                   id="background-changer"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${activeItem === "background" ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                    activeItem === "background"
+                      ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800"
+                      : ""
+                  }`}
                   onClick={() => {
                     handleClick("background");
                   }}
@@ -82,7 +88,7 @@ const Navbar = ({ openWidgets }: Props) => {
         </div>
         <div className="w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <div className="flex flex-1 justify-between">
-            {widgetItems.map(({ id, icon: Icon }) => {
+            {widgetItems.map(({ id, icon: Icon }, index) => {
               return (
                 <TooltipProvider
                   key={id}
@@ -93,7 +99,11 @@ const Navbar = ({ openWidgets }: Props) => {
                     <TooltipTrigger>
                       <li
                         key={id}
-                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${openWidgets[id] ? "bg-neutral-200 dark:bg-neutral-800" : ""}`}
+                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                          openWidgets[index].visibility
+                            ? "bg-neutral-200 dark:bg-neutral-800"
+                            : ""
+                        }`}
                         onClick={() => handleToggleWidget(id)}
                       >
                         <span>
@@ -113,7 +123,7 @@ const Navbar = ({ openWidgets }: Props) => {
             })}
           </div>
         </div>
-        {/* Media Player Tab*/}
+        {/* Media Player Tab */}
         <div className="ml-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
             <Tooltip>
@@ -121,7 +131,11 @@ const Navbar = ({ openWidgets }: Props) => {
                 <li
                   key="music-player"
                   id="music-player"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${activeItem === "music" ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800" : ""}`}
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                    activeItem === "music"
+                      ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800"
+                      : ""
+                  }`}
                   onClick={() => {
                     handleClick("music");
                   }}

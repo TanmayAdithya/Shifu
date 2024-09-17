@@ -1,16 +1,19 @@
 import { ReactNode } from "react";
 import { IconType } from "react-icons";
+
 export type widgetItem = {
   id: string;
   icon: IconType;
 };
 
 export interface WidgetState {
-  [key: string]: boolean;
+  id: string;
+  visibility: boolean;
+  position: Position;
 }
 
 export interface OpenWidgetsState {
-  widgets: WidgetState;
+  widgets: WidgetState[];
 }
 
 export type background = {
