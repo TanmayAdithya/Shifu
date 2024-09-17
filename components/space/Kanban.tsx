@@ -64,7 +64,7 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
       setDraggedTask({
         id: task!.id,
         content: task!.content,
-        color: `bg-${fromColumn.color}-500 dark:bg-${fromColumn.color}-800`,
+        color: fromColumn.color,
       });
     }
   };
@@ -155,7 +155,7 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
                     <KanbanTask
                       key={task.id}
                       id={task.id}
-                      color={`bg-${column.color}-500 dark:bg-${column.color}-800`}
+                      color={column.color}
                       content={task.content}
                     />
                   ))}
