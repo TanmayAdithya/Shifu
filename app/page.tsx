@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function page() {
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center dark:bg-neutral-900">
+    <div className="flex h-full w-full flex-col items-center justify-center bg-neutral-300 dark:bg-neutral-900">
       <h1 className="mb-6 text-7xl text-white dark:text-neutral-100">
         Work In Progress
       </h1>

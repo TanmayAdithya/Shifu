@@ -11,7 +11,7 @@ export const widgetItems: widgetItem[] = [
   { id: "Notes", icon: Notes },
   { id: "Timer", icon: Timer },
   { id: "Todo", icon: Task },
-  { id: "Kanban", icon: Kanban },
   { id: "Calendar", icon: Calendar },
+  { id: "Kanban", icon: Kanban },
   { id: "Matrix", icon: Matrix },
 ];

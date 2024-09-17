@@ -43,7 +43,7 @@ const Navbar = ({ openWidgets }: Props) => {
         } absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
         <BackgroundChanger />
-        <div className="absolute right-3 top-2">
+        <div className="absolute right-2 top-[2px]">
           <button
             onClick={() => {
               setOpenChanger(false);

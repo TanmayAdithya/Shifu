@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { background } from "@/types/types";
 import useDebounce from "@/hooks/useDebounce";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -11,6 +11,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setBackground } from "@/store/slices/backgroundSlice";
 import { Input } from "../ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
 function BackgroundChanger() {
@@ -74,6 +75,8 @@ function BackgroundChanger() {
   //   };
   // }, [debouncedSearch, page]);
 
+  const [activeTab, setActiveTab] = useState<string>("images");
+
   const handleImageLoad = (id: string) => {
     setImageLoadingState((prevState) => ({ ...prevState, [id]: true }));
   };
@@ -90,105 +93,122 @@ function BackgroundChanger() {
 
   return (
     <>
-      <div className="z-10 mt-4">
-        <div className="mb-2 p-1">
+      <Tabs
+        defaultValue="images"
+        className="p-1"
+        onValueChange={(value) => setActiveTab(value)}
+      >
+        <div className="flex gap-2">
           <Input
             type="text"
             placeholder="Search backgrounds"
             className="w-full rounded-md p-2 outline-none"
             onChange={(e) => setSearch(e.target.value)}
           />
+          <TabsList className="border bg-transparent shadow-sm dark:border-neutral-800 dark:bg-transparent">
+            <TabsTrigger
+              className="data-[state=active]:text-neutral-800 dark:data-[state=active]:text-neutral-100"
+              value="images"
+            >
+              Images
+            </TabsTrigger>
+            <TabsTrigger value="videos">Videos</TabsTrigger>
+          </TabsList>
         </div>
 
-        {/* Tags */}
-        <div className="mb-3 flex flex-wrap justify-center gap-2 px-1">
-          {tags.map((tag) => (
-            <button
-              key={tag}
-              className="flex-1 rounded-md border border-gray-400 px-3 py-1 text-sm text-neutral-700 transition-colors duration-200 hover:border-neutral-700 hover:bg-gray-600 hover:text-neutral-100 focus:bg-gray-600 focus:text-neutral-100 dark:border-neutral-800 dark:bg-neutral-700 dark:text-neutral-200 dark:hover:bg-neutral-800 dark:hover:text-neutral-50 dark:focus:bg-neutral-800 dark:focus:text-neutral-50"
-              onClick={() => setSearch(tag)}
-            >
-              {tag}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {/* Image Grid */}
-      <div className="max-h-[11rem] w-full overflow-auto">
-        <div className={`grid w-full grid-cols-2 gap-2 p-1`}>
-          {loading &&
-            Array.from({ length: 10 }).map((_, index) => (
-              <Skeleton key={index} className="h-[113px] w-[200px] rounded" />
-            ))}
-          {error && <p>Something went wrong while fetching images: {error}</p>}
-
-          {backgrounds.map(({ id, urls, user }) => (
-            <div
-              key={id}
-              className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
-            >
-              {!imageLoadingState[id] && (
-                <div className="absolute inset-0">
-                  <Skeleton key={id} className="h-[113px] w-[200px] rounded" />
-                </div>
+        <TabsContent className="mt-2" value="images">
+          {/* Image Grid */}
+          <div
+            className={`mt-4 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14rem]"} w-full overflow-auto`}
+          >
+            <div className={`grid w-full grid-cols-2 gap-2`}>
+              {loading &&
+                Array.from({ length: 10 }).map((_, index) => (
+                  <Skeleton
+                    key={index}
+                    className="h-[113px] w-[199px] rounded"
+                  />
+                ))}
+              {error && (
+                <p>Something went wrong while fetching images: {error}</p>
               )}
 
-              <img
-                alt={`Photo by ${user.name}`}
-                src={`${urls.full}&w=1920&h=1080&fit=crop`}
-                width="320"
-                height="180"
-                style={{
-                  opacity: imageLoadingState[id] ? 1 : 0,
-                  transition: "opacity 0.5s ease-in-out",
-                  borderRadius: "4px",
-                  cursor: "pointer",
-                }}
-                onClick={() =>
-                  handleBackground(urls.full, user.name, user.portfolio_url)
-                }
-                onLoad={() => handleImageLoad(id)}
-                className="h-full w-full object-cover"
-              />
-            </div>
-          ))}
-        </div>
+              {backgrounds.map(({ id, urls, user }) => (
+                <div
+                  key={id}
+                  className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
+                >
+                  {!imageLoadingState[id] && (
+                    <div className="absolute inset-0">
+                      <Skeleton
+                        key={id}
+                        className="h-[113px] w-[199px] rounded"
+                      />
+                    </div>
+                  )}
 
-        {debouncedSearch && (
-          <div className="mb-4 mt-4 flex items-center justify-center gap-6">
-            {page > 1 ? (
-              <button
-                onClick={() => setPage((page) => page - 1)}
-                className="rounded-lg bg-gray-300 p-1 dark:bg-neutral-700"
-              >
-                <Prev />
-              </button>
-            ) : (
-              <button
-                disabled
-                className="rounded-lg bg-gray-300 p-1 opacity-20 dark:bg-neutral-700"
-              >
-                <Prev />
-              </button>
-            )}
-            <p>{page}</p>
-            {page < totalPages ? (
-              <button
-                onClick={() => setPage((page) => page + 1)}
-                className="rounded-lg bg-gray-300 p-1 transition-colors duration-200 dark:bg-neutral-700 dark:hover:bg-neutral-800"
-              >
-                <Next />
-              </button>
-            ) : (
-              <button
-                disabled
-                className="rounded-lg bg-gray-300 p-1 opacity-20 dark:bg-neutral-700"
-              >
-                <Next />
-              </button>
-            )}
+                  <img
+                    alt={`Photo by ${user.name}`}
+                    src={`${urls.full}&w=1920&h=1080&fit=crop`}
+                    width="320"
+                    height="180"
+                    style={{
+                      opacity: imageLoadingState[id] ? 1 : 0,
+                      transition: "opacity 0.5s ease-in-out",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                    }}
+                    onClick={() =>
+                      handleBackground(urls.full, user.name, user.portfolio_url)
+                    }
+                    onLoad={() => handleImageLoad(id)}
+                    className="h-full w-full object-cover"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
+        </TabsContent>
+        <TabsContent value="videos">
+          {/* <BackgroundVideos /> */}
+          <div className="h-[12rem] max-h-[12rem]">Videos</div>
+        </TabsContent>
+      </Tabs>
+
+      <div
+        className={`mt-3 transition-opacity duration-300 ${
+          debouncedSearch ? "opacity-100" : "pointer-events-none opacity-0"
+        } flex items-center justify-center gap-2 px-1`}
+      >
+        {activeTab === "images" ? (
+          <>
+            <p className="flex text-sm text-neutral-500 dark:text-neutral-600">
+              {page}/{totalPages}
+            </p>
+            <div className="h-[2px] w-full bg-neutral-400 dark:bg-neutral-800"></div>
+            <button
+              onClick={() => setPage((page) => page - 1)}
+              disabled={page <= 1}
+              className={`rounded-lg bg-neutral-200 p-1 dark:bg-neutral-700 ${
+                page > 1 ? "hover:bg-neutral-300/80" : "opacity-20"
+              }`}
+            >
+              <Prev />
+            </button>
+            <button
+              disabled={page < totalPages}
+              onClick={() => setPage((page) => page + 1)}
+              className={`rounded-lg bg-neutral-200 p-1 dark:bg-neutral-700 ${
+                page < totalPages ? "hover:bg-neutral-300/80" : "opacity-20"
+              }`}
+            >
+              <Next />
+            </button>
+          </>
+        ) : (
+          <p className="text-neutral-500 dark:text-neutral-100">
+            No pagination needed for videos
+          </p>
         )}
       </div>
     </>
