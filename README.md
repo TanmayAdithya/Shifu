@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="https://github.com/TanmayAdithya/Shifu" target="_blank" rel="noopener noreferrer">
-    <img width="150" src="https://i.postimg.cc/QtjgWk29/Shifu-Logo.png" alt="Project Logo">
+     <img width="150" src="https://i.postimg.cc/cJrd25dT/Shifu-Logo-1-modified.png" alt="Project Logo">
   </a>
 </p>
 
