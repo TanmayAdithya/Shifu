@@ -81,7 +81,7 @@ function BackgroundChanger() {
     setImageLoadingState((prevState) => ({ ...prevState, [id]: true }));
   };
 
-  const tags = ["Nature", "Spring", "Summer", "Winter", "Orange"];
+  const videoTags = ["Ambience", "Study", "Earth", "Relax", "Sci-Fi", "Cafe"];
 
   const handleBackground = (
     url: string,
@@ -96,10 +96,14 @@ function BackgroundChanger() {
       <Tabs
         defaultValue="images"
         className="p-1"
-        onValueChange={(value) => setActiveTab(value)}
+        onValueChange={(value) => {
+          setSearch("");
+          setActiveTab(value);
+        }}
       >
         <div className="flex gap-2">
           <Input
+            value={search}
             type="text"
             placeholder="Search backgrounds"
             className="w-full rounded-md p-2 outline-none"
@@ -171,12 +175,44 @@ function BackgroundChanger() {
         </TabsContent>
         <TabsContent value="videos">
           {/* <BackgroundVideos /> */}
-          <div className="h-[12rem] max-h-[12rem]">Videos</div>
+          <div
+            className={`mt-2 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14.5rem]"} w-full overflow-auto`}
+          >
+            <Tabs defaultValue="ambience" className="w-full">
+              <TabsList className="border shadow-sm dark:border-neutral-800 dark:bg-transparent">
+                {videoTags.map((tag) => (
+                  <TabsTrigger
+                    key={tag.toLowerCase()}
+                    value={tag.toLowerCase()}
+                  >
+                    {tag}
+                  </TabsTrigger>
+                ))}
+              </TabsList>
+
+              {videoTags.map((tag) => (
+                <TabsContent
+                  key={tag.toLowerCase()}
+                  value={tag.toLowerCase()}
+                ></TabsContent>
+              ))}
+            </Tabs>
+
+            <div className={`grid w-full grid-cols-3 gap-2`}>
+              {loading &&
+                Array.from({ length: 9 }).map((_, index) => (
+                  <Skeleton key={index} className="aspect-video h-full" />
+                ))}
+              {error && (
+                <p>Something went wrong while fetching images: {error}</p>
+              )}
+            </div>
+          </div>
         </TabsContent>
       </Tabs>
 
       <div
-        className={`mt-3 transition-opacity duration-300 ${
+        className={`mt-3 transition-opacity duration-200 ${
           debouncedSearch ? "opacity-100" : "pointer-events-none opacity-0"
         } flex items-center justify-center gap-2 px-1`}
       >

@@ -202,12 +202,12 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
                 <Input
                   type="text"
                   placeholder="Search notes"
-                  className="w-full border-neutral-300/80"
+                  className="w-full border-neutral-300/80 dark:border-neutral-400/15"
                   onChange={(e) => handleSearch(e)}
                 />
               </div>
               <div
-                className="h-[36px] cursor-pointer rounded-md border border-neutral-400/60 bg-white p-2 text-neutral-500 transition-colors duration-150 hover:bg-neutral-200 dark:border-neutral-400/15 dark:bg-neutral-900 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
+                className="h-[36px] cursor-pointer rounded-md border border-neutral-400/60 bg-white p-2 text-neutral-500 transition-colors duration-150 hover:bg-neutral-200 dark:border-neutral-400/15 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
                 onClick={handleAddNote}
               >
                 <NewNote size={"17px"} />
@@ -240,68 +240,87 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
       <div
         className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 rounded-xl"} overflow-auto bg-white p-4 pl-2 shadow-lg transition-all duration-500 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
-        <div>
-          <SidebarIcon
-            color="#737373"
-            size={"24px"}
-            className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500`}
-            onClick={handleSidebarToggle}
-          />
-
-          <div className="flex justify-center">
-            {editMode && openNote ? (
-              <div className="flex items-center">
-                <input
-                  type="text"
-                  value={newTitle}
-                  ref={inputRef}
-                  className="max-w-40 rounded focus:outline-none"
-                  onChange={(e) => {
-                    setNewTitle(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Escape") {
-                      setNewTitle(originalTitle);
-                      handleExitEditMode();
-                    } else if (e.key === "Enter") {
-                      handleTitleChange(newTitle);
-                      setEditMode(false);
-                    }
-                  }}
-                />
-                <ExitEditMode
-                  className="cursor-pointer text-neutral-600 hover:text-neutral-800"
-                  onClick={handleExitEditMode}
-                />
-              </div>
-            ) : openNote ? (
-              <h2
-                id="note-title"
-                className="mt-1 flex items-center text-balance text-center font-medium text-neutral-800 dark:text-neutral-100"
-              >
-                {openNote.title}
-                <span>
-                  <EditTitle
-                    onClick={() => setEditMode((prev) => !prev)}
-                    className="ml-1 cursor-pointer text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
-                  />
-                </span>
-              </h2>
-            ) : null}
-          </div>
-        </div>
-        <div className="relative overflow-auto px-1 pl-3">
-          {openNote && (
-            <EditorContent
-              id="editor-wrapper"
-              className="prose-code:after:content=[''] text-md prose block py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:bg-transparent prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1 dark:prose-headings:text-neutral-200 dark:prose-p:text-neutral-200 dark:prose-blockquote:text-neutral-300 dark:prose-strong:text-neutral-200 dark:prose-code:bg-neutral-800 dark:prose-code:bg-transparent dark:prose-code:text-neutral-300 dark:prose-pre:rounded-md dark:prose-pre:border dark:prose-pre:border-neutral-700 dark:prose-pre:bg-neutral-900 dark:prose-pre:text-neutral-300"
-              editor={editor}
+        {notes.length === 0 ? (
+          <>
+            <SidebarIcon
+              color="#737373"
+              size={"24px"}
+              className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500`}
+              onClick={handleSidebarToggle}
             />
-          )}
-        </div>
+            <div className="mx-auto flex h-full w-full items-center justify-center">
+              <p className="pointer-events-none text-xl text-neutral-400 dark:text-neutral-600">
+                {"Empty thoughts :("}
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            <div>
+              <SidebarIcon
+                color="#737373"
+                size={"24px"}
+                className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500`}
+                onClick={handleSidebarToggle}
+              />
+
+              <div className="flex justify-center">
+                {editMode && openNote ? (
+                  <div className="flex items-center">
+                    <input
+                      type="text"
+                      value={newTitle}
+                      ref={inputRef}
+                      className="max-w-40 rounded focus:outline-none"
+                      onChange={(e) => {
+                        setNewTitle(e.target.value);
+                      }}
+                      onKeyDown={(e) => {
+                        if (e.key === "Escape") {
+                          setNewTitle(originalTitle);
+                          handleExitEditMode();
+                        } else if (e.key === "Enter") {
+                          handleTitleChange(newTitle);
+                          setEditMode(false);
+                        }
+                      }}
+                    />
+                    <ExitEditMode
+                      className="cursor-pointer text-neutral-600 hover:text-neutral-800"
+                      onClick={handleExitEditMode}
+                    />
+                  </div>
+                ) : openNote ? (
+                  <h2
+                    id="note-title"
+                    className="mt-1 flex items-center text-balance text-center font-medium text-neutral-800 dark:text-neutral-100"
+                  >
+                    {openNote.title}
+                    <span>
+                      <EditTitle
+                        onClick={() => setEditMode((prev) => !prev)}
+                        className="ml-1 cursor-pointer text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
+                      />
+                    </span>
+                  </h2>
+                ) : null}
+              </div>
+            </div>
+            <div className="relative overflow-auto px-1 pl-3">
+              {openNote && (
+                <EditorContent
+                  id="editor-wrapper"
+                  className="prose-code:after:content=[''] text-md prose block py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:bg-transparent prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1 dark:prose-headings:text-neutral-200 dark:prose-p:text-neutral-200 dark:prose-blockquote:text-neutral-300 dark:prose-strong:text-neutral-200 dark:prose-code:bg-neutral-800 dark:prose-code:bg-transparent dark:prose-code:text-neutral-300 dark:prose-pre:rounded-md dark:prose-pre:border dark:prose-pre:border-neutral-700 dark:prose-pre:bg-neutral-900 dark:prose-pre:text-neutral-300"
+                  editor={editor}
+                />
+              )}
+            </div>
+          </>
+        )}
       </div>
+
       <div
-        className={`${sidebarToggle ? "" : "z-30"} pointer-events-none absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-50 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-500 dark:border-neutral-700 dark:bg-neutral-800`}
+        className={`${sidebarToggle ? "" : "z-30"} ${notes.length === 0 ? "hidden" : ""} pointer-events-none absolute bottom-0 right-0 flex justify-end rounded-br-xl rounded-tl-xl border border-neutral-100 bg-neutral-50 px-2 py-1 text-sm font-light drop-shadow-sm transition-transform duration-500 dark:border-neutral-700 dark:bg-neutral-800`}
       >
         <span className="pointer-events-none mr-2">
           {editor?.storage.characterCount.words() + " words"}

@@ -54,7 +54,6 @@ const Music: React.FC<SpotifyEmbedProps> = ({
         width="100%"
         height="152"
         allow="encrypted-media"
-        loading="lazy"
         className="mt-5 w-full rounded-3xl border-0 bg-transparent"
       ></iframe>
       <form
