@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
         q: query,
         part: "snippet",
         key: API_KEY,
-        maxResults: "10",
+        maxResults: "9",
         type: "video",
       },
     });

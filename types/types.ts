@@ -47,6 +47,26 @@ export interface TodosState {
   error: string | null;
 }
 
+export interface Videos {
+  channelId: string;
+  videoId: string;
+  title: string;
+  description: string;
+  thumbnails: {
+    [key: string]: {
+      url: string;
+      width: number;
+      height: number;
+    };
+  };
+}
+
+export interface VideosState {
+  videos: Videos[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+}
+
 export interface Note {
   id: string;
   title: string;
@@ -163,4 +183,20 @@ export interface Position {
 export interface WidgetPosition {
   id: string;
   position: Position;
+}
+
+interface RelatedPlaylists {
+  uploads: string;
+}
+
+interface ContentDetails {
+  relatedPlaylists: RelatedPlaylists;
+}
+
+interface Item {
+  contentDetails: ContentDetails;
+}
+
+export interface ChannelIdResponse {
+  items: Item[];
 }
