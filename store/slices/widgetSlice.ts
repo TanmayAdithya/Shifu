@@ -31,8 +31,8 @@ export const initialState: OpenWidgetsState = {
       id: "Calendar",
       visibility: false,
       position: {
-        x: 0,
-        y: 0,
+        x: 300,
+        y: 300,
       },
     },
     {
@@ -49,6 +49,14 @@ export const initialState: OpenWidgetsState = {
       position: {
         x: 532,
         y: 300,
+      },
+    },
+    {
+      id: "Music",
+      visibility: false,
+      position: {
+        x: 502,
+        y: 250,
       },
     },
   ],

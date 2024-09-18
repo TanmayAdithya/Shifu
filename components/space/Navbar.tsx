@@ -26,8 +26,12 @@ const Navbar = ({ openWidgets }: Props) => {
   const dispatch = useDispatch();
 
   const handleClick = (id: string) => {
+    if (id === "background") {
+      setOpenChanger((prev) => !prev);
+    } else if (id === "music") {
+      dispatch(toggleWidget("Music"));
+    }
     setActiveItem(id === activeItem ? null : id);
-    setOpenChanger(id === "background" ? (prev) => !prev : false);
   };
 
   const handleToggleWidget = (widgetId: string) => {
@@ -54,6 +58,7 @@ const Navbar = ({ openWidgets }: Props) => {
           </button>
         </div>
       </div>
+
       <nav className="absolute z-40 mb-[3rem] flex items-center">
         {/* Background Changer Tab */}
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
@@ -86,6 +91,7 @@ const Navbar = ({ openWidgets }: Props) => {
             </Tooltip>
           </TooltipProvider>
         </div>
+
         <div className="w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <div className="flex flex-1 justify-between">
             {widgetItems.map(({ id, icon: Icon }, index) => {
@@ -123,7 +129,8 @@ const Navbar = ({ openWidgets }: Props) => {
             })}
           </div>
         </div>
-        {/* Media Player Tab */}
+
+        {/* Music Player Tab */}
         <div className="ml-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
             <Tooltip>
@@ -132,7 +139,7 @@ const Navbar = ({ openWidgets }: Props) => {
                   key="music-player"
                   id="music-player"
                   className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
-                    activeItem === "music"
+                    openWidgets[6].visibility
                       ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800"
                       : ""
                   }`}

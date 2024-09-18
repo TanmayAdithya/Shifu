@@ -14,6 +14,7 @@ import { TiCamera as CameraIcon } from "react-icons/ti";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { updatePosition } from "@/store/slices/widgetSlice";
+import MusicPlayer from "./Music";
 
 export default function SpaceBackground() {
   const openWidgets = useSelector((state: RootState) => state.widgets.widgets);
@@ -88,6 +89,12 @@ export default function SpaceBackground() {
             openMatrixWidget={openWidgets[5].visibility}
             id={openWidgets[5].id}
             position={openWidgets[5].position}
+          />
+          <MusicPlayer
+            openMusicPlayer={openWidgets[6].visibility}
+            id={openWidgets[6].id}
+            position={openWidgets[6].position}
+            url="https://open.spotify.com/embed/album/1bwbZJ6khPJyVpOaqgKsoZ?utm_source=generator"
           />
           <Navbar openWidgets={openWidgets} />
           <span
