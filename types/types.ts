@@ -48,15 +48,19 @@ export interface TodosState {
 }
 
 export interface Videos {
-  channelId: string;
-  videoId: string;
-  title: string;
-  description: string;
-  thumbnails: {
-    [key: string]: {
-      url: string;
-      width: number;
-      height: number;
+  snippet: {
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      [key: string]: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+    resourceId: {
+      videoId: string;
     };
   };
 }

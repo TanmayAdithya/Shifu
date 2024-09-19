@@ -42,17 +42,16 @@ export async function getUploadPlaylistItems(
           part: "snippet",
           key: API_KEY,
           playlistId: playlistID,
+          maxResults: 50,
           fields:
-            "items(snippet(title,description,thumbnails,resourceId/videoId))",
+            "items(snippet(channelId,title,description,thumbnails,resourceId/videoId))",
         },
       },
     );
 
-    let playlistItems = [];
     const data = await response.data;
-    playlistItems = data.items;
 
-    return data;
+    return data.items;
   } catch (error) {
     console.log("Error: ", error);
   }

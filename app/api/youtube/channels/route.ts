@@ -11,7 +11,7 @@ export async function GET() {
 
   const channelIds: string[] = [
     "UCqRTj-Nu_8to3jIBlXptOtA", // Ambience
-    "UCjrZOQ2-yWvzISAwibacKxw", // Study
+    "UCwaMXiEfLn3UtpC2I0E2jxQ", // Study
     "UCb57aRZr3KsykS_wNsD5Ptw", // Earth
     "UC95bEkaIgwhxSjSsdMFXYGg", // Relax
     "UCDyghjHud0sexPHxs5qPXUQ", // Scifi

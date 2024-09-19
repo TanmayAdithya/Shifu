@@ -8,25 +8,36 @@ import {
   MdKeyboardArrowRight as Next,
   MdKeyboardArrowLeft as Prev,
 } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setBackground } from "@/store/slices/backgroundSlice";
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
+import { AppDispatch } from "@/store/store";
+import { fetchVideos } from "@/store/slices/youtubeSlice";
+import { RootState } from "@/store/rootReducer";
 const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
 function BackgroundChanger() {
   const [backgrounds, setBackgrounds] = useState<background[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [errorState, setErrorState] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("");
   const [totalPages, setTotalPages] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const debouncedSearch = useDebounce(search, 1000);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+  const { videos, status, error } = useSelector(
+    (state: RootState) => state.youtube,
+  );
+  const youtubeVideos = videos.flat();
 
-  const [imageLoadingState, setImageLoadingState] = useState<
+  const [mediaLoadingState, setMediaLoadingState] = useState<
     Record<string, boolean>
   >({});
+
+  useEffect(() => {
+    dispatch(fetchVideos());
+  }, [dispatch]);
 
   // useEffect(() => {
   //   const controller = new AbortController();
@@ -77,11 +88,18 @@ function BackgroundChanger() {
 
   const [activeTab, setActiveTab] = useState<string>("images");
 
-  const handleImageLoad = (id: string) => {
-    setImageLoadingState((prevState) => ({ ...prevState, [id]: true }));
+  const handleMediaLoad = (id: string) => {
+    setMediaLoadingState((prevState) => ({ ...prevState, [id]: true }));
   };
 
-  const videoTags = ["Ambience", "Study", "Earth", "Relax", "Sci-Fi", "Cafe"];
+  const videoTags = {
+    Ambience: "UCqRTj-Nu_8to3jIBlXptOtA", // Ambience
+    Study: "UCwaMXiEfLn3UtpC2I0E2jxQ", // Study
+    Earth: "UCb57aRZr3KsykS_wNsD5Ptw", // Earth
+    Relax: "UC95bEkaIgwhxSjSsdMFXYGg", // Relax
+    "Sci-Fi": "UCDyghjHud0sexPHxs5qPXUQ", // Scifi
+    Cafe: "UC84t1K5ri-7u9bFCaUKTXDA", // Cafe
+  };
 
   const handleBackground = (
     url: string,
@@ -133,8 +151,8 @@ function BackgroundChanger() {
                     className="h-[113px] w-[199px] rounded"
                   />
                 ))}
-              {error && (
-                <p>Something went wrong while fetching images: {error}</p>
+              {errorState && (
+                <p>Something went wrong while fetching images: {errorState}</p>
               )}
 
               {backgrounds.map(({ id, urls, user }) => (
@@ -142,7 +160,7 @@ function BackgroundChanger() {
                   key={id}
                   className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
                 >
-                  {!imageLoadingState[id] && (
+                  {!mediaLoadingState[id] && (
                     <div className="absolute inset-0">
                       <Skeleton
                         key={id}
@@ -157,7 +175,7 @@ function BackgroundChanger() {
                     width="320"
                     height="180"
                     style={{
-                      opacity: imageLoadingState[id] ? 1 : 0,
+                      opacity: mediaLoadingState[id] ? 1 : 0,
                       transition: "opacity 0.5s ease-in-out",
                       borderRadius: "4px",
                       cursor: "pointer",
@@ -165,7 +183,7 @@ function BackgroundChanger() {
                     onClick={() =>
                       handleBackground(urls.full, user.name, user.portfolio_url)
                     }
-                    onLoad={() => handleImageLoad(id)}
+                    onLoad={() => handleMediaLoad(id)}
                     className="h-full w-full object-cover"
                   />
                 </div>
@@ -178,35 +196,86 @@ function BackgroundChanger() {
           <div
             className={`mt-2 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14.5rem]"} w-full overflow-auto`}
           >
-            <Tabs defaultValue="ambience" className="w-full">
+            <Tabs defaultValue={videoTags.Ambience} className="w-full">
               <TabsList className="border shadow-sm dark:border-neutral-800 dark:bg-transparent">
-                {videoTags.map((tag) => (
-                  <TabsTrigger
-                    key={tag.toLowerCase()}
-                    value={tag.toLowerCase()}
-                  >
-                    {tag}
+                {Object.entries(videoTags).map(([key, value]) => (
+                  <TabsTrigger key={key.toLowerCase()} value={value}>
+                    {key}
                   </TabsTrigger>
                 ))}
               </TabsList>
 
-              {videoTags.map((tag) => (
-                <TabsContent
-                  key={tag.toLowerCase()}
-                  value={tag.toLowerCase()}
-                ></TabsContent>
-              ))}
-            </Tabs>
+              {Object.entries(videoTags).map(([key, value]) => {
+                const filteredVideos = youtubeVideos.filter(
+                  (video) => video && video.snippet.channelId === value,
+                );
 
-            <div className={`grid w-full grid-cols-3 gap-2`}>
-              {loading &&
-                Array.from({ length: 9 }).map((_, index) => (
-                  <Skeleton key={index} className="aspect-video h-full" />
-                ))}
-              {error && (
-                <p>Something went wrong while fetching images: {error}</p>
-              )}
-            </div>
+                return (
+                  <TabsContent key={key.toLowerCase()} value={value}>
+                    <div className={`grid w-full grid-cols-2 gap-2`}>
+                      {status === "loading" &&
+                        Array.from({ length: 9 }).map((_, index) => (
+                          <Skeleton
+                            key={index}
+                            className="aspect-video h-full"
+                          />
+                        ))}
+                      {error && (
+                        <p>
+                          Something went wrong while fetching videos: {error}
+                        </p>
+                      )}
+
+                      {filteredVideos.map((video) => {
+                        const snippet = video.snippet;
+                        const { title, thumbnails, resourceId } = snippet;
+                        const videoId = resourceId.videoId;
+
+                        const url =
+                          thumbnails?.maxres?.url || // Fallback 1: maxres
+                          thumbnails?.high?.url || // Fallback 2: high
+                          thumbnails?.medium?.url || // Fallback 3: medium
+                          thumbnails?.low?.url || // Fallback 4: low
+                          thumbnails?.default?.url || // Fallback 5: default
+                          "https://via.placeholder.com/200";
+
+                        return (
+                          <div
+                            key={videoId}
+                            className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
+                          >
+                            {!mediaLoadingState[videoId] && (
+                              <div className="absolute inset-0">
+                                <Skeleton
+                                  key={title}
+                                  className="h-[113px] w-[199px] rounded"
+                                />
+                              </div>
+                            )}
+
+                            <img
+                              alt={title}
+                              src={url}
+                              width="320"
+                              height="180"
+                              style={{
+                                opacity: mediaLoadingState[videoId] ? 1 : 0,
+                                transition: "opacity 0.5s ease-in-out",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                              }}
+                              // onClick={}
+                              onLoad={() => handleMediaLoad(videoId)}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </TabsContent>
+                );
+              })}
+            </Tabs>
           </div>
         </TabsContent>
       </Tabs>
