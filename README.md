@@ -100,6 +100,6 @@ Steps to run the project locally.
 
 ## 📄 License
 
-Licensed under the Mozilla Public License Version 2.0.
+Licensed under the GNU Affero General Public License Version 3.0.
 
 <p align="right"><a href="#top">⬆️</a></p>
