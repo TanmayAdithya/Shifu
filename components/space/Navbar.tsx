@@ -44,7 +44,7 @@ const Navbar = ({ openWidgets }: Props) => {
       <div
         className={`${
           openChanger ? "" : "hidden"
-        } absolute bottom-2 z-10 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        } absolute bottom-2 z-20 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
         <BackgroundChanger />
         <div className="absolute right-2 top-[2px]">

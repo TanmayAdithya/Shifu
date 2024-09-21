@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CalendarWidget from "@/components/space/CalendarWidget";
 import Kanban from "@/components/space/Kanban";
 import Matrix from "@/components/space/Matrix";
@@ -15,19 +15,45 @@ import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { updatePosition } from "@/store/slices/widgetSlice";
 import MusicPlayer from "./Music";
+import ReactPlayer from "react-player/youtube";
+import { TailSpin } from "react-loader-spinner";
 
 export default function SpaceBackground() {
   const openWidgets = useSelector((state: RootState) => state.widgets.widgets);
   const dispatch = useDispatch();
-
-  const { url, portfolio_url, name } = useSelector(
+  const { portfolio_url, name, active, mediaRef } = useSelector(
     (state: RootState) => state.background,
   );
   const { setNodeRef } = useDroppable({ id: "background" });
 
+  const [loading, setLoading] = useState<boolean | null>(null);
+  const [isClient, setIsClient] = useState<boolean>(false);
+  const [isReady, setIsReady] = useState<boolean>(false);
+  const [mute, setMute] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (active === "video") {
+      setLoading(true);
+    }
+  }, [mediaRef, active]);
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  const handleReady = useCallback(() => {
+    setIsReady(true);
+  }, []);
+
+  const handleStart = useCallback(() => {
+    setTimeout(() => {
+      setLoading(false);
+      setMute(false);
+    }, 3000);
+  }, [mediaRef]);
+
   const handleDragEnd = ({ active }: DragEndEvent) => {
     const newWidget = openWidgets.find((widget) => widget.id === active.id);
-
     const board = document
       .getElementById("background")
       ?.getBoundingClientRect();
@@ -99,24 +125,79 @@ export default function SpaceBackground() {
           <Navbar openWidgets={openWidgets} />
           <span
             id="background-container"
-            className="relative block h-full w-full"
+            className="fixed h-screen w-screen overflow-hidden"
           >
-            <img
-              id="background-image"
-              src={url}
-              alt="background-image"
-              className="pointer-events-none h-full w-full max-w-full select-none object-cover"
-            />
-            <p className="absolute bottom-2 left-2 flex items-center text-sm text-neutral-800 dark:text-neutral-200">
-              <CameraIcon size={"18px"} className="mr-1" />
-              <a
-                className={` ${portfolio_url ? "underline" : ""} `}
-                href={portfolio_url}
-                target="_blank"
-              >
-                {name}
-              </a>
-            </p>
+            {/* Loading state */}
+            {loading && (
+              <div className="absolute z-10 flex h-full w-full items-center justify-center bg-neutral-900/90 backdrop-blur-xl">
+                <TailSpin
+                  visible={true}
+                  height="80"
+                  width="80"
+                  color="#fff"
+                  ariaLabel="tail-spin-loading"
+                  radius="1"
+                />
+              </div>
+            )}
+            {/* Image */}
+            {active === "image" && (
+              <img
+                id="background-image"
+                src={mediaRef}
+                alt="background-image"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            )}
+            {/* Video */}
+            {isClient && active === "video" && (
+              <ReactPlayer
+                url={`https://www.youtube.com/watch?v=${mediaRef}`}
+                className={`video-player pointer-events-none transition-opacity duration-700 ${
+                  loading ? "opacity-0" : "opacity-100"
+                } absolute object-cover object-center`}
+                playing={active === "video"}
+                loop
+                muted={mute}
+                controls={false}
+                width={"100vw"}
+                height={"100vh"}
+                onReady={handleReady}
+                onStart={handleStart}
+                config={
+                  {
+                    youtube: {
+                      playerVars: {
+                        controls: 0,
+                        rel: 0,
+                        showinfo: 0,
+                        modestbranding: 1,
+                        fs: 0,
+                        autoplay: 1,
+                        loop: 1,
+                        iv_load_policy: 3,
+                        disablekb: 1,
+                        enablejsapi: 1,
+                        start: 20,
+                      },
+                    },
+                  } as any
+                }
+              />
+            )}
+            {active === "image" && (
+              <p className="absolute bottom-2 left-2 flex items-center text-sm text-neutral-800 dark:text-neutral-200">
+                <CameraIcon size={"18px"} className="mr-1" />
+                <a
+                  className={` ${portfolio_url ? "underline" : ""} `}
+                  href={portfolio_url ? portfolio_url : ""}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {name}
+                </a>
+              </p>
+            )}
           </span>
         </div>
       </DndContext>
