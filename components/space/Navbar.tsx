@@ -63,6 +63,7 @@ const Navbar = ({ openWidgets }: Props) => {
 
     document.addEventListener("mousemove", handleInteraction);
     document.addEventListener("wheel", handleInteraction);
+    document.addEventListener("click", handleInteraction);
 
     // Initial timer setup
     resetTimer();
@@ -71,6 +72,7 @@ const Navbar = ({ openWidgets }: Props) => {
     return () => {
       document.removeEventListener("mousemove", handleInteraction);
       document.removeEventListener("wheel", handleInteraction);
+      document.removeEventListener("click", handleInteraction);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
