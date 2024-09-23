@@ -57,6 +57,7 @@ const UtilityBar = ({ fallback, username, email }: Props) => {
 
     document.addEventListener("mousemove", handleInteraction);
     document.addEventListener("wheel", handleInteraction);
+    document.addEventListener("click", handleInteraction);
 
     // Initial timer setup
     resetTimer();
@@ -65,6 +66,7 @@ const UtilityBar = ({ fallback, username, email }: Props) => {
     return () => {
       document.removeEventListener("mousemove", handleInteraction);
       document.removeEventListener("wheel", handleInteraction);
+      document.removeEventListener("click", handleInteraction);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
