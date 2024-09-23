@@ -40,7 +40,7 @@ const Music: React.FC<SpotifyEmbedProps> = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openMusicPlayer ? "" : "hidden"} absolute bottom-48 right-96 z-10 h-fit w-[22rem] rounded-3xl border bg-neutral-100 p-1 dark:bg-neutral-900`}
+      className={`${openMusicPlayer ? "" : "hidden"} absolute bottom-48 right-96 z-20 h-fit w-[22rem] rounded-3xl border bg-neutral-100 p-1 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div
