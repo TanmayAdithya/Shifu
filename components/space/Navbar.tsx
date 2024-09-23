@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { widgetItems } from "@/constants/constants";
 import {
   Tooltip,
@@ -23,6 +23,7 @@ type Props = {
 const Navbar = ({ openWidgets }: Props) => {
   const [openChanger, setOpenChanger] = useState<boolean>(false);
   const [activeItem, setActiveItem] = useState<string | null>(null);
+  const [isVisible, setIsVisible] = useState<boolean>(true);
   const dispatch = useDispatch();
 
   const handleClick = (id: string) => {
@@ -38,8 +39,49 @@ const Navbar = ({ openWidgets }: Props) => {
     dispatch(toggleWidget(widgetId));
   };
 
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const interactionTimeRef = useRef<number>(Date.now());
+
+  const resetTimer = () => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = setTimeout(() => {
+      if (Date.now() - interactionTimeRef.current >= 3000) {
+        setIsVisible(false);
+      }
+    }, 3000);
+  };
+
+  useEffect(() => {
+    const handleInteraction = () => {
+      setIsVisible(true);
+      interactionTimeRef.current = Date.now();
+      resetTimer();
+    };
+
+    document.addEventListener("mousemove", handleInteraction);
+    document.addEventListener("wheel", handleInteraction);
+
+    // Initial timer setup
+    resetTimer();
+
+    // Cleanup
+    return () => {
+      document.removeEventListener("mousemove", handleInteraction);
+      document.removeEventListener("wheel", handleInteraction);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, []);
+
   return (
-    <div className="absolute bottom-20 left-0 right-0 flex justify-center">
+    <div
+      className={`fixed bottom-20 ${isVisible ? "opacity-100" : "opacity-0"} left-0 right-0 flex transform justify-center transition-opacity duration-700 ease-in-out`}
+      style={{ zIndex: 1000 }}
+    >
       {/* Background Changer Container */}
       <div
         className={`${
