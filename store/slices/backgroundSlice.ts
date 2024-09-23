@@ -1,5 +1,6 @@
-import { background } from "@/types/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import axios from "axios";
+import { background } from "@/types/types";
 
 interface BackgroundState {
   active: "image" | "video";
@@ -12,45 +13,52 @@ interface BackgroundState {
   totalPages: number;
 }
 
+const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
+
 export const fetchDefaultBackgrounds = createAsyncThunk<
-  background[] | undefined
->("backgrounds/fetchDefaultBackgrounds", async () => {
+  background[],
+  void,
+  { rejectValue: string }
+>("backgrounds/fetchDefaultBackgrounds", async (_, { rejectWithValue }) => {
   try {
-    const response = await fetch("/api/unsplash");
-    if (!response.ok) {
-      console.log("Error fetching backgrounds");
-    }
-    const data = await response.json();
-    return data;
+    const response = await axios.get(
+      `https://api.unsplash.com/photos/?client_id=${apiKey}`,
+    );
+    return response.data;
   } catch (error) {
-    console.log("Error", error);
-    return undefined;
+    console.error("Error fetching default backgrounds:", error);
+    return rejectWithValue("Failed to fetch default backgrounds");
   }
 });
 
 export const fetchSearchBackgrounds = createAsyncThunk<
   { backgrounds: background[]; totalPages: number },
-  { query: string; page: number }
->("backgrounds/fetchSearchBackgrounds", async ({ query, page }) => {
-  try {
-    const url = `/api/unsplash/search?q=${query}&page=${page}`;
-    const response = await fetch(url);
-
-    if (!response.ok) {
-      throw new Error("Failed to fetch search backgrounds");
+  { query: string; page: number },
+  { rejectValue: string }
+>(
+  "backgrounds/fetchSearchBackgrounds",
+  async ({ query, page }, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `https://api.unsplash.com/search/photos`,
+        {
+          params: {
+            query,
+            page,
+            client_id: apiKey,
+          },
+        },
+      );
+      return {
+        backgrounds: response.data.results,
+        totalPages: response.data.total_pages,
+      };
+    } catch (error) {
+      console.error("Error fetching search backgrounds:", error);
+      return rejectWithValue("Failed to fetch search backgrounds");
     }
-
-    const data = await response.json();
-
-    return {
-      backgrounds: data.results,
-      totalPages: data.total_pages,
-    };
-  } catch (error) {
-    console.error("Error fetching search backgrounds:", error);
-    throw error;
-  }
-});
+  },
+);
 
 const initialState: BackgroundState = {
   active: "image",
@@ -97,11 +105,11 @@ const backgroundSlice = createSlice({
       })
       .addCase(fetchDefaultBackgrounds.fulfilled, (state, action) => {
         state.loading = false;
-        state.backgrounds = action.payload || [];
+        state.backgrounds = action.payload;
       })
-      .addCase(fetchDefaultBackgrounds.rejected, (state) => {
+      .addCase(fetchDefaultBackgrounds.rejected, (state, action) => {
         state.loading = false;
-        state.error = "Failed to fetch default backgrounds";
+        state.error = action.payload || "Failed to fetch default backgrounds";
       });
 
     builder
@@ -116,7 +124,7 @@ const backgroundSlice = createSlice({
       })
       .addCase(fetchSearchBackgrounds.rejected, (state, action) => {
         state.loading = false;
-        state.error = "Failed to fetch search backgrounds";
+        state.error = action.payload || "Failed to fetch search backgrounds";
       });
   },
 });
