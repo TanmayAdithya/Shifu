@@ -166,7 +166,7 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`absolute z-20 flex h-[30rem] rounded-xl bg-transparent shadow-xl transition-[width] duration-500 ${
+      className={`absolute z-10 flex h-[30rem] rounded-xl bg-transparent shadow-xl transition-[width] duration-500 ${
         openNotesWidget ? "" : "hidden"
       } overflow-hidden ${sidebarToggle ? "w-[39.5rem]" : "w-[25rem]"}`}
     >

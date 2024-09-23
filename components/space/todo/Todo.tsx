@@ -20,7 +20,7 @@ const Todo = ({ openTodoWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openTodoWidget ? "" : "hidden"} absolute z-20 mx-auto w-[20rem] max-w-xs rounded-xl bg-white p-4 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      className={`${openTodoWidget ? "" : "hidden"} absolute z-10 mx-auto w-[20rem] max-w-xs rounded-xl bg-white p-4 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div

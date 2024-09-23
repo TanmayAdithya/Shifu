@@ -26,7 +26,7 @@ const Matrix = ({ openMatrixWidget, id, position }: Props) => {
       style={style}
       className={`${
         openMatrixWidget ? "" : "hidden"
-      } absolute z-20 h-[25rem] w-[28rem] rounded-3xl bg-white p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      } absolute z-10 h-[25rem] w-[28rem] rounded-3xl bg-white p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-[4px] w-full">
         <div

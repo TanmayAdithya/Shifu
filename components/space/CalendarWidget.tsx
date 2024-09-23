@@ -77,7 +77,7 @@ const CalendarWidget = ({ openCalendarWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openCalendarWidget ? "" : "hidden"} absolute z-20 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      className={`${openCalendarWidget ? "" : "hidden"} absolute z-10 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div
@@ -307,7 +307,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
           return (
             // Event Date heading
             <div key={i} className="flex w-full flex-col gap-2">
-              <div className="sticky top-0 z-20 flex items-center justify-between rounded-md bg-neutral-800 p-2">
+              <div className="sticky top-0 z-10 flex items-center justify-between rounded-md bg-neutral-800 p-2">
                 <span className="text-xl font-medium text-neutral-50">
                   {dateArr[2]}{" "}
                   <span className="text-sm font-light text-neutral-50">

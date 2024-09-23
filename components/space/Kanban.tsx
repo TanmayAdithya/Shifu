@@ -118,7 +118,7 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
       style={style}
       className={`${
         openKanbanWidget ? "" : "hidden"
-      } absolute z-20 h-[19.5rem] w-[33.5rem] rounded-xl bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      } absolute z-10 h-[19.5rem] w-[33.5rem] rounded-xl bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-1 w-full">
         <div

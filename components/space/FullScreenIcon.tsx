@@ -22,10 +22,7 @@ const FullScreenIcon = () => {
   };
 
   return (
-    <div
-      onClick={toggleFullScreen}
-      className="flex h-full w-full items-center justify-center"
-    >
+    <div onClick={toggleFullScreen}>
       {isFullScreen ? (
         <ExitFullScreen size="1rem" />
       ) : (

@@ -13,9 +13,10 @@ export const fetchVideos = createAsyncThunk<Videos[] | undefined>(
     try {
       const response = await fetch("/api/youtube/channels");
       if (!response.ok) {
-        console.log("Error fetching videos");
+        console.log("Error fetching tasks");
       }
       const data = await response.json();
+      console.log("API Data: ", data);
       return data;
     } catch (error) {
       console.log("Error", error);

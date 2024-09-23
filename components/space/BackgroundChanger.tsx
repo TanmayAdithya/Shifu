@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { background } from "@/types/types";
 import useDebounce from "@/hooks/useDebounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -8,34 +9,26 @@ import {
   MdKeyboardArrowLeft as Prev,
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchDefaultBackgrounds,
-  fetchSearchBackgrounds,
-  setBackgroundImage,
-  setBackgroundVideo,
-} from "@/store/slices/backgroundSlice";
+import { setBackground } from "@/store/slices/backgroundSlice";
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { AppDispatch } from "@/store/store";
 import { fetchVideos } from "@/store/slices/youtubeSlice";
 import { RootState } from "@/store/rootReducer";
+const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
 
-const BackgroundChanger: React.FC = () => {
+function BackgroundChanger() {
+  const [backgrounds, setBackgrounds] = useState<background[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [errorState, setErrorState] = useState<string | null>(null);
   const [search, setSearch] = useState<string>("");
+  const [totalPages, setTotalPages] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const debouncedSearch = useDebounce(search, 1000);
   const dispatch: AppDispatch = useDispatch();
-
-  const { backgrounds, loading, error, totalPages } = useSelector(
-    (state: RootState) => state.background,
+  const { videos, status, error } = useSelector(
+    (state: RootState) => state.youtube,
   );
-
-  const {
-    videos,
-    status,
-    error: videoError,
-  } = useSelector((state: RootState) => state.youtube);
-
   const youtubeVideos = videos.flat();
 
   const [mediaLoadingState, setMediaLoadingState] = useState<
@@ -46,13 +39,52 @@ const BackgroundChanger: React.FC = () => {
     dispatch(fetchVideos());
   }, [dispatch]);
 
-  useEffect(() => {
-    if (debouncedSearch) {
-      dispatch(fetchSearchBackgrounds({ query: debouncedSearch, page }));
-    } else {
-      dispatch(fetchDefaultBackgrounds());
-    }
-  }, [debouncedSearch, page, dispatch]);
+  // useEffect(() => {
+  //   const controller = new AbortController();
+  //   const signal = controller.signal;
+
+  //   const fetchData = async () => {
+  //     setLoading(true);
+  //     setBackgrounds([]);
+
+  //     try {
+  //       let url = debouncedSearch
+  //         ? `https://api.unsplash.com/search/photos?page=${page}&query=${debouncedSearch}&client_id=${apiKey}`
+  //         : `https://api.unsplash.com/photos/?client_id=${apiKey}`;
+
+  //       const res = await fetch(url, { signal });
+
+  //       if (!res.ok) {
+  //         throw new Error("Something went wrong!");
+  //       }
+
+  //       const data = await res.json();
+  //       const fetchedBackgrounds = debouncedSearch ? data.results : data;
+  //       const pages = debouncedSearch ? data.total_pages : 1;
+
+  //       setBackgrounds(fetchedBackgrounds);
+  //       setTotalPages(pages);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       if (error instanceof Error) {
+  //         if (error.name === "AbortError") {
+  //           console.log("Fetch aborted");
+  //         } else {
+  //           setError(error.message);
+  //         }
+  //       } else {
+  //         setError("An unknown error occurred");
+  //       }
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+
+  //   return () => {
+  //     controller.abort();
+  //   };
+  // }, [debouncedSearch, page]);
 
   const [activeTab, setActiveTab] = useState<string>("images");
 
@@ -70,17 +102,11 @@ const BackgroundChanger: React.FC = () => {
   };
 
   const handleBackground = (
-    mediaRef: string,
+    url: string,
     name: string,
     portfolio_url: string,
   ) => {
-    dispatch(
-      setBackgroundImage({ active: "image", mediaRef, name, portfolio_url }),
-    );
-  };
-
-  const handleSetVideo = (videoId: string) => {
-    dispatch(setBackgroundVideo(videoId));
+    dispatch(setBackground({ url, name, portfolio_url }));
   };
 
   return (
@@ -125,8 +151,8 @@ const BackgroundChanger: React.FC = () => {
                     className="h-[113px] w-[199px] rounded"
                   />
                 ))}
-              {error && (
-                <p>Something went wrong while fetching images: {error}</p>
+              {errorState && (
+                <p>Something went wrong while fetching images: {errorState}</p>
               )}
 
               {backgrounds.map(({ id, urls, user }) => (
@@ -165,8 +191,8 @@ const BackgroundChanger: React.FC = () => {
             </div>
           </div>
         </TabsContent>
-
         <TabsContent value="videos">
+          {/* <BackgroundVideos /> */}
           <div
             className={`mt-2 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14.5rem]"} w-full overflow-auto`}
           >
@@ -194,10 +220,9 @@ const BackgroundChanger: React.FC = () => {
                             className="aspect-video h-full"
                           />
                         ))}
-                      {videoError && (
+                      {error && (
                         <p>
-                          Something went wrong while fetching videos:{" "}
-                          {videoError}
+                          Something went wrong while fetching videos: {error}
                         </p>
                       )}
 
@@ -207,18 +232,17 @@ const BackgroundChanger: React.FC = () => {
                         const videoId = resourceId.videoId;
 
                         const url =
-                          thumbnails?.maxres?.url ||
-                          thumbnails?.high?.url ||
-                          thumbnails?.medium?.url ||
-                          thumbnails?.low?.url ||
-                          thumbnails?.default?.url ||
+                          thumbnails?.maxres?.url || // Fallback 1: maxres
+                          thumbnails?.high?.url || // Fallback 2: high
+                          thumbnails?.medium?.url || // Fallback 3: medium
+                          thumbnails?.low?.url || // Fallback 4: low
+                          thumbnails?.default?.url || // Fallback 5: default
                           "https://via.placeholder.com/200";
 
                         return (
                           <div
                             key={videoId}
-                            className="relative rounded transition-colors duration-500 dark:border dark:border-neutral-900 dark:shadow-lg dark:hover:border-neutral-400"
-                            onClick={() => handleSetVideo(videoId)}
+                            className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
                           >
                             {!mediaLoadingState[videoId] && (
                               <div className="absolute inset-0">
@@ -240,6 +264,7 @@ const BackgroundChanger: React.FC = () => {
                                 borderRadius: "4px",
                                 cursor: "pointer",
                               }}
+                              // onClick={}
                               onLoad={() => handleMediaLoad(videoId)}
                               className="h-full w-full object-cover"
                             />
@@ -276,7 +301,7 @@ const BackgroundChanger: React.FC = () => {
               <Prev />
             </button>
             <button
-              disabled={page >= totalPages}
+              disabled={page < totalPages}
               onClick={() => setPage((page) => page + 1)}
               className={`rounded-lg bg-neutral-200 p-1 dark:bg-neutral-700 ${
                 page < totalPages ? "hover:bg-neutral-300/80" : "opacity-20"
@@ -293,6 +318,6 @@ const BackgroundChanger: React.FC = () => {
       </div>
     </>
   );
-};
+}
 
 export default BackgroundChanger;
