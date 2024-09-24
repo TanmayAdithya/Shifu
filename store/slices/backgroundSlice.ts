@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { background } from "@/types/types";
+import defaultBackgrounds from "@/json/defaultBackgrounds.json";
 
 interface BackgroundState {
   active: "image" | "video";
@@ -26,7 +27,11 @@ export const fetchDefaultBackgrounds = createAsyncThunk<
     );
     return response.data;
   } catch (error) {
-    console.error("Error fetching default backgrounds:", error);
+    if (axios.isAxiosError(error) && error.response?.status === 403) {
+      alert("Rate limit exceeded. Showing placeholder data.");
+      return defaultBackgrounds;
+    }
+    console.error("Error fetching default backgrounds: ", error);
     return rejectWithValue("Failed to fetch default backgrounds");
   }
 });

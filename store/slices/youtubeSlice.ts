@@ -1,5 +1,11 @@
 import { VideosState, Videos } from "@/types/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import ambience from "@/json/ambience.json";
+import study from "@/json/study.json";
+import scifi from "@/json/scifi.json";
+import cafe from "@/json/cafe.json";
+import earth from "@/json/earth.json";
+import relax from "@/json/relax.json";
 
 const initialState: VideosState = {
   videos: [],
@@ -7,19 +13,32 @@ const initialState: VideosState = {
   error: null,
 };
 
+const placeholderVideos = [ambience, study, scifi, cafe, earth, relax];
+
 export const fetchVideos = createAsyncThunk<Videos[] | undefined>(
   "videos/fetchVideos",
-  async () => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await fetch("/api/youtube/channels");
+
       if (!response.ok) {
-        console.log("Error fetching videos");
+        if (response.status === 403) {
+          alert("Rate limit exceeded. Showing placeholder data.");
+          return placeholderVideos;
+        } else if (response.status >= 500) {
+          return rejectWithValue("Server error. Please try again later.");
+        } else {
+          return rejectWithValue(
+            "Failed to fetch videos. Please check your request.",
+          );
+        }
       }
+
       const data = await response.json();
       return data;
     } catch (error) {
-      console.log("Error", error);
-      return undefined;
+      console.error("Error fetching videos:", error);
+      return rejectWithValue("Unexpected error occurred. Please try again.");
     }
   },
 );
