@@ -64,7 +64,6 @@ const Navbar = ({ openWidgets }: Props) => {
     document.addEventListener("mousemove", handleInteraction);
     document.addEventListener("wheel", handleInteraction);
     document.addEventListener("click", handleInteraction);
-
     // Initial timer setup
     resetTimer();
 
@@ -73,6 +72,7 @@ const Navbar = ({ openWidgets }: Props) => {
       document.removeEventListener("mousemove", handleInteraction);
       document.removeEventListener("wheel", handleInteraction);
       document.removeEventListener("click", handleInteraction);
+
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -81,7 +81,7 @@ const Navbar = ({ openWidgets }: Props) => {
 
   return (
     <div
-      className={`fixed bottom-20 ${isVisible ? "opacity-100" : "opacity-0"} left-0 right-0 flex transform justify-center transition-opacity duration-700 ease-in-out`}
+      className={`fixed bottom-20 left-0 right-0 flex justify-center`}
       style={{ zIndex: 1000 }}
     >
       {/* Background Changer Container */}
@@ -103,7 +103,9 @@ const Navbar = ({ openWidgets }: Props) => {
         </div>
       </div>
 
-      <nav className="absolute z-40 mb-[3rem] flex items-center">
+      <nav
+        className={`${isVisible ? "opacity-100" : "opacity-0"} absolute z-40 mb-[3rem] flex transform items-center transition-opacity duration-700 ease-in-out`}
+      >
         {/* Background Changer Tab */}
         <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
