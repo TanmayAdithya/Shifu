@@ -4,7 +4,6 @@ import "./globals.css";
 import { ReduxProvider } from "@/store/Provider";
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,9 +26,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReduxProvider>
-            {children} <SpeedInsights />
-          </ReduxProvider>
+          <ReduxProvider>{children}</ReduxProvider>
           <Toaster />
         </ThemeProvider>
       </body>
