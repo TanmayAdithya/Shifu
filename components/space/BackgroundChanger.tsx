@@ -66,7 +66,7 @@ const BackgroundChanger: React.FC = () => {
     Earth: "UCb57aRZr3KsykS_wNsD5Ptw", // Earth
     Relax: "UC95bEkaIgwhxSjSsdMFXYGg", // Relax
     "Sci-Fi": "UCDyghjHud0sexPHxs5qPXUQ", // Scifi
-    Cafe: "UC84t1K5ri-7u9bFCaUKTXDA", // Cafe
+    Cafe: "UCJIOFQLGwB3GH9K9waxwynQ", // Cafe
   };
 
   const handleBackground = (

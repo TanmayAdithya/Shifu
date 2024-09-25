@@ -15,7 +15,7 @@ export async function GET() {
     "UCb57aRZr3KsykS_wNsD5Ptw", // Earth
     "UC95bEkaIgwhxSjSsdMFXYGg", // Relax
     "UCDyghjHud0sexPHxs5qPXUQ", // Scifi
-    "UC84t1K5ri-7u9bFCaUKTXDA", // Cafe
+    "UCJIOFQLGwB3GH9K9waxwynQ", // cafe
   ];
 
   try {
