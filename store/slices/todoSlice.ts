@@ -15,6 +15,7 @@ export const fetchTasks = createAsyncThunk<Todo[] | undefined>(
         console.log("Error fetching tasks");
       }
       const data: Todo[] = await response.json();
+      console.log(data);
       return data;
     } catch (error) {
       console.log("Error", error);
@@ -34,7 +35,7 @@ export const todoSlice = createSlice({
   initialState,
   reducers: {
     addTodo: (state, action: PayloadAction<string>) => {
-      state.todos.push({
+      state.todos.unshift({
         id: nanoid(),
         content: action.payload,
         status: "todo",

@@ -80,7 +80,7 @@ export const notesSlice = createSlice({
   initialState,
   reducers: {
     addNote: (state, action: PayloadAction<AddNotePayload>) => {
-      state.notes.push({
+      state.notes.unshift({
         id: nanoid(),
         title: action.payload.title,
         content: action.payload.content,
