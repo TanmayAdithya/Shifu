@@ -13,10 +13,13 @@ export async function guestAuthAction() {
     email: "guest@anonymous.com",
   };
 
+  const isProduction = process.env.NODE_ENV === "production";
+
   cookies().set(GUEST_SESSION_ID, JSON.stringify(guestSession), {
     path: "/",
     httpOnly: false,
-    sameSite: "strict",
+    sameSite: "none",
+    secure: isProduction,
     maxAge: 60 * 60,
   });
 
