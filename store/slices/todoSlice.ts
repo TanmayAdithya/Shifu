@@ -15,7 +15,7 @@ export const fetchTasks = createAsyncThunk<Todo[] | undefined>(
         console.log("Error fetching tasks");
       }
       const data: Todo[] = await response.json();
-      console.log(data);
+
       return data;
     } catch (error) {
       console.log("Error", error);

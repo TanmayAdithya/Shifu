@@ -57,8 +57,11 @@ export async function signupAction(formData: FormData) {
     hashed_password: hashedPassword,
   });
 
-  const session = await lucia.createSession(userId, {});
+  if (cookies().get("guest-session")) {
+    cookies().delete("guest-session");
+  }
 
+  const session = await lucia.createSession(userId, {});
   const sessionCookie = lucia.createSessionCookie(session.id);
 
   cookies().set(

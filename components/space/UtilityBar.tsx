@@ -24,14 +24,16 @@ import { IoMdSettings as SettingsIcon } from "react-icons/io";
 import { TbUserFilled as UserIcon } from "react-icons/tb";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { ModeToggle } from "@/components/ui/mode-toggle";
+import GuestLogoutButton from "../auth/GuestLogoutButton";
 
 type Props = {
   fallback: string[];
   username: string;
   email: string;
+  isGuest?: boolean;
 };
 
-const UtilityBar = ({ fallback, username, email }: Props) => {
+const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const interactionTimeRef = useRef<number>(Date.now());
@@ -165,7 +167,7 @@ const UtilityBar = ({ fallback, username, email }: Props) => {
           </Dialog>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
-            <LogoutButton />
+            {isGuest ? <GuestLogoutButton /> : <LogoutButton />}
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
