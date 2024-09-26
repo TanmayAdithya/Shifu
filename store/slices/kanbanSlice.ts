@@ -1,6 +1,54 @@
-import { KanbanBoard } from "@/types/types";
+import { KanbanBoard, Todo } from "@/types/types";
 import { UniqueIdentifier } from "@dnd-kit/core";
-import { PayloadAction, createSlice, nanoid } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+
+export const fetchTasks = createAsyncThunk<Todo[]>(
+  "kanban/fetchTasks",
+  async () => {
+    try {
+      const response = await fetch("/api/tasks");
+      if (!response.ok) {
+        console.log("Error fetching tasks");
+      }
+      const data: Todo[] = await response.json();
+      return data;
+    } catch (error) {
+      console.log("Error", error);
+      return [];
+    }
+  },
+);
+
+const organizeTasksIntoColumns = (tasks: Todo[]) => {
+  const columns = {
+    todo: tasks.filter((task) => task.status === "todo"),
+    inProgress: tasks.filter((task) => task.status === "in-progress"),
+    complete: tasks.filter((task) => task.status === "complete"),
+  };
+
+  return {
+    columns: [
+      {
+        id: "1",
+        column_name: "To Do",
+        color: "blue",
+        tasks: columns.todo,
+      },
+      {
+        id: "2",
+        column_name: "In Progress",
+        color: "yellow",
+        tasks: columns.inProgress,
+      },
+      {
+        id: "3",
+        column_name: "Complete",
+        color: "green",
+        tasks: columns.complete,
+      },
+    ],
+  };
+};
 
 const initialState: KanbanBoard = {
   columns: [
@@ -8,36 +56,19 @@ const initialState: KanbanBoard = {
       id: "1",
       column_name: "To Do",
       color: "blue",
-      tasks: [
-        { id: "1-1", content: "Task 1" },
-        { id: "1-2", content: "Task 2" },
-        { id: "1-3", content: "Task 3" },
-        { id: "1-4", content: "Task 4" },
-        { id: "1-5", content: "Task 5" },
-        { id: "1-6", content: "Task 6" },
-        { id: "1-7", content: "Task 7" },
-        { id: "1-8", content: "Task 8" },
-        { id: "1-9", content: "Task 9" },
-        { id: "1-10", content: "Task 10" },
-      ],
+      tasks: [],
     },
     {
       id: "2",
       column_name: "In Progress",
       color: "yellow",
-      tasks: [
-        { id: "2-1", content: "Task 4" },
-        { id: "2-2", content: "Task 5" },
-      ],
+      tasks: [],
     },
     {
       id: "3",
       column_name: "Complete",
       color: "green",
-      tasks: [
-        { id: "3-1", content: "Task 8" },
-        { id: "3-2", content: "Task 9" },
-      ],
+      tasks: [],
     },
   ],
 };
@@ -81,9 +112,29 @@ const kanbanSlice = createSlice({
           (task) => task.id === action.payload.taskId,
         );
         const [movedTask] = fromColumn.tasks.splice(taskIndex, 1);
+
+        if (toColumn.id === "1") {
+          movedTask.status = "todo";
+        } else if (toColumn.id === "2") {
+          movedTask.status = "in-progress";
+        } else if (toColumn.id === "3") {
+          movedTask.status = "complete";
+        }
+
         toColumn.tasks.push(movedTask);
       }
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchTasks.fulfilled, (state, action) => {
+      const tasks = action.payload;
+      const organizedColumns = organizeTasksIntoColumns(tasks);
+      state.columns = organizedColumns.columns;
+    });
+
+    builder.addCase(fetchTasks.rejected, (state, action) => {
+      console.error("Error fetching tasks:", action.error.message);
+    });
   },
 });
 

@@ -100,16 +100,11 @@ export interface Column {
   id: string;
   column_name: string;
   color: string;
-  tasks: KanbanTask[];
+  tasks: Todo[];
 }
 
 export interface KanbanBoard {
   columns: Column[];
-}
-
-export interface KanbanTask {
-  id: string;
-  content: string;
 }
 
 export interface CalendarEvent {

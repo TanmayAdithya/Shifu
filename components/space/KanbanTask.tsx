@@ -24,7 +24,7 @@ const KanbanTask = ({ color, content, id }: Props) => {
   };
 
   const colorMap: { [key: string]: string } = {
-    yellow: "bg-yellow-500 dark:bg-yellow-700",
+    yellow: "bg-yellow-600/80 dark:bg-yellow-700",
     green: "bg-green-500 dark:bg-green-700",
     blue: "bg-blue-500 dark:bg-blue-700",
   };
@@ -35,7 +35,7 @@ const KanbanTask = ({ color, content, id }: Props) => {
       style={style}
       {...listeners}
       {...attributes}
-      className={`rounded-lg p-2 text-sm dark:text-neutral-100 ${colorMap[color] || ""} ${
+      className={`rounded-lg p-2 text-sm text-neutral-100 ${colorMap[color] || ""} ${
         isDragging ? "shadow-lg" : ""
       }`}
     >

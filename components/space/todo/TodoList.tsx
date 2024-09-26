@@ -21,6 +21,8 @@ const TodoList = () => {
           id={todo.id}
           content={todo.content}
           status={todo.status}
+          important={todo.important}
+          urgent={todo.urgent}
         />
       ))}
     </ul>

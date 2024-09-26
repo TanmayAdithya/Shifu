@@ -92,6 +92,16 @@ export const todoSlice = createSlice({
         todo.important = action.payload.important;
       }
     },
+
+    updateTaskStatus: (
+      state,
+      action: PayloadAction<{ id: string; status: any }>,
+    ) => {
+      const task = state.todos.find((todo) => todo.id === action.payload.id);
+      if (task) {
+        task.status = action.payload.status;
+      }
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -123,6 +133,7 @@ export const {
   setInProgress,
   toggleUrgency,
   toggleImportance,
+  updateTaskStatus,
 } = todoSlice.actions;
 
 export default todoSlice.reducer;

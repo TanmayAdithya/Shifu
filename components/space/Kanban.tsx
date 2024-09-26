@@ -10,17 +10,20 @@ import {
   useDraggable,
   DragOverlay,
 } from "@dnd-kit/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MinimizeWidget from "./MinimizeWidget";
 import KanbanTask from "./KanbanTask";
 import { SortableContext } from "@dnd-kit/sortable";
 import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import {
+  fetchTasks,
   moveTaskBetweenColumns,
   reorderTaskInColumn,
 } from "@/store/slices/kanbanSlice";
 import { cn } from "@/lib/utils";
+import { AppDispatch } from "@/store/store";
+import { completeTodo } from "@/store/slices/todoSlice";
 
 type Props = {
   openKanbanWidget: boolean;
@@ -38,7 +41,12 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
   } as React.CSSProperties;
 
   const columns = useSelector((state: RootState) => state.kanban.columns);
-  const dispatch = useDispatch();
+  const todos = useSelector((state: RootState) => state.todos);
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch, todos]);
 
   const [activeTask, setActiveTask] = useState<{
     taskId: UniqueIdentifier;
