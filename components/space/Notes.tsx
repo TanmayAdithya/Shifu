@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { RiStickyNoteAddLine as NewNote } from "react-icons/ri";
 import { MdModeEdit as EditTitle } from "react-icons/md";
-
 import { PiTrashSimpleBold as DeleteNote } from "react-icons/pi";
 import { IoClose as ExitEditMode } from "react-icons/io5";
 import {
@@ -162,6 +161,10 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <div
       ref={setNodeRef}
@@ -174,7 +177,7 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-24 rounded-full bg-neutral-400 dark:bg-neutral-700"
+          className={`mx-auto h-1 w-24 rounded-full ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"}`}
         ></div>
       </div>
 
@@ -183,31 +186,34 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
           sidebarToggle
             ? "visibility-visible w-[14.5rem] opacity-100"
             : "visibility-hidden w-0 opacity-0"
-        } overflow-auto rounded-l-xl border-r border-r-neutral-200 bg-white shadow-md dark:border-r-neutral-800 dark:bg-neutral-900`}
+        } rounded-l-xl border-r ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : "dark:bg-neutral-900"} h-full border-r-neutral-200 shadow-md dark:border-r-neutral-800`}
       >
-        <div>
-          <div className="sticky top-0 w-full bg-white px-3 pb-2 pt-3 dark:bg-neutral-900">
+        <div className="h-full">
+          <div
+            className={` ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} w-full rounded-tl-xl bg-white px-3 pb-2 pt-3 dark:bg-neutral-900`}
+          >
             {/* Sidebar */}
             <span>
               <SidebarIcon
-                color="#737373"
                 size={"24px"}
-                className={`mb-2 cursor-pointer`}
+                className={`mb-2 cursor-pointer ${isGlassMode ? "text-neutral-800 dark:text-neutral-400" : "text-[#737373]"}`}
                 onClick={handleSidebarToggle}
               />
             </span>
             {/* Search Box */}
             <div className="mb-2 flex w-full items-center justify-start gap-2">
-              <div className="flex w-[164.6px] items-center rounded-md bg-white dark:border-0 dark:bg-neutral-900">
+              <div
+                className={` ${isGlassMode ? "bg-opacity-50 backdrop-blur dark:bg-opacity-80" : "bg-white dark:bg-neutral-900"} flex w-[164.6px] items-center rounded-md dark:border-0`}
+              >
                 <Input
                   type="text"
                   placeholder="Search notes"
-                  className="w-full border-neutral-300/80 dark:border-neutral-400/15"
+                  className={`w-full ${isGlassMode ? "focus-visible:ring-transparent" : ""} border-neutral-300/80 dark:border-neutral-400/15`}
                   onChange={(e) => handleSearch(e)}
                 />
               </div>
               <div
-                className="h-[36px] cursor-pointer rounded-md border border-neutral-400/60 bg-white p-2 text-neutral-500 transition-colors duration-150 hover:bg-neutral-200 dark:border-neutral-400/15 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
+                className={` ${isGlassMode ? "bg-opacity-50 backdrop-blur hover:bg-neutral-50 dark:bg-opacity-80" : "hover:bg-neutral-200"} h-[36px] cursor-pointer rounded-md border border-neutral-400/60 bg-white p-2 text-neutral-500 transition-colors duration-150 dark:border-neutral-400/15 dark:bg-neutral-900 dark:text-neutral-200 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800`}
                 onClick={handleAddNote}
               >
                 <NewNote size={"17px"} />
@@ -215,11 +221,13 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
             </div>
           </div>
           {/* Notes List*/}
-          <div className="flex flex-col gap-2 px-3 pb-2">
+          <div
+            className={`flex h-full max-h-[24rem] flex-col gap-2 overflow-auto rounded-bl-xl bg-white px-3 pb-2 dark:bg-neutral-900 ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""}`}
+          >
             {filteredNotes.map((note) => (
               <div
                 key={note.id}
-                className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 dark:border-neutral-400/15 dark:hover:border-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800 ${openNote?.id === note.id ? "bg-neutral-200/70 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-800 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-800 dark:hover:bg-neutral-100" : "border-neutral-300/80 bg-white dark:bg-neutral-900 dark:text-neutral-300"}`}
+                className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 dark:border-neutral-400/15 dark:hover:border-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800 ${isGlassMode ? "bg-opacity-60 backdrop-blur dark:bg-opacity-60" : ""} ${openNote?.id === note.id ? "bg-neutral-200/70 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-800 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-800 dark:hover:bg-neutral-100" : "border-neutral-300/80 bg-white dark:bg-neutral-900 dark:text-neutral-300"}`}
                 onClick={() => handleOpenNote(note)}
               >
                 <span className="max-w-[10rem] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -238,14 +246,13 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
         </div>
       </aside>
       <div
-        className={`relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 rounded-xl"} overflow-auto bg-white p-4 pl-2 shadow-lg transition-all duration-500 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        className={`${isGlassMode ? "bg-opacity-40 backdrop-blur-xl dark:bg-opacity-80" : ""} relative h-[100%] w-[25rem] ${sidebarToggle ? "rounded-e-xl" : "z-20 rounded-xl"} overflow-auto bg-white p-4 pl-2 shadow-lg transition-all duration-500 dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
         {notes.length === 0 ? (
           <>
             <SidebarIcon
-              color="#737373"
               size={"24px"}
-              className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500`}
+              className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500 ${isGlassMode ? "text-neutral-800 dark:text-neutral-400" : "text-[#737373]"}`}
               onClick={handleSidebarToggle}
             />
             <div className="mx-auto flex h-full w-full items-center justify-center">
@@ -258,9 +265,8 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
           <>
             <div>
               <SidebarIcon
-                color="#737373"
                 size={"24px"}
-                className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500`}
+                className={`${sidebarToggle ? "pointer-events-none opacity-0" : "opacity-100"} absolute mb-2 ml-2 cursor-pointer transition-opacity duration-500 ${isGlassMode ? "text-neutral-800 dark:text-neutral-400" : "text-[#737373]"}`}
                 onClick={handleSidebarToggle}
               />
 
@@ -271,7 +277,7 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
                       type="text"
                       value={newTitle}
                       ref={inputRef}
-                      className="max-w-40 rounded focus:outline-none"
+                      className={`max-w-40 rounded px-1 focus:outline-none ${isGlassMode ? "bg-white bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""}`}
                       onChange={(e) => {
                         setNewTitle(e.target.value);
                       }}
@@ -310,7 +316,7 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
               {openNote && (
                 <EditorContent
                   id="editor-wrapper"
-                  className="prose-code:after:content=[''] text-md prose block py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-blockquote:my-1 prose-code:bg-transparent prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1 dark:prose-headings:text-neutral-200 dark:prose-p:text-neutral-200 dark:prose-blockquote:text-neutral-300 dark:prose-strong:text-neutral-200 dark:prose-code:bg-neutral-800 dark:prose-code:bg-transparent dark:prose-code:text-neutral-300 dark:prose-pre:rounded-md dark:prose-pre:border dark:prose-pre:border-neutral-700 dark:prose-pre:bg-neutral-900 dark:prose-pre:text-neutral-300"
+                  className="prose-code:after:content=[''] text-md prose block py-3 outline-none prose-headings:my-1 prose-p:my-1 prose-p:leading-relaxed prose-p:text-neutral-800 prose-blockquote:my-1 prose-code:bg-transparent prose-code:px-1 prose-code:before:content-[''] prose-ul:my-1 prose-li:my-1 dark:prose-headings:text-neutral-200 dark:prose-p:text-neutral-200 dark:prose-blockquote:text-neutral-300 dark:prose-strong:text-neutral-200 dark:prose-code:bg-neutral-800 dark:prose-code:bg-transparent dark:prose-code:text-neutral-300 dark:prose-pre:rounded-md dark:prose-pre:border dark:prose-pre:border-neutral-700 dark:prose-pre:bg-neutral-900 dark:prose-pre:text-neutral-300"
                   editor={editor}
                 />
               )}

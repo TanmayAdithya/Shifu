@@ -12,9 +12,10 @@ import { WidgetState } from "@/types/types";
 import BackgroundChanger from "./BackgroundChanger";
 import { AiOutlinePicture as Picture } from "react-icons/ai";
 import { MdOutlineLibraryMusic as Music } from "react-icons/md";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { toggleWidget } from "@/store/slices/widgetSlice";
 import { FaMinus as MinimizeIcon } from "react-icons/fa6";
+import { RootState } from "@/store/rootReducer";
 
 type Props = {
   openWidgets: WidgetState[];
@@ -78,6 +79,9 @@ const Navbar = ({ openWidgets }: Props) => {
       }
     };
   }, []);
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
 
   return (
     <div
@@ -88,7 +92,7 @@ const Navbar = ({ openWidgets }: Props) => {
       <div
         className={`${
           openChanger ? "" : "hidden"
-        } absolute bottom-2 z-20 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        } ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} absolute bottom-2 z-20 h-[20rem] w-[28rem] overflow-hidden rounded-xl bg-neutral-50 p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
       >
         <BackgroundChanger />
         <div className="absolute right-2 top-[2px]">
@@ -98,7 +102,9 @@ const Navbar = ({ openWidgets }: Props) => {
               setActiveItem(null);
             }}
           >
-            <MinimizeIcon className="cursor-pointer text-neutral-400 transition-colors duration-100 hover:text-neutral-700" />
+            <MinimizeIcon
+              className={`cursor-pointer ${isGlassMode ? "text-neutral-100 hover:text-neutral-300 dark:text-neutral-300" : "text-neutral-400 hover:text-neutral-700 dark:text-neutral-50"} transition-colors duration-100 hover:text-neutral-700`}
+            />
           </button>
         </div>
       </div>
@@ -107,18 +113,20 @@ const Navbar = ({ openWidgets }: Props) => {
         className={`${isVisible ? "opacity-100" : "opacity-0"} absolute z-40 mb-[3rem] flex transform items-center transition-opacity duration-700 ease-in-out`}
       >
         {/* Background Changer Tab */}
-        <div className="mr-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
+        <div
+          className={`${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} mr-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        >
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
             <Tooltip>
               <TooltipTrigger>
                 <li
                   key="background-changer"
                   id="background-changer"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out dark:hover:bg-neutral-800 ${
                     activeItem === "background"
-                      ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800"
+                      ? `dark:bg-neutral-800 dark:hover:bg-neutral-800 ${isGlassMode ? "bg-neutral-200 backdrop-blur hover:bg-neutral-200 dark:bg-opacity-80" : "hover:bg-neutral-200"}`
                       : ""
-                  }`}
+                  } ${isGlassMode ? "backdrop-blur hover:bg-neutral-200/30 dark:bg-opacity-80" : ""}`}
                   onClick={() => {
                     handleClick("background");
                   }}
@@ -138,7 +146,9 @@ const Navbar = ({ openWidgets }: Props) => {
           </TooltipProvider>
         </div>
 
-        <div className="w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
+        <div
+          className={`${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} w-[20rem] items-center justify-center rounded-xl bg-neutral-50 p-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        >
           <div className="flex flex-1 justify-between">
             {widgetItems.map(({ id, icon: Icon }, index) => {
               return (
@@ -151,11 +161,11 @@ const Navbar = ({ openWidgets }: Props) => {
                     <TooltipTrigger>
                       <li
                         key={id}
-                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                        className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out dark:hover:bg-neutral-800 ${
                           openWidgets[index].visibility
                             ? "bg-neutral-200 dark:bg-neutral-800"
                             : ""
-                        }`}
+                        } ${isGlassMode ? "hover:bg-neutral-200/30" : "hover:bg-neutral-200"}`}
                         onClick={() => handleToggleWidget(id)}
                       >
                         <span>
@@ -177,18 +187,20 @@ const Navbar = ({ openWidgets }: Props) => {
         </div>
 
         {/* Music Player Tab */}
-        <div className="ml-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900">
+        <div
+          className={` ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} ml-2 rounded-xl bg-neutral-50 px-1 py-1 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+        >
           <TooltipProvider delayDuration={75} skipDelayDuration={75}>
             <Tooltip>
               <TooltipTrigger>
                 <li
                   key="music-player"
                   id="music-player"
-                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800 ${
+                  className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out dark:hover:bg-neutral-800 ${
                     openWidgets[6].visibility
-                      ? "bg-neutral-200 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-800"
+                      ? `${isGlassMode ? "bg-neutral-300 hover:bg-neutral-200/30" : "bg-neutral-200 hover:bg-neutral-200"} dark:bg-neutral-800 dark:hover:bg-neutral-800`
                       : ""
-                  }`}
+                  } ${isGlassMode ? "hover:bg-neutral-200/30" : "hover:bg-neutral-200"} `}
                   onClick={() => {
                     handleClick("music");
                   }}

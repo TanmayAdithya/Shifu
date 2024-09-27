@@ -9,6 +9,8 @@ import { FaPause as Paused } from "react-icons/fa6";
 import { FaPlay as Running } from "react-icons/fa6";
 import { Position } from "@/types/types";
 import { useDraggable } from "@dnd-kit/core";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
 type Props = { openTimerWidget: boolean; id: string; position: Position };
 
@@ -19,6 +21,9 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
   const [timerRunning, setTimerRunning] = useState(false);
   const [isStopwatch, setIsStopwatch] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
 
   useEffect(() => {
     if (stopwatchRunning) {
@@ -84,16 +89,18 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openTimerWidget ? "" : "hidden"} absolute z-20 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      className={`${openTimerWidget ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} absolute z-20 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
+          className={`mx-auto ${isGlassMode ? "bg-neutral-500 dark:bg-neutral-300" : "bg-neutral-400 dark:bg-neutral-700"} h-1 w-16 rounded-full`}
         ></div>
       </div>
-      <div className="relative mb-6 rounded-xl border border-neutral-300 bg-neutral-200/60 text-center dark:border-neutral-700 dark:bg-neutral-800">
+      <div
+        className={`relative mb-6 rounded-xl border ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : "bg-opacity-60"} border-neutral-300 bg-neutral-200 text-center dark:border-neutral-700 dark:bg-neutral-800`}
+      >
         <div
           className="pointer-events-none absolute left-[57%] top-1 select-none text-xs text-neutral-600 dark:text-neutral-50"
           style={{ transform: `translateX(${String(minutes).length * 7}px)` }}
@@ -129,28 +136,28 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
         <button
           onClick={() => handleSetTime(10, 0)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 ${isGlassMode ? "border-neutral-200 dark:border-neutral-500" : ""} text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           10M
         </button>
         <button
           onClick={() => handleSetTime(5, 0)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 ${isGlassMode ? "border-neutral-200 dark:border-neutral-500" : ""} text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           5M
         </button>
         <button
           onClick={() => handleSetTime(1, 0)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 ${isGlassMode ? "border-neutral-200 dark:border-neutral-500" : ""} text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           1M
         </button>
         <button
           onClick={() => handleSetTime(0, 1)}
           disabled={isStopwatch}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 ${isGlassMode ? "border-neutral-200 dark:border-neutral-500" : ""} text-neutral-800 transition-all duration-300 dark:text-neutral-50 ${isStopwatch ? "pointer-events-none opacity-25" : "hover:bg-neutral-700 hover:text-neutral-100"}`}
         >
           1S
         </button>
@@ -158,13 +165,13 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
       <div className="flex items-center justify-between">
         <button
           onClick={() => setIsStopwatch((prev) => !prev)}
-          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-sm transition-all duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:hover:border-neutral-50 hover:dark:bg-neutral-50 dark:hover:text-neutral-800 ${timerRunning ? "pointer-events-none opacity-25" : ""} ${isStopwatch ? "bg-neutral-700 text-neutral-100 dark:bg-neutral-50 dark:text-neutral-800" : "bg-white text-neutral-800 dark:bg-neutral-900 dark:text-neutral-50"}`}
+          className={`flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] text-sm transition-all duration-300 ${isGlassMode ? "border-neutral-700 dark:border-neutral-500 dark:hover:bg-neutral-800" : ""} border-neutral-700 hover:bg-neutral-700 hover:text-neutral-100 dark:hover:border-neutral-50 hover:dark:bg-neutral-50 dark:hover:text-neutral-800 ${timerRunning ? "pointer-events-none opacity-25" : ""} ${isStopwatch ? "bg-neutral-700 text-neutral-100 dark:bg-neutral-50 dark:text-neutral-800" : `text-neutral-800 ${isGlassMode ? "dark:bg-transparent" : "dark:bg-neutral-900"} dark:text-neutral-50`}`}
         >
           <Stopwatch size={"20px"} />
         </button>
         <button
           onClick={handleReset}
-          className="flex h-12 w-12 items-center justify-center rounded-full border-[1.5px] border-neutral-700 text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
+          className={`flex ${isGlassMode ? "border-neutral-700 dark:border-neutral-500" : "dark:border-neutral-700"} h-12 w-12 items-center justify-center rounded-full border-[1.5px] text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800`}
         >
           <Reset size={"20px"} />
         </button>

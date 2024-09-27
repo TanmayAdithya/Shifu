@@ -83,6 +83,10 @@ const BackgroundChanger: React.FC = () => {
     dispatch(setBackgroundVideo(videoId));
   };
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <>
       <Tabs
@@ -98,17 +102,24 @@ const BackgroundChanger: React.FC = () => {
             value={search}
             type="text"
             placeholder="Search backgrounds"
-            className="w-full rounded-md p-2 outline-none"
+            className={`w-full rounded-md p-2 outline-none ${isGlassMode ? "border-neutral-50/45 text-neutral-50 placeholder:text-neutral-100 focus-visible:ring-neutral-50/60" : ""} `}
             onChange={(e) => setSearch(e.target.value)}
           />
-          <TabsList className="border bg-transparent shadow-sm dark:border-neutral-800 dark:bg-transparent">
+          <TabsList
+            className={`border ${isGlassMode ? "dark:border-neutral-50/15" : "dark:border-neutral-800"} bg-transparent shadow-sm dark:bg-transparent`}
+          >
             <TabsTrigger
-              className="data-[state=active]:text-neutral-800 dark:data-[state=active]:text-neutral-100"
+              className={`data-[state=active]:text-neutral-800 dark:data-[state=active]:text-neutral-100 ${isGlassMode ? "text-neutral-50" : ""}`}
               value="images"
             >
               Images
             </TabsTrigger>
-            <TabsTrigger value="videos">Videos</TabsTrigger>
+            <TabsTrigger
+              className={`${isGlassMode ? "text-neutral-50" : ""}`}
+              value="videos"
+            >
+              Videos
+            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -132,7 +143,7 @@ const BackgroundChanger: React.FC = () => {
               {backgrounds.map(({ id, urls, user }) => (
                 <div
                   key={id}
-                  className="relative rounded border shadow-lg transition-colors duration-500 dark:border dark:border-neutral-900 dark:hover:border-neutral-400"
+                  className={`relative rounded border shadow-lg transition-colors duration-500 ${isGlassMode ? "border-neutral-50/0 hover:border-neutral-50/80" : "dark:border dark:border-neutral-900 dark:hover:border-neutral-400"}`}
                 >
                   {!mediaLoadingState[id] && (
                     <div className="absolute inset-0">
@@ -171,7 +182,9 @@ const BackgroundChanger: React.FC = () => {
             className={`mt-2 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14.5rem]"} w-full overflow-auto`}
           >
             <Tabs defaultValue={videoTags.Ambience} className="w-full">
-              <TabsList className="border shadow-sm dark:border-neutral-800 dark:bg-transparent">
+              <TabsList
+                className={`border ${isGlassMode ? "text-neutral-100 dark:border-neutral-50/15" : "dark:border-neutral-800"} bg-transparent shadow-sm dark:bg-transparent`}
+              >
                 {Object.entries(videoTags).map(([key, value]) => (
                   <TabsTrigger key={key.toLowerCase()} value={value}>
                     {key}
@@ -262,10 +275,14 @@ const BackgroundChanger: React.FC = () => {
       >
         {activeTab === "images" ? (
           <>
-            <p className="flex text-sm text-neutral-500 dark:text-neutral-600">
+            <p
+              className={`flex ${isGlassMode ? "text-neutral-600 dark:text-neutral-300" : "text-neutral-500 dark:text-neutral-600"} text-sm`}
+            >
               {page}/{totalPages}
             </p>
-            <div className="h-[2px] w-full bg-neutral-400 dark:bg-neutral-800"></div>
+            <div
+              className={`h-[2px] ${isGlassMode ? "bg-neutral-500 dark:bg-neutral-500" : "bg-neutral-400 dark:bg-neutral-800"} w-full`}
+            ></div>
             <button
               onClick={() => setPage((page) => page - 1)}
               disabled={page <= 1}

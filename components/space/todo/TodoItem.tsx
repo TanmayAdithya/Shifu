@@ -3,7 +3,7 @@ import { LuTimerReset as UrgentIcon } from "react-icons/lu";
 import { BsFillExclamationOctagonFill as ImportantIcon } from "react-icons/bs";
 import { PiTrashSimpleBold as Delete } from "react-icons/pi";
 import { RiEditFill as Edit } from "react-icons/ri";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   completeTodo,
   removeTodo,
@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
+import { RootState } from "@/store/rootReducer";
 
 const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
   const dispatch = useDispatch();
@@ -80,22 +81,26 @@ const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
     }
   };
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <li
-      className={`flex flex-col justify-between gap-2 rounded-md border border-neutral-400/60 p-2 transition-colors duration-200 ${
+      className={`flex flex-col justify-between gap-2 rounded-md ${isGlassMode ? "border-neutral-200" : "border-neutral-400/60"} border p-2 transition-colors duration-200 ${
         completed
           ? "0 opacity-70"
-          : "hover:border-neutral-500 dark:hover:border-neutral-100"
+          : ` ${isGlassMode ? "hover:border-neutral-50 dark:hover:border-neutral-300" : "hover:border-neutral-500 dark:hover:border-neutral-100"}`
       }`}
     >
       <div className="flex items-start justify-between">
         <Checkbox
           checked={completed}
           onCheckedChange={() => handleCompleteTodo(id)}
-          className="mr-2 mt-[2px] border-neutral-500"
+          className={` ${isGlassMode ? "border-neutral-100" : "border-neutral-500"} mr-2 mt-[2px]`}
         />
         <p
-          className={`mr-2 w-52 flex-1 text-balance break-words leading-tight text-neutral-700 dark:text-neutral-100 ${
+          className={`mr-2 w-52 flex-1 text-balance break-words leading-tight ${isGlassMode ? "text-neutral-50" : "text-neutral-700 dark:text-neutral-100"} ${
             completed ? "line-through" : ""
           }`}
         >
@@ -104,7 +109,7 @@ const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
               <input
                 value={newTodoContent}
                 ref={inputRef}
-                className="w-[13.5rem] break-words rounded focus:outline-none"
+                className={` ${isGlassMode ? "bg-neutral-100 bg-opacity-10" : ""} w-[13.5rem] break-words rounded focus:outline-none`}
                 onChange={(e) => setNewTodoContent(e.target.value)}
                 onKeyDown={(e) => {
                   if (e.key === "Escape") {
@@ -142,15 +147,13 @@ const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
                   In Progress
                 </Badge>
               )}
-              {important && <ImportantIcon className="text-red-400" />}
-              {urgent && <UrgentIcon className="text-orange-400" />}
             </>
           )}
         </div>
         <div className="flex items-center space-x-2">
           {!editTodo && !completed && (
             <Edit
-              className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-700 dark:text-neutral-50 dark:hover:text-neutral-300"
+              className={` ${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
               onClick={() => setEditTodo(true)}
             />
           )}
@@ -160,7 +163,7 @@ const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
               <DropdownMenuTrigger>
                 <Label
                   size={"13px"}
-                  className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-700 dark:text-neutral-50 dark:hover:text-neutral-300"
+                  className={` ${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
                 />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="z-50 p-2">
@@ -189,7 +192,7 @@ const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
             </DropdownMenu>
           )}
           <Delete
-            className="cursor-pointer text-neutral-500 transition-colors duration-150 hover:text-neutral-700 dark:text-neutral-50 dark:hover:text-neutral-300"
+            className={` ${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
             onClick={() => handleDeleteTodo(id)}
           />
         </div>

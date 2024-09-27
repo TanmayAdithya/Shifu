@@ -4,6 +4,8 @@ import React from "react";
 import MinimizeWidget from "./MinimizeWidget";
 import { Position } from "@/types/types";
 import { useDraggable } from "@dnd-kit/core";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
 type Props = {
   openMatrixWidget: boolean;
@@ -19,6 +21,10 @@ const Matrix = ({ openMatrixWidget, id, position }: Props) => {
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
+
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
 
   return (
     <div

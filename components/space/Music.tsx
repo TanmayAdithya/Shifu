@@ -49,13 +49,13 @@ const Music: React.FC<SpotifyEmbedProps> = ({
           className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
         ></div>
       </div>
-      {/* <iframe
+      <iframe
         src={mediaURL}
         width="100%"
         height="152"
         allow="encrypted-media"
         className="mt-5 w-full rounded-3xl border-0 bg-transparent"
-      ></iframe> */}
+      ></iframe>
       <form
         className="mt-2 flex items-center gap-1"
         onSubmit={handleFormSubmit}

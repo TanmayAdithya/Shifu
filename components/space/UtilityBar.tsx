@@ -25,6 +25,8 @@ import { TbUserFilled as UserIcon } from "react-icons/tb";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import GuestLogoutButton from "../auth/GuestLogoutButton";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
 type Props = {
   fallback: string[];
@@ -37,6 +39,9 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const interactionTimeRef = useRef<number>(Date.now());
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
 
   const resetTimer = () => {
     if (timeoutRef.current) {
@@ -49,6 +54,10 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
       }
     }, 3000);
   };
+
+  const glassStyle = isGlassMode
+    ? "bg-opacity-70 backdrop-blur-lg dark:bg-opacity-70"
+    : "";
 
   useEffect(() => {
     const handleInteraction = () => {
@@ -80,7 +89,9 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
       className={`fixed right-2 top-3 z-50 flex items-center gap-2 ${isVisible ? "opacity-100" : "opacity-0"} transform transition-opacity duration-700 ease-in-out`}
       style={{ zIndex: 1000 }}
     >
-      <div className="flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-md dark:bg-neutral-900">
+      <div
+        className={`flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-md dark:bg-neutral-900 ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} `}
+      >
         <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-orange-500/80">
           <div>
             <VideoCall size={"1.25rem"} />
@@ -97,12 +108,16 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
       </div>
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger>
-          <Avatar className="h-12 w-12 border-2 border-neutral-50 shadow-md dark:border-neutral-900">
+          <Avatar
+            className={`h-12 w-12 border-2 ${isGlassMode ? "border-neutral-50/30" : "border-neutral-50"} shadow-md dark:border-neutral-900`}
+          >
             <AvatarImage
               className="shadow-xl"
-              src="https://avatars.githubusercontent.com/u/120048605?v=4"
+              // src="https://avatars.githubusercontent.com/u/120048605?v=4"
             />
-            <AvatarFallback>
+            <AvatarFallback
+              className={`${isGlassMode ? "bg-neutral-50/30" : ""}`}
+            >
               {fallback[0][0].toUpperCase() +
                 (fallback[1]
                   ? fallback[1][0].toUpperCase()
@@ -110,7 +125,9 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="mr-2 min-w-52 rounded-xl p-2">
+        <DropdownMenuContent
+          className={`${isGlassMode ? "border border-neutral-50/30 bg-neutral-50/30 bg-opacity-80 backdrop-blur dark:bg-neutral-900 dark:bg-opacity-80" : ""} mr-2 min-w-52 rounded-xl p-2`}
+        >
           <div className="ml-1 flex items-center">
             <Avatar className="h-8 w-8">
               <AvatarImage
@@ -133,39 +150,9 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
               </DropdownMenuLabel>
             </div>
           </div>
-          <DropdownMenuSeparator />
-          <Dialog>
-            <DialogTrigger asChild>
-              <DropdownMenuItem className="cursor-pointer">
-                <UserIcon className="mr-1 text-neutral-700 dark:text-neutral-100" />
-                Profile
-              </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent className="z-[100]">
-              <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>
-                  This action cannot be undone. This will permanently delete
-                  your account and remove your data from our servers.
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-          <Dialog>
-            <DialogTrigger asChild>
-              <DropdownMenuItem className="cursor-pointer">
-                <SettingsIcon className="mr-1 text-neutral-700 dark:text-neutral-100" />
-                Settings
-              </DropdownMenuItem>
-            </DialogTrigger>
-            <DialogContent className="z-[100]">
-              <DialogHeader>
-                <DialogTitle>Are you absolutely sure?</DialogTitle>
-                <DialogDescription>Settings Dialog</DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
-          <DropdownMenuSeparator />
+          <DropdownMenuSeparator
+            className={`${isGlassMode ? "bg-neutral-50/60" : ""}`}
+          />
           <DropdownMenuItem className="cursor-pointer">
             {isGuest ? <GuestLogoutButton /> : <LogoutButton />}
           </DropdownMenuItem>
