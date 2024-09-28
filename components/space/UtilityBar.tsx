@@ -109,14 +109,14 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger>
           <Avatar
-            className={`h-12 w-12 border-2 ${isGlassMode ? "border-neutral-50/30" : "border-neutral-50"} shadow-md dark:border-neutral-900`}
+            className={`h-12 w-12 border-2 ${isGlassMode ? "border-neutral-50/30 dark:border-neutral-800" : "border-neutral-50 dark:border-neutral-900"} shadow-md`}
           >
             <AvatarImage
               className="shadow-xl"
               // src="https://avatars.githubusercontent.com/u/120048605?v=4"
             />
             <AvatarFallback
-              className={`${isGlassMode ? "bg-neutral-50/30" : ""}`}
+              className={`${isGlassMode ? "bg-neutral-50/30 dark:bg-neutral-800/80" : ""}`}
             >
               {fallback[0][0].toUpperCase() +
                 (fallback[1]

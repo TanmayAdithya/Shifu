@@ -19,9 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useSelector } from "react-redux";
+import { RootState } from "@/store/rootReducer";
 
 export function DatePickerWithPresets({ name }: { name: string }) {
   const [date, setDate] = React.useState<Date>();
+
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
 
   return (
     <>
@@ -30,7 +36,7 @@ export function DatePickerWithPresets({ name }: { name: string }) {
           <Button
             variant={"ghost"}
             className={cn(
-              "w-[240px] justify-start border border-neutral-200 text-left text-base font-normal dark:border dark:border-neutral-800",
+              `w-[240px] justify-start border border-neutral-200 text-left text-base font-normal dark:border ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"}`,
               !date && "text-muted-foreground",
             )}
           >

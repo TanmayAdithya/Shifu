@@ -43,7 +43,7 @@ export function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        className={`mt-1 ${isGlassMode ? "border border-neutral-50/50 bg-neutral-100 bg-opacity-30" : ""} `}
+        className={`mt-1 ${isGlassMode ? "border border-neutral-50/50 bg-neutral-100 bg-opacity-30 backdrop-blur-xl dark:border-neutral-800 dark:bg-neutral-900 dark:bg-opacity-80" : ""} `}
         align="end"
       >
         <DropdownMenuItem onClick={() => setTheme("light")}>

@@ -73,17 +73,21 @@ const CalendarWidget = ({ openCalendarWidget, id, position }: Props) => {
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openCalendarWidget ? "" : "hidden"} absolute z-20 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      className={`${openCalendarWidget ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : "dark:border-neutral-800"} dark:borderdark:bg-neutral-900 absolute z-20 flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-neutral-100 px-5 pb-5 pt-6 shadow-md dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-500 dark:bg-neutral-700"
+          className={`mx-auto ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"} h-1 w-16 rounded-full`}
         ></div>
       </div>
       <div className="w-full">
@@ -91,7 +95,7 @@ const CalendarWidget = ({ openCalendarWidget, id, position }: Props) => {
           {tabs.map((tab) => (
             <div
               key={tab.label}
-              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-400 px-2 py-1 transition-colors duration-300 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 ${activeTab === tab.label ? "border-neutral-800 bg-neutral-800 text-neutral-50 hover:border-neutral-800 hover:bg-neutral-800" : "border-neutral-500"}`}
+              className={`flex flex-1 cursor-pointer items-center justify-center rounded-md border border-neutral-400 px-2 py-1 transition-colors duration-300 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 ${activeTab === tab.label ? ` ${isGlassMode ? "border-transparent bg-zinc-700 dark:bg-zinc-700" : "border-neutral-800 bg-neutral-800 hover:border-neutral-800 hover:bg-neutral-800"} text-neutral-50` : `border-neutral-500`}`}
               onClick={() => handleTabClick(tab.label)}
             >
               <div className="flex items-center justify-center gap-2">
@@ -164,6 +168,10 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
     );
   };
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <div className="h-full max-h-full w-full">
       <div className="my-3 mb-4 flex items-center justify-between gap-2">
@@ -171,7 +179,7 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
           <div className="flex gap-1">
             <i>
               <MdChevronLeft
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 dark:border-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
+                className={`cursor-pointer rounded border ${isGlassMode ? "border-neutral-50/20 hover:border-neutral-100 hover:bg-neutral-100 hover:text-neutral-700" : "border-neutral-300 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50"} text-neutral-800 transition-colors duration-150 dark:border-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800`}
                 size={"20px"}
                 onClick={() => prevMonth()}
               />
@@ -183,7 +191,7 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
           <div className="flex gap-1">
             <i>
               <MdChevronRight
-                className="cursor-pointer rounded border border-neutral-300 text-neutral-800 transition-colors duration-150 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50 dark:border-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800"
+                className={`cursor-pointer rounded border ${isGlassMode ? "border-neutral-50/20 hover:border-neutral-100 hover:bg-neutral-100 hover:text-neutral-700" : "border-neutral-300 hover:border-neutral-700 hover:bg-neutral-700 hover:text-neutral-50"} text-neutral-800 transition-colors duration-150 dark:border-neutral-700 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800`}
                 size={"20px"}
                 onClick={() => nextMonth()}
               />
@@ -288,13 +296,19 @@ export const Events: React.FC<CalendarComponentProps> = ({
     "11:45",
   ];
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <div className="h-full max-h-full w-full rounded">
       <div
-        className="group mb-4 flex w-fit cursor-pointer items-center rounded bg-neutral-800 px-2 py-1 text-sm text-neutral-100 transition-colors duration-200 hover:bg-neutral-900 dark:border dark:border-neutral-500 dark:bg-neutral-900 dark:text-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
+        className={`group ${isGlassMode ? "border border-zinc-500 text-neutral-700 hover:bg-zinc-600 hover:text-neutral-100 dark:border-neutral-700 dark:bg-zinc-700" : "bg-neutral-800 hover:bg-neutral-900 dark:border-neutral-500 dark:bg-neutral-900 dark:hover:text-neutral-800"} mb-4 flex w-fit cursor-pointer items-center rounded px-2 py-1 text-sm transition-colors duration-200 dark:border dark:text-neutral-100 dark:hover:bg-neutral-100`}
         onClick={() => openPopup()}
       >
-        <span className="mr-1 transition-colors duration-200 group-hover:text-neutral-800 dark:group-hover:text-neutral-800">
+        <span
+          className={` ${isGlassMode ? "group-hover:text-neutral-100" : "group-hover:text-neutral-800"} mr-1 transition-colors duration-200 dark:group-hover:text-neutral-800`}
+        >
           <NewEvent size={"16px"} />
         </span>
         New Event
@@ -307,7 +321,9 @@ export const Events: React.FC<CalendarComponentProps> = ({
           return (
             // Event Date heading
             <div key={i} className="flex w-full flex-col gap-2">
-              <div className="sticky top-0 z-20 flex items-center justify-between rounded-md bg-neutral-800 p-2">
+              <div
+                className={`sticky ${isGlassMode ? "bg-zinc-700" : "bg-neutral-800"} 0 top-0 z-20 flex items-center justify-between rounded-md p-2`}
+              >
                 <span className="text-xl font-medium text-neutral-50">
                   {dateArr[2]}{" "}
                   <span className="text-sm font-light text-neutral-50">
@@ -325,7 +341,7 @@ export const Events: React.FC<CalendarComponentProps> = ({
                   return (
                     <div
                       key={i}
-                      className="group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors duration-200 hover:border-neutral-700 hover:bg-neutral-700 dark:border-neutral-700 dark:bg-transparent dark:text-neutral-200"
+                      className={`group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors duration-200 hover:border-neutral-700 hover:bg-neutral-700 dark:border-neutral-700 dark:bg-transparent dark:text-neutral-200`}
                     >
                       <div className="flex">
                         <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100 dark:bg-neutral-400"></span>
@@ -391,13 +407,19 @@ export const EventPopup: React.FC<{
     closePopup();
   }
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <form
       onSubmit={handleAddEvent}
-      className="absolute -right-72 top-2 flex flex-col gap-4 rounded-lg bg-white p-5 shadow-md dark:bg-neutral-900"
+      className={`absolute -right-72 top-2 flex flex-col gap-4 rounded-lg ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : ""} bg-white p-5 shadow-md dark:bg-neutral-900`}
     >
       <div className="flex items-center">
-        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[1px] pl-4 dark:border-neutral-800 dark:bg-transparent">
+        <span
+          className={`rounded-s-md border-b border-l border-t ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} border-neutral-200 py-[1.5px] pl-4 dark:bg-transparent`}
+        >
           <GoPeople
             className="h-8 text-neutral-500 dark:text-neutral-200"
             size={"17px"}
@@ -405,7 +427,7 @@ export const EventPopup: React.FC<{
         </span>
         {/* Event Title */}
         <Input
-          className="w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none"
+          className={`w-[12.75rem] ${isGlassMode ? "dark:border-neutral-500" : ""} resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none`}
           placeholder="Add New Event"
           type="text"
           name="title"
@@ -416,63 +438,39 @@ export const EventPopup: React.FC<{
       <DatePickerWithPresets name="dateId" />
 
       <div className="flex items-center">
-        <span className="rounded-s-md border-b border-l border-t border-neutral-200 bg-white py-[1px] pl-4 dark:border-neutral-800 dark:bg-transparent">
+        <span
+          className={` ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} rounded-s-md border-b border-l border-t border-neutral-200 py-[1.25px] pl-4 dark:bg-transparent`}
+        >
           <IoLinkOutline
             className="h-8 text-neutral-500 dark:text-neutral-200"
             size={"18px"}
           />
         </span>
         <Input
-          className="active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0"
+          className={` ${isGlassMode ? "dark:border-neutral-500" : ""} active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0`}
           placeholder="Add Link"
           type="text"
           name="link"
         />
       </div>
 
-      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-transparent">
-        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent">
+      <div
+        className={` ${isGlassMode ? "bg-opacity-30 dark:border-neutral-500" : "dark:border-neutral-800"} flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:bg-transparent`}
+      >
+        <span
+          className={`flex ${isGlassMode ? "bg-opacity-0" : ""} items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent`}
+        >
           <IoMdTime
             size={"18px"}
             className="mr-2 text-neutral-500 dark:text-neutral-200"
           />
           <p className="text-neutral-500 dark:text-neutral-500">Start</p>
         </span>
-        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500 dark:bg-neutral-800">
+        <div
+          className={`flex rounded-e-md ${isGlassMode ? "bg-transparent" : "bg-white"} px-2 py-[6px] placeholder:text-neutral-500 ${isGlassMode ? "bg-transparent dark:bg-transparent" : "dark:bg-neutral-800"}`}
+        >
           <select
             name="start"
-            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
-          >
-            {times.map((time) => (
-              <option key={time} className="dark:text-neutral-800" value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
-          <select
-            name="startPeriod"
-            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
-          >
-            <option className="dark:text-neutral-800" value="AM">
-              AM
-            </option>
-            <option className="dark:text-neutral-800" value="PM">
-              PM
-            </option>
-          </select>
-        </div>
-      </div>
-      <div className="flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:border-neutral-800 dark:bg-transparent">
-        <span className="flex items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent">
-          <IoMdTime
-            size={"18px"}
-            className="mr-2 text-neutral-500 dark:text-neutral-200"
-          />
-          <p className="text-neutral-500 dark:text-neutral-500">End</p>
-        </span>
-        <div className="flex rounded-e-md bg-white px-2 py-[6px] placeholder:text-neutral-500 dark:bg-neutral-800">
-          <select
-            name="end"
             className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
           >
             {times.map((time) => (
@@ -494,10 +492,49 @@ export const EventPopup: React.FC<{
           </select>
         </div>
       </div>
+      <div
+        className={` ${isGlassMode ? "bg-opacity-30 dark:border-neutral-500" : "dark:border-neutral-800"} flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:bg-transparent`}
+      >
+        <span
+          className={`flex ${isGlassMode ? "bg-opacity-0" : ""} items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent`}
+        >
+          <IoMdTime
+            size={"18px"}
+            className="mr-2 text-neutral-500 dark:text-neutral-200"
+          />
+          <p className="text-neutral-500 dark:text-neutral-500">End</p>
+        </span>
+        <div
+          className={`flex rounded-e-md ${isGlassMode ? "bg-transparent" : "bg-white"} px-2 py-[6px] placeholder:text-neutral-500 ${isGlassMode ? "bg-transparent dark:bg-transparent" : "dark:bg-neutral-800"}`}
+        >
+          <select
+            name="end"
+            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
+          >
+            {times.map((time) => (
+              <option key={time} className="dark:text-neutral-800" value={time}>
+                {time}
+              </option>
+            ))}
+          </select>
+          <select
+            name="startPeriod"
+            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
+          >
+            <option className="dark:text-neutral-800" value="AM">
+              AM
+            </option>
+            <option className="dark:text-neutral-800" value="PM">
+              PM
+            </option>
+          </select>
+        </div>
+      </div>
+
       <div className="flex gap-1">
         <button
           type="submit"
-          className="flex-1 rounded-md border border-neutral-800 px-2 py-1 text-neutral-800 transition-colors duration-200 hover:bg-neutral-900 hover:text-neutral-100 dark:border dark:border-neutral-300 dark:bg-neutral-900 dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"
+          className={` ${isGlassMode ? "border-neutral-200 text-neutral-50 hover:bg-neutral-300 hover:text-neutral-700 dark:border-neutral-800/90 dark:bg-neutral-500/80" : "border-neutral-800 text-neutral-800 hover:bg-neutral-900 hover:text-neutral-100 dark:border-neutral-300 dark:bg-neutral-900"} flex-1 rounded-md border px-2 py-1 transition-colors duration-200 dark:border dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800`}
         >
           Add Event
         </button>
