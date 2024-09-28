@@ -120,19 +120,23 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
     setDraggedTask(null);
   };
 
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
+  );
+
   return (
     <div
       ref={setNodeRef}
       style={style}
       className={`${
         openKanbanWidget ? "" : "hidden"
-      } absolute z-20 h-[19.5rem] w-[33.5rem] rounded-xl bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      } absolute z-20 h-[19.5rem] w-[33.5rem] rounded-xl ${isGlassMode ? "bg-opacity-30 dark:bg-opacity-80" : "dark:border-neutral-800"} bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-1 w-full">
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
+          className={`mx-auto ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"} h-1 w-16 rounded-full`}
         ></div>
       </div>
       <div className="mt-1 flex h-full gap-2 p-2">

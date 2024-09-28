@@ -171,7 +171,7 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
         </button>
         <button
           onClick={handleReset}
-          className={`flex ${isGlassMode ? "border-neutral-700 dark:border-neutral-500" : "dark:border-neutral-700"} h-12 w-12 items-center justify-center rounded-full border-[1.5px] text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800`}
+          className={`flex ${isGlassMode ? "border-neutral-700 dark:border-neutral-500" : "border-neutral-800 dark:border-neutral-700"} h-12 w-12 items-center justify-center rounded-full border-[1.5px] text-neutral-800 transition-colors duration-300 hover:bg-neutral-700 hover:text-neutral-100 dark:text-neutral-50 dark:hover:border-neutral-50 dark:hover:bg-neutral-50 dark:hover:text-neutral-800`}
         >
           <Reset size={"20px"} />
         </button>

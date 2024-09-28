@@ -183,7 +183,10 @@ const TodoItem = ({ content, id, status, important, urgent }: Todo) => {
                       onCheckedChange={() => handleStatusChange(id, label)}
                       className="mt-[2px] border-neutral-500"
                     ></Checkbox>
-                    <p key={label} className="text-sm text-neutral-800">
+                    <p
+                      key={label}
+                      className="text-sm text-neutral-800 dark:text-neutral-200"
+                    >
                       {label}
                     </p>
                   </div>

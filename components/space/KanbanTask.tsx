@@ -35,7 +35,7 @@ const KanbanTask = ({ color, content, id }: Props) => {
       style={style}
       {...listeners}
       {...attributes}
-      className={`rounded-lg p-2 text-sm text-neutral-100 ${colorMap[color] || ""} ${
+      className={`rounded-lg p-2 text-sm text-neutral-100 backdrop-blur-none ${colorMap[color] || ""} ${
         isDragging ? "shadow-lg" : ""
       }`}
     >

@@ -38,7 +38,7 @@ const Matrix = ({ openMatrixWidget, id, position }: Props) => {
         <div
           {...listeners}
           {...attributes}
-          className="mx-auto h-1 w-16 rounded-full bg-neutral-400 dark:bg-neutral-700"
+          className={`mx-auto ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"} h-1 w-16 rounded-full`}
         ></div>
       </div>
       <div className="relative grid h-full grid-cols-2 grid-rows-2 rounded-xl">

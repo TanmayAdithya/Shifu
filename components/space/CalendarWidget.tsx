@@ -303,11 +303,11 @@ export const Events: React.FC<CalendarComponentProps> = ({
   return (
     <div className="h-full max-h-full w-full rounded">
       <div
-        className={`group ${isGlassMode ? "border border-zinc-500 text-neutral-700 hover:bg-zinc-600 hover:text-neutral-100 dark:border-neutral-700 dark:bg-zinc-700" : "bg-neutral-800 hover:bg-neutral-900 dark:border-neutral-500 dark:bg-neutral-900 dark:hover:text-neutral-800"} mb-4 flex w-fit cursor-pointer items-center rounded px-2 py-1 text-sm transition-colors duration-200 dark:border dark:text-neutral-100 dark:hover:bg-neutral-100`}
+        className={`group ${isGlassMode ? "border border-zinc-500 text-neutral-700 hover:bg-zinc-600 hover:text-neutral-100 dark:border-neutral-700 dark:bg-zinc-700 dark:hover:bg-neutral-600" : "bg-neutral-800 text-neutral-100 hover:bg-neutral-900 dark:border-neutral-500 dark:bg-neutral-900 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"} mb-4 flex w-fit cursor-pointer items-center rounded px-2 py-1 text-sm transition-colors duration-200 dark:border dark:text-neutral-100`}
         onClick={() => openPopup()}
       >
         <span
-          className={` ${isGlassMode ? "group-hover:text-neutral-100" : "group-hover:text-neutral-800"} mr-1 transition-colors duration-200 dark:group-hover:text-neutral-800`}
+          className={` ${isGlassMode ? "group-hover:text-neutral-100 dark:group-hover:text-neutral-100" : "group-hover:text-neutral-50"} mr-1 transition-colors duration-200 dark:group-hover:text-neutral-800`}
         >
           <NewEvent size={"16px"} />
         </span>
@@ -418,7 +418,7 @@ export const EventPopup: React.FC<{
     >
       <div className="flex items-center">
         <span
-          className={`rounded-s-md border-b border-l border-t ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} border-neutral-200 py-[1.5px] pl-4 dark:bg-transparent`}
+          className={`rounded-s-md border-b border-l border-t ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} border-neutral-200 py-[1.25px] pl-4 dark:bg-transparent`}
         >
           <GoPeople
             className="h-8 text-neutral-500 dark:text-neutral-200"
