@@ -9,7 +9,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Shifu",
-  description: "A personalized digital space for the creatives",
+  description:
+    "A productivity tool offering customizable virtual workspaces with immersive environments, time management tools, and focus-enhancing features to boost productivity.",
 };
 
 export default function RootLayout({
