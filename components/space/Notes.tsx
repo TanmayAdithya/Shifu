@@ -26,6 +26,7 @@ import MinimizeWidget from "./MinimizeWidget";
 import { Input } from "../ui/input";
 import { useDraggable } from "@dnd-kit/core";
 import { AppDispatch } from "@/store/store";
+import useDebounce from "@/hooks/useDebounce";
 
 type Props = {
   openNotesWidget: boolean;
@@ -59,6 +60,12 @@ export default function Notes({
   const dispatch: AppDispatch = useDispatch();
   const lowlight = createLowlight(all);
 
+  const [editorContent, setEditorContent] = useState<string>(
+    openNote?.content || "",
+  );
+  const debouncedContent = useDebounce(editorContent, 1000);
+  const lastContentRef = useRef<string>(openNote ? openNote.content : "");
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -75,13 +82,23 @@ export default function Notes({
     ],
     content: openNote ? openNote.content : "",
     onUpdate: ({ editor }) => {
-      handleContentChange(editor.getHTML());
+      const newContent = editor.getHTML();
+      setEditorContent(newContent);
     },
   });
 
   function handleAddNote() {
-    let payload = { title: "Untitled", content: "" };
-    dispatch(addNewNote(payload));
+    let newNote = { title: "Untitled", content: "" };
+    dispatch(addNewNote(newNote))
+      .unwrap()
+      .then((createdNote: Note) => {
+        setOpenNote(createdNote);
+        setEditorContent("");
+        setNewTitle("Untitled");
+      })
+      .catch((error) => {
+        console.error("Failed to create a new note", error);
+      });
   }
 
   const handleOpenNote = (note: Note) => {
@@ -89,8 +106,9 @@ export default function Notes({
     editor?.commands.setContent(note.content);
   };
 
-  function handleContentChange(newContent: string) {
-    if (openNote) {
+  const handleContentChange = (newContent: string) => {
+    if (openNote && newContent !== lastContentRef.current) {
+      lastContentRef.current = newContent;
       dispatch(
         updateNote({
           _id: openNote._id,
@@ -99,7 +117,13 @@ export default function Notes({
       );
       setOpenNote({ ...openNote, content: newContent });
     }
-  }
+  };
+
+  useEffect(() => {
+    if (debouncedContent !== openNote?.content) {
+      handleContentChange(debouncedContent);
+    }
+  }, [debouncedContent]);
 
   function handleTitleChange(newTitle: string) {
     if (openNote) {
