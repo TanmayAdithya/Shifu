@@ -73,13 +73,15 @@ export interface VideosState {
 }
 
 export interface Note {
-  id: string;
+  _id: string;
   title: string;
   content: string;
 }
 
 export interface Notes {
   notes: Note[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
 }
 
 export interface AddNotePayload {
@@ -88,12 +90,12 @@ export interface AddNotePayload {
 }
 
 export interface UpdateContentPayload {
-  id: string;
+  _id: string;
   content: string;
 }
 
 export interface UpdateTitlePayload {
-  id: string;
+  _id: string;
   title: string;
 }
 

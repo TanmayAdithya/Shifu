@@ -7,10 +7,10 @@ import { MdModeEdit as EditTitle } from "react-icons/md";
 import { PiTrashSimpleBold as DeleteNote } from "react-icons/pi";
 import { IoClose as ExitEditMode } from "react-icons/io5";
 import {
-  addNote,
+  addNewNote,
   deleteNote,
-  updateNoteContent,
-  updateNoteTitle,
+  removeNote,
+  updateNote,
 } from "@/store/slices/notesSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
@@ -25,6 +25,7 @@ import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import MinimizeWidget from "./MinimizeWidget";
 import { Input } from "../ui/input";
 import { useDraggable } from "@dnd-kit/core";
+import { AppDispatch } from "@/store/store";
 
 type Props = {
   openNotesWidget: boolean;
@@ -55,7 +56,7 @@ export default function Notes({
     openNote ? openNote.title : "",
   );
   const inputRef = useRef<HTMLInputElement>(null);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const lowlight = createLowlight(all);
 
   const editor = useEditor({
@@ -80,7 +81,7 @@ export default function Notes({
 
   function handleAddNote() {
     let payload = { title: "Untitled", content: "" };
-    dispatch(addNote(payload));
+    dispatch(addNewNote(payload));
   }
 
   const handleOpenNote = (note: Note) => {
@@ -91,9 +92,9 @@ export default function Notes({
   function handleContentChange(newContent: string) {
     if (openNote) {
       dispatch(
-        updateNoteContent({
-          id: openNote.id,
-          content: newContent,
+        updateNote({
+          _id: openNote._id,
+          updates: { content: newContent },
         }),
       );
       setOpenNote({ ...openNote, content: newContent });
@@ -102,10 +103,9 @@ export default function Notes({
 
   function handleTitleChange(newTitle: string) {
     if (openNote) {
-      dispatch(updateNoteTitle({ id: openNote.id, title: newTitle }));
+      dispatch(updateNote({ _id: openNote._id, updates: { title: newTitle } }));
       setOpenNote({ ...openNote, title: newTitle });
     }
-
     setOriginalTitle(newTitle);
   }
 
@@ -129,7 +129,7 @@ export default function Notes({
   }, [openNote]);
 
   function handleDeleteNote(noteId: string) {
-    const noteIndex = notes.findIndex((note) => note.id === noteId);
+    const noteIndex = notes.findIndex((note) => note._id === noteId);
     dispatch(deleteNote(noteId));
 
     if (openNote) {
@@ -146,7 +146,7 @@ export default function Notes({
         editor?.commands.setContent(notes[noteIndex + 1].content);
       }
     }
-    dispatch(deleteNote(noteId));
+    dispatch(removeNote(noteId));
   }
 
   function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
@@ -236,8 +236,8 @@ export default function Notes({
           >
             {filteredNotes.map((note) => (
               <div
-                key={note.id}
-                className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 dark:border-neutral-400/15 dark:hover:border-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800 ${isGlassMode ? "bg-opacity-60 backdrop-blur dark:bg-opacity-60" : ""} ${openNote?.id === note.id ? "bg-neutral-200/70 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-800 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-800 dark:hover:bg-neutral-100" : "border-neutral-300/80 bg-white dark:bg-neutral-900 dark:text-neutral-300"}`}
+                key={note._id}
+                className={`flex w-full max-w-[13.5rem] cursor-pointer list-none items-center justify-between rounded-lg border p-2 text-neutral-900 transition-colors duration-100 hover:bg-neutral-200 dark:border-neutral-400/15 dark:hover:border-neutral-100 dark:hover:bg-neutral-100 dark:hover:text-neutral-800 ${isGlassMode ? "bg-opacity-60 backdrop-blur dark:bg-opacity-60" : ""} ${openNote?._id === note._id ? "bg-neutral-200/70 text-neutral-600 hover:bg-neutral-200 hover:text-neutral-800 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-800 dark:hover:bg-neutral-100" : "border-neutral-300/80 bg-white dark:bg-neutral-900 dark:text-neutral-300"}`}
                 onClick={() => handleOpenNote(note)}
               >
                 <span className="max-w-[10rem] overflow-hidden text-ellipsis whitespace-nowrap">
@@ -247,7 +247,7 @@ export default function Notes({
                   className="flex-shrink-0 flex-grow-0 cursor-pointer transition-colors duration-150 dark:hover:text-neutral-950"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleDeleteNote(note.id);
+                    handleDeleteNote(note._id);
                   }}
                 />
               </div>

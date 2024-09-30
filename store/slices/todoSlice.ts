@@ -192,7 +192,7 @@ export const todoSlice = createSlice({
         state.error = action.payload as string;
       })
       .addCase(addTask.fulfilled, (state, action) => {
-        state.todos.push(action.payload);
+        state.todos.unshift(action.payload);
       })
       .addCase(updateTodoFields.fulfilled, (state, action) => {
         const index = state.todos.findIndex(
