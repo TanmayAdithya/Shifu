@@ -10,18 +10,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { IoVideocamOutline as VideoCall } from "react-icons/io5";
 import FullScreenIcon from "@/components/space/FullScreenIcon";
-import { IoMdSettings as SettingsIcon } from "react-icons/io";
-import { TbUserFilled as UserIcon } from "react-icons/tb";
+import { RxSpeakerLoud as SpeakerOnIcon } from "react-icons/rx";
+import { RxSpeakerOff as SpeakerOffIcon } from "react-icons/rx";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import GuestLogoutButton from "../auth/GuestLogoutButton";
@@ -94,7 +85,7 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
       >
         <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-orange-500/80">
           <div>
-            <VideoCall size={"1.25rem"} />
+            <SpeakerOnIcon size={"1.15rem"} />
           </div>
         </div>
         <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800">

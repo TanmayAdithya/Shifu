@@ -124,9 +124,9 @@ const Navbar = ({ openWidgets }: Props) => {
                   id="background-changer"
                   className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out dark:hover:bg-neutral-800 ${
                     activeItem === "background"
-                      ? `dark:bg-neutral-800 dark:hover:bg-neutral-800 ${isGlassMode ? "bg-neutral-200 backdrop-blur hover:bg-neutral-200 dark:bg-opacity-80" : "hover:bg-neutral-200"}`
+                      ? `dark:bg-neutral-800 dark:hover:bg-neutral-800 ${isGlassMode ? "backdrop-blur hover:bg-neutral-200 dark:bg-opacity-80" : "hover:bg-neutral-200"} bg-neutral-200`
                       : ""
-                  } ${isGlassMode ? "backdrop-blur hover:bg-neutral-200/30 dark:bg-opacity-80" : ""}`}
+                  } ${isGlassMode ? "backdrop-blur hover:bg-neutral-200/30 dark:bg-opacity-80" : "hover:bg-neutral-200"}`}
                   onClick={() => {
                     handleClick("background");
                   }}
