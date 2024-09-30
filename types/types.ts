@@ -10,6 +10,7 @@ export interface WidgetState {
   id: string;
   visibility: boolean;
   position: Position;
+  order: number;
 }
 
 export interface OpenWidgetsState {

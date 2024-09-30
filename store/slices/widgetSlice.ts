@@ -10,6 +10,7 @@ export const initialState: OpenWidgetsState = {
         x: 120,
         y: 120,
       },
+      order: 0,
     },
     {
       id: "Timer",
@@ -18,6 +19,7 @@ export const initialState: OpenWidgetsState = {
         x: 423,
         y: 217,
       },
+      order: 1,
     },
     {
       id: "Todo",
@@ -26,6 +28,7 @@ export const initialState: OpenWidgetsState = {
         x: 858,
         y: 204,
       },
+      order: 2,
     },
     {
       id: "Calendar",
@@ -34,6 +37,7 @@ export const initialState: OpenWidgetsState = {
         x: 300,
         y: 300,
       },
+      order: 3,
     },
     {
       id: "Kanban",
@@ -42,6 +46,7 @@ export const initialState: OpenWidgetsState = {
         x: 481,
         y: 352,
       },
+      order: 4,
     },
     {
       id: "Matrix",
@@ -50,6 +55,7 @@ export const initialState: OpenWidgetsState = {
         x: 532,
         y: 300,
       },
+      order: 5,
     },
     {
       id: "Music",
@@ -58,6 +64,7 @@ export const initialState: OpenWidgetsState = {
         x: 502,
         y: 250,
       },
+      order: 6,
     },
   ],
 };
@@ -80,9 +87,23 @@ export const widgetSlice = createSlice({
         widget.position = action.payload.position;
       }
     },
+    bringWidgetToTop: (state, action: PayloadAction<string>) => {
+      const MAX_Z_INDEX = 40;
+
+      const widgetId = action.payload;
+
+      state.widgets.forEach((widget) => {
+        if (widget.id === widgetId) {
+          widget.order = MAX_Z_INDEX;
+        } else {
+          widget.order = 20;
+        }
+      });
+    },
   },
 });
 
-export const { toggleWidget, updatePosition } = widgetSlice.actions;
+export const { toggleWidget, updatePosition, bringWidgetToTop } =
+  widgetSlice.actions;
 
 export default widgetSlice.reducer;

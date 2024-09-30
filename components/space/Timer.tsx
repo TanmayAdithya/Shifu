@@ -12,9 +12,21 @@ import { useDraggable } from "@dnd-kit/core";
 import { useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 
-type Props = { openTimerWidget: boolean; id: string; position: Position };
+type Props = {
+  openTimerWidget: boolean;
+  id: string;
+  position: Position;
+  zIndex: number;
+  bringToTop: () => void;
+};
 
-const Timer = ({ openTimerWidget, id, position }: Props) => {
+const Timer = ({
+  openTimerWidget,
+  id,
+  zIndex,
+  bringToTop,
+  position,
+}: Props) => {
   const [minutes, setMinutes] = useState(0);
   const [seconds, setSeconds] = useState(0);
   const [stopwatchRunning, setStopwatchRunning] = useState(false);
@@ -81,6 +93,7 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
   const style = {
     left: `${position.x}px`,
     top: `${position.y}px`,
+    zIndex: 20 + zIndex,
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
@@ -89,7 +102,8 @@ const Timer = ({ openTimerWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openTimerWidget ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} absolute z-20 aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      onMouseDown={bringToTop}
+      className={`${openTimerWidget ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} absolute aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div

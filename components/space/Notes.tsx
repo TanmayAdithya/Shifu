@@ -30,9 +30,17 @@ type Props = {
   openNotesWidget: boolean;
   id: string;
   position: Position;
+  zIndex: number;
+  bringToTop: () => void;
 };
 
-export default function Notes({ openNotesWidget, id, position }: Props) {
+export default function Notes({
+  openNotesWidget,
+  id,
+  zIndex,
+  bringToTop,
+  position,
+}: Props) {
   const notes = useSelector((state: RootState) => state.notes.notes);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sidebarToggle, setSidebarToggle] = useState<boolean>(true);
@@ -157,6 +165,7 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
   const style = {
     left: `${position.x}px`,
     top: `${position.y}px`,
+    zIndex: 20 + zIndex,
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
@@ -169,7 +178,8 @@ export default function Notes({ openNotesWidget, id, position }: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className={`absolute z-20 flex h-[30rem] rounded-xl bg-transparent shadow-xl transition-[width] duration-500 ${
+      onMouseDown={bringToTop}
+      className={`absolute flex h-[30rem] rounded-xl bg-transparent shadow-xl transition-[width] duration-500 ${
         openNotesWidget ? "" : "hidden"
       } overflow-hidden ${sidebarToggle ? "w-[39.5rem]" : "w-[25rem]"}`}
     >

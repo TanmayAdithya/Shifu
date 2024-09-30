@@ -16,6 +16,8 @@ interface SpotifyEmbedProps {
   openMusicPlayer: boolean;
   id: string;
   position: Position;
+  zIndex: number;
+  bringToTop: () => void;
 }
 
 const Music: React.FC<SpotifyEmbedProps> = ({
@@ -23,11 +25,14 @@ const Music: React.FC<SpotifyEmbedProps> = ({
   openMusicPlayer,
   id,
   position,
+  zIndex,
+  bringToTop,
 }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = {
     left: `${position.x}px`,
     top: `${position.y}px`,
+    zIndex: 20 + zIndex,
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
@@ -46,7 +51,8 @@ const Music: React.FC<SpotifyEmbedProps> = ({
     <div
       ref={setNodeRef}
       style={style}
-      className={`${openMusicPlayer ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : "dark:border-neutral-800"} absolute bottom-48 right-96 z-20 h-fit w-[22rem] rounded-3xl border bg-neutral-100 p-1 dark:bg-neutral-900`}
+      onMouseDown={bringToTop}
+      className={`${openMusicPlayer ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : "dark:border-neutral-800"} absolute bottom-48 right-96 h-fit w-[22rem] rounded-3xl border bg-neutral-100 p-1 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div

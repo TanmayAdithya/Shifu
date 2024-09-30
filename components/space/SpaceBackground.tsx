@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { TiCamera as CameraIcon } from "react-icons/ti";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
-import { updatePosition } from "@/store/slices/widgetSlice";
+import { bringWidgetToTop, updatePosition } from "@/store/slices/widgetSlice";
 import MusicPlayer from "./Music";
 import ReactPlayer from "react-player/youtube";
 import { TailSpin } from "react-loader-spinner";
@@ -77,6 +77,7 @@ export default function SpaceBackground() {
           position: { x: updatedX, y: updatedY },
         }),
       );
+      dispatch(bringWidgetToTop(updatedWidget.id));
     }
   };
 
@@ -88,38 +89,50 @@ export default function SpaceBackground() {
             openNotesWidget={openWidgets[0].visibility}
             id={openWidgets[0].id}
             position={openWidgets[0].position}
+            zIndex={openWidgets[0].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[0].id))}
           />
           <Timer
             openTimerWidget={openWidgets[1].visibility}
             id={openWidgets[1].id}
             position={openWidgets[1].position}
+            zIndex={openWidgets[1].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[1].id))}
           />
           <Todo
             openTodoWidget={openWidgets[2].visibility}
             id={openWidgets[2].id}
             position={openWidgets[2].position}
+            zIndex={openWidgets[2].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[2].id))}
           />
-          <div className="flex justify-center">
-            <CalendarWidget
-              openCalendarWidget={openWidgets[3].visibility}
-              id={openWidgets[3].id}
-              position={openWidgets[3].position}
-            />
-          </div>
+          <CalendarWidget
+            openCalendarWidget={openWidgets[3].visibility}
+            id={openWidgets[3].id}
+            position={openWidgets[3].position}
+            zIndex={openWidgets[3].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[3].id))}
+          />
           <Kanban
             openKanbanWidget={openWidgets[4].visibility}
             id={openWidgets[4].id}
             position={openWidgets[4].position}
+            zIndex={openWidgets[4].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[4].id))}
           />
           <Matrix
             openMatrixWidget={openWidgets[5].visibility}
             id={openWidgets[5].id}
             position={openWidgets[5].position}
+            zIndex={openWidgets[5].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[5].id))}
           />
           <MusicPlayer
             openMusicPlayer={openWidgets[6].visibility}
             id={openWidgets[6].id}
             position={openWidgets[6].position}
+            zIndex={openWidgets[6].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[6].id))}
             url="https://open.spotify.com/embed/album/1bwbZJ6khPJyVpOaqgKsoZ?utm_source=generator"
           />
           <Navbar openWidgets={openWidgets} />

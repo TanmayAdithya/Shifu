@@ -29,13 +29,22 @@ type Props = {
   openKanbanWidget: boolean;
   id: string;
   position: Position;
+  zIndex: number;
+  bringToTop: () => void;
 };
 
-const Kanban = ({ openKanbanWidget, id, position }: Props) => {
+const Kanban = ({
+  openKanbanWidget,
+  zIndex,
+  bringToTop,
+  id,
+  position,
+}: Props) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = {
     left: `${position.x}px`,
     top: `${position.y}px`,
+    zIndex: 20 + zIndex,
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
@@ -129,9 +138,10 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
+      onMouseDown={bringToTop}
       className={`${
         openKanbanWidget ? "" : "hidden"
-      } absolute z-20 h-[19.5rem] w-[33.5rem] rounded-xl ${isGlassMode ? "bg-opacity-30 dark:bg-opacity-80" : "dark:border-neutral-800"} bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:bg-neutral-900`}
+      } absolute h-[19.5rem] w-[33.5rem] rounded-xl ${isGlassMode ? "bg-opacity-30 dark:bg-opacity-80" : "dark:border-neutral-800"} bg-neutral-100 p-1 pb-2 shadow-2xl dark:border dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-1 w-full">
         <div

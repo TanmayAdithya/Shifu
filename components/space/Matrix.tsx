@@ -11,13 +11,22 @@ type Props = {
   openMatrixWidget: boolean;
   id: string;
   position: Position;
+  zIndex: number;
+  bringToTop: () => void;
 };
 
-const Matrix = ({ openMatrixWidget, id, position }: Props) => {
+const Matrix = ({
+  openMatrixWidget,
+  id,
+  zIndex,
+  bringToTop,
+  position,
+}: Props) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = {
     left: `${position.x}px`,
     top: `${position.y}px`,
+    zIndex: 20 + zIndex,
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
@@ -30,9 +39,10 @@ const Matrix = ({ openMatrixWidget, id, position }: Props) => {
     <div
       ref={setNodeRef}
       style={style}
+      onMouseDown={bringToTop}
       className={`${
         openMatrixWidget ? "" : "hidden"
-      } absolute z-20 ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : ""} h-[25rem] w-[28rem] rounded-3xl bg-white p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      } absolute ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : ""} h-[25rem] w-[28rem] rounded-3xl bg-white p-4 shadow-md dark:border dark:border-neutral-800 dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-[4px] w-full">
         <div
