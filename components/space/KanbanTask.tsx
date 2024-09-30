@@ -2,12 +2,12 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 interface Props {
-  id: string;
+  _id: string;
   color: string;
   content: string;
 }
 
-const KanbanTask = ({ color, content, id }: Props) => {
+const KanbanTask = ({ color, content, _id }: Props) => {
   const {
     attributes,
     listeners,
@@ -15,7 +15,7 @@ const KanbanTask = ({ color, content, id }: Props) => {
     transform,
     transition,
     isDragging,
-  } = useSortable({ id });
+  } = useSortable({ id: _id });
 
   const style = {
     transform: CSS.Transform.toString(transform),

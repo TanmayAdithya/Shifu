@@ -17,8 +17,8 @@ const TodoList = () => {
     <ul className="relative h-[256px] space-y-2 overflow-y-scroll">
       {todos.map((todo) => (
         <TodoItem
-          key={todo.id}
-          id={todo.id}
+          key={todo._id}
+          _id={todo._id}
           content={todo.content}
           status={todo.status}
           important={todo.important}

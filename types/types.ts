@@ -34,7 +34,7 @@ export type background = {
 };
 
 export interface Todo {
-  id: string;
+  _id: string;
   content: string;
   urgent?: boolean;
   important?: boolean;

@@ -63,14 +63,14 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
     const { active } = event;
     const activeTaskId = active.id;
     const fromColumn = columns.find((column) =>
-      column.tasks.some((task) => task.id === activeTaskId),
+      column.tasks.some((task) => task._id === activeTaskId),
     );
 
     if (fromColumn) {
-      const task = fromColumn.tasks.find((task) => task.id === activeTaskId);
+      const task = fromColumn.tasks.find((task) => task._id === activeTaskId);
       setActiveTask({ taskId: activeTaskId, fromColumnId: fromColumn.id });
       setDraggedTask({
-        id: task!.id,
+        id: task!._id,
         content: task!.content,
         color: fromColumn.color,
       });
@@ -84,17 +84,18 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
 
     const fromColumnId = activeTask.fromColumnId;
     const toColumnId =
-      columns.find((column) => column.tasks.some((task) => task.id === over.id))
-        ?.id || over.id;
+      columns.find((column) =>
+        column.tasks.some((task) => task._id === over.id),
+      )?.id || over.id;
 
     if (fromColumnId === toColumnId) {
       const fromColumn = columns.find((col) => col.id === fromColumnId);
       if (fromColumn) {
         const oldIndex = fromColumn.tasks.findIndex(
-          (task) => task.id === active.id,
+          (task) => task._id === active.id,
         );
         const newIndex = fromColumn.tasks.findIndex(
-          (task) => task.id === over.id,
+          (task) => task._id === over.id,
         );
         if (oldIndex !== newIndex) {
           dispatch(
@@ -162,11 +163,11 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
                 </h2>
               </div>
               <div className="max-h-[236px] space-y-2 overflow-scroll rounded-lg border-gray-300 dark:border-gray-700">
-                <SortableContext items={column.tasks.map((task) => task.id)}>
+                <SortableContext items={column.tasks.map((task) => task._id)}>
                   {column.tasks.map((task) => (
                     <KanbanTask
-                      key={task.id}
-                      id={task.id}
+                      key={task._id}
+                      _id={task._id}
                       color={column.color}
                       content={task.content}
                     />
@@ -178,7 +179,7 @@ const Kanban = ({ openKanbanWidget, id, position }: Props) => {
           <DragOverlay>
             {draggedTask ? (
               <KanbanTask
-                id={draggedTask.id}
+                _id={draggedTask.id}
                 color={draggedTask.color}
                 content={draggedTask.content}
               />

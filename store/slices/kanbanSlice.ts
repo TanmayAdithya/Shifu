@@ -109,7 +109,7 @@ const kanbanSlice = createSlice({
       );
       if (fromColumn && toColumn) {
         const taskIndex = fromColumn.tasks.findIndex(
-          (task) => task.id === action.payload.taskId,
+          (task) => task._id === action.payload.taskId,
         );
         const [movedTask] = fromColumn.tasks.splice(taskIndex, 1);
 
