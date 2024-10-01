@@ -103,8 +103,17 @@ export default function Notes({
 
   const handleOpenNote = (note: Note) => {
     setOpenNote(note);
-    editor?.commands.setContent(note.content);
+    setEditorContent(note.content);
+    lastContentRef.current = note.content;
   };
+
+  useEffect(() => {
+    if (openNote) {
+      setEditorContent(openNote.content);
+      lastContentRef.current = openNote.content;
+      editor?.commands.setContent(openNote.content);
+    }
+  }, [openNote, editor]);
 
   const handleContentChange = (newContent: string) => {
     if (openNote && newContent !== lastContentRef.current) {
@@ -156,18 +165,15 @@ export default function Notes({
     const noteIndex = notes.findIndex((note) => note._id === noteId);
     dispatch(deleteNote(noteId));
 
-    if (openNote) {
+    if (openNote && openNote._id === noteId) {
       if (notes.length === 1) {
         setOpenNote(null);
-        editor?.commands.setContent("");
-      } else if (noteIndex === notes.length - 1) {
-        setOpenNote(notes[noteIndex - 1]);
-        setNewTitle(openNote.title);
-        editor?.commands.setContent(notes[noteIndex - 1].content);
+        setEditorContent("");
       } else {
-        setOpenNote(notes[noteIndex + 1]);
-        setNewTitle(openNote.title);
-        editor?.commands.setContent(notes[noteIndex + 1].content);
+        const nextNoteIndex =
+          noteIndex === notes.length - 1 ? noteIndex - 1 : noteIndex + 1;
+        setOpenNote(notes[nextNoteIndex]);
+        setEditorContent(notes[nextNoteIndex].content);
       }
     }
     dispatch(removeNote(noteId));

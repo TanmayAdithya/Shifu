@@ -76,11 +76,12 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
+    const user_id = user?.id;
     const body = await request.json();
     const { _id, updates } = body;
 
     const result = await TasksCollection.updateOne(
-      { _id: ObjectId.createFromHexString(_id) as any },
+      { _id: ObjectId.createFromHexString(_id) as any, user_id },
       { $set: updates },
     );
 
