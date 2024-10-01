@@ -50,28 +50,28 @@ const CalendarWidget = ({
 
   const currentDate = new Date();
 
-  const tabs: Tab[] = [
-    {
-      label: "Calendar",
-      icon: <CalendarIcon />,
-      content: (
-        <Calendar calendarEvents={calendarEvents} currentDate={currentDate} />
-      ),
-    },
-    {
-      label: "Events",
-      icon: <EventsListIcon />,
-      content: (
-        <Events calendarEvents={calendarEvents} currentDate={currentDate} />
-      ),
-    },
-  ];
+  // const tabs: Tab[] = [
+  //   {
+  //     label: "Calendar",
+  //     icon: <CalendarIcon />,
+  //     content: (
+  //       <Calendar calendarEvents={calendarEvents} currentDate={currentDate} />
+  //     ),
+  //   },
+  //   {
+  //     label: "Events",
+  //     icon: <EventsListIcon />,
+  //     content: (
+  //       <Events calendarEvents={calendarEvents} currentDate={currentDate} />
+  //     ),
+  //   },
+  // ];
 
-  const [activeTab, setActiveTab] = useState<string>(tabs[0].label);
+  // const [activeTab, setActiveTab] = useState<string>(tabs[0].label);
 
-  const handleTabClick = (label: string) => {
-    setActiveTab(label);
-  };
+  // const handleTabClick = (label: string) => {
+  //   setActiveTab(label);
+  // };
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = {
@@ -101,7 +101,7 @@ const CalendarWidget = ({
         ></div>
       </div>
       <div className="w-full">
-        <div className="mb-4 flex gap-1">
+        {/* <div className="mb-4 flex gap-1">
           {tabs.map((tab) => (
             <div
               key={tab.label}
@@ -126,7 +126,8 @@ const CalendarWidget = ({
               )}
             </div>
           ))}
-        </div>
+        </div> */}
+        <Calendar calendarEvents={calendarEvents} currentDate={currentDate} />
       </div>
       <div className="absolute right-2 top-1">
         <MinimizeWidget widgetId="Calendar" />
@@ -242,325 +243,325 @@ export const Calendar: React.FC<CalendarComponentProps> = ({ currentDate }) => {
   );
 };
 
-export const Events: React.FC<CalendarComponentProps> = ({
-  calendarEvents,
-}) => {
-  const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
+// export const Events: React.FC<CalendarComponentProps> = ({
+//   calendarEvents,
+// }) => {
+//   const [showEventPopup, setShowEventPopup] = useState<boolean>(false);
 
-  const openPopup = () => {
-    setShowEventPopup(true);
-  };
+//   const openPopup = () => {
+//     setShowEventPopup(true);
+//   };
 
-  const closePopup = () => {
-    setShowEventPopup(false);
-  };
+//   const closePopup = () => {
+//     setShowEventPopup(false);
+//   };
 
-  const times = [
-    "12:00",
-    "12:15",
-    "12:30",
-    "12:45",
-    "1:00",
-    "1:15",
-    "1:30",
-    "1:45",
-    "2:00",
-    "2:15",
-    "2:30",
-    "2:45",
-    "3:00",
-    "3:15",
-    "3:30",
-    "3:45",
-    "4:00",
-    "4:15",
-    "4:30",
-    "4:45",
-    "5:00",
-    "5:15",
-    "5:30",
-    "5:45",
-    "6:00",
-    "6:15",
-    "6:30",
-    "6:45",
-    "7:00",
-    "7:15",
-    "7:30",
-    "7:45",
-    "8:00",
-    "8:15",
-    "8:30",
-    "8:45",
-    "9:00",
-    "9:15",
-    "9:30",
-    "9:45",
-    "10:00",
-    "10:15",
-    "10:30",
-    "10:45",
-    "11:00",
-    "11:15",
-    "11:30",
-    "11:45",
-  ];
+//   const times = [
+//     "12:00",
+//     "12:15",
+//     "12:30",
+//     "12:45",
+//     "1:00",
+//     "1:15",
+//     "1:30",
+//     "1:45",
+//     "2:00",
+//     "2:15",
+//     "2:30",
+//     "2:45",
+//     "3:00",
+//     "3:15",
+//     "3:30",
+//     "3:45",
+//     "4:00",
+//     "4:15",
+//     "4:30",
+//     "4:45",
+//     "5:00",
+//     "5:15",
+//     "5:30",
+//     "5:45",
+//     "6:00",
+//     "6:15",
+//     "6:30",
+//     "6:45",
+//     "7:00",
+//     "7:15",
+//     "7:30",
+//     "7:45",
+//     "8:00",
+//     "8:15",
+//     "8:30",
+//     "8:45",
+//     "9:00",
+//     "9:15",
+//     "9:30",
+//     "9:45",
+//     "10:00",
+//     "10:15",
+//     "10:30",
+//     "10:45",
+//     "11:00",
+//     "11:15",
+//     "11:30",
+//     "11:45",
+//   ];
 
-  const isGlassMode = useSelector(
-    (state: RootState) => state.theme.isGlassMode,
-  );
+//   const isGlassMode = useSelector(
+//     (state: RootState) => state.theme.isGlassMode,
+//   );
 
-  return (
-    <div className="h-full max-h-full w-full rounded">
-      <div
-        className={`group ${isGlassMode ? "border border-zinc-500 text-neutral-700 hover:bg-zinc-600 hover:text-neutral-100 dark:border-neutral-700 dark:bg-zinc-700 dark:hover:bg-neutral-600" : "bg-neutral-800 text-neutral-100 hover:bg-neutral-900 dark:border-neutral-500 dark:bg-neutral-900 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"} mb-4 flex w-fit cursor-pointer items-center rounded px-2 py-1 text-sm transition-colors duration-200 dark:border dark:text-neutral-100`}
-        onClick={() => openPopup()}
-      >
-        <span
-          className={` ${isGlassMode ? "group-hover:text-neutral-100 dark:group-hover:text-neutral-100" : "group-hover:text-neutral-50"} mr-1 transition-colors duration-200 dark:group-hover:text-neutral-800`}
-        >
-          <NewEvent size={"16px"} />
-        </span>
-        New Event
-      </div>
+//   return (
+//     <div className="h-full max-h-full w-full rounded">
+//       <div
+//         className={`group ${isGlassMode ? "border border-zinc-500 text-neutral-700 hover:bg-zinc-600 hover:text-neutral-100 dark:border-neutral-700 dark:bg-zinc-700 dark:hover:bg-neutral-600" : "bg-neutral-800 text-neutral-100 hover:bg-neutral-900 dark:border-neutral-500 dark:bg-neutral-900 dark:hover:bg-neutral-100 dark:hover:text-neutral-800"} mb-4 flex w-fit cursor-pointer items-center rounded px-2 py-1 text-sm transition-colors duration-200 dark:border dark:text-neutral-100`}
+//         onClick={() => openPopup()}
+//       >
+//         <span
+//           className={` ${isGlassMode ? "group-hover:text-neutral-100 dark:group-hover:text-neutral-100" : "group-hover:text-neutral-50"} mr-1 transition-colors duration-200 dark:group-hover:text-neutral-800`}
+//         >
+//           <NewEvent size={"16px"} />
+//         </span>
+//         New Event
+//       </div>
 
-      <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
-        {calendarEvents.map((day, i) => {
-          const dateArr = day.dateId.split(" ");
+//       <div className="flex max-h-[14rem] w-full flex-col gap-2 overflow-y-auto rounded">
+//         {calendarEvents.map((day, i) => {
+//           const dateArr = day.dateId.split(" ");
 
-          return (
-            // Event Date heading
-            <div key={i} className="flex w-full flex-col gap-2">
-              <div
-                className={`sticky ${isGlassMode ? "bg-zinc-700" : "bg-neutral-800"} 0 top-0 z-20 flex items-center justify-between rounded-md p-2`}
-              >
-                <span className="text-xl font-medium text-neutral-50">
-                  {dateArr[2]}{" "}
-                  <span className="text-sm font-light text-neutral-50">
-                    {dateArr[1]}, {dateArr[0]}
-                  </span>
-                </span>
-                <span className="text-sm text-neutral-300">
-                  {day.events.length}
-                </span>
-              </div>
-              {/* Events */}
-              <div className="flex w-full flex-col gap-1">
-                {day.events.map((event, i) => {
-                  const e = event.details[0];
-                  return (
-                    <div
-                      key={i}
-                      className={`group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors duration-200 hover:border-neutral-700 hover:bg-neutral-700 dark:border-neutral-700 dark:bg-transparent dark:text-neutral-200`}
-                    >
-                      <div className="flex">
-                        <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100 dark:bg-neutral-400"></span>
-                        <div className="flex">
-                          <div className="flex flex-col">
-                            <div className="flex items-center justify-start">
-                              <span className="font-medium text-neutral-900 group-hover:text-neutral-50 dark:text-neutral-300 dark:group-hover:text-neutral-200">
-                                {e.title}
-                              </span>
-                            </div>
-                            {e.start && e.end && (
-                              <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200 dark:text-neutral-400">
-                                {`${e.start} ${e.startPeriod?.toLowerCase()} - ${e.end} ${e.endPeriod?.toLowerCase()}`}
-                              </span>
-                            )}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="relative z-0 flex gap-1">
-                        <EditEvent
-                          size={"14px"}
-                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
-                        />
-                        <DeleteEvent
-                          size={"14px"}
-                          className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-      {showEventPopup && <EventPopup times={times} closePopup={closePopup} />}
-    </div>
-  );
-};
+//           return (
+//             // Event Date heading
+//             <div key={i} className="flex w-full flex-col gap-2">
+//               <div
+//                 className={`sticky ${isGlassMode ? "bg-zinc-700" : "bg-neutral-800"} 0 top-0 z-20 flex items-center justify-between rounded-md p-2`}
+//               >
+//                 <span className="text-xl font-medium text-neutral-50">
+//                   {dateArr[2]}{" "}
+//                   <span className="text-sm font-light text-neutral-50">
+//                     {dateArr[1]}, {dateArr[0]}
+//                   </span>
+//                 </span>
+//                 <span className="text-sm text-neutral-300">
+//                   {day.events.length}
+//                 </span>
+//               </div>
+//               {/* Events */}
+//               <div className="flex w-full flex-col gap-1">
+//                 {day.events.map((event, i) => {
+//                   const e = event.details[0];
+//                   return (
+//                     <div
+//                       key={i}
+//                       className={`group flex items-start justify-between rounded border border-neutral-200 bg-white p-2 text-neutral-50 transition-colors duration-200 hover:border-neutral-700 hover:bg-neutral-700 dark:border-neutral-700 dark:bg-transparent dark:text-neutral-200`}
+//                     >
+//                       <div className="flex">
+//                         <span className="mr-2 w-[1.5px] rounded-full bg-neutral-600 group-hover:bg-neutral-100 dark:bg-neutral-400"></span>
+//                         <div className="flex">
+//                           <div className="flex flex-col">
+//                             <div className="flex items-center justify-start">
+//                               <span className="font-medium text-neutral-900 group-hover:text-neutral-50 dark:text-neutral-300 dark:group-hover:text-neutral-200">
+//                                 {e.title}
+//                               </span>
+//                             </div>
+//                             {e.start && e.end && (
+//                               <span className="text-xs font-light text-neutral-700/85 group-hover:text-neutral-200 dark:text-neutral-400">
+//                                 {`${e.start} ${e.startPeriod?.toLowerCase()} - ${e.end} ${e.endPeriod?.toLowerCase()}`}
+//                               </span>
+//                             )}
+//                           </div>
+//                         </div>
+//                       </div>
+//                       <div className="relative z-0 flex gap-1">
+//                         <EditEvent
+//                           size={"14px"}
+//                           className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
+//                         />
+//                         <DeleteEvent
+//                           size={"14px"}
+//                           className="cursor-pointer text-neutral-600 group-hover:text-neutral-100"
+//                         />
+//                       </div>
+//                     </div>
+//                   );
+//                 })}
+//               </div>
+//             </div>
+//           );
+//         })}
+//       </div>
+//       {showEventPopup && <EventPopup times={times} closePopup={closePopup} />}
+//     </div>
+//   );
+// };
 
-export const EventPopup: React.FC<{
-  times: string[];
-  closePopup: () => void;
-}> = ({ times, closePopup }) => {
-  const dispatch = useDispatch();
+// export const EventPopup: React.FC<{
+//   times: string[];
+//   closePopup: () => void;
+// }> = ({ times, closePopup }) => {
+//   const dispatch = useDispatch();
 
-  function handleAddEvent(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
+//   function handleAddEvent(e: React.FormEvent<HTMLFormElement>) {
+//     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const payload: AddEventProps = {
-      title: formData.get("title") as string,
-      dateId: formData.get("dateId") as string,
-      link: formData.get("link") as string,
-      start: formData.get("start") as string,
-      startPeriod: formData.get("startPeriod") as string,
-      end: formData.get("end") as string,
-      endPeriod: formData.get("endPeriod") as string,
-    };
+//     const formData = new FormData(e.currentTarget);
+//     const payload: AddEventProps = {
+//       title: formData.get("title") as string,
+//       dateId: formData.get("dateId") as string,
+//       link: formData.get("link") as string,
+//       start: formData.get("start") as string,
+//       startPeriod: formData.get("startPeriod") as string,
+//       end: formData.get("end") as string,
+//       endPeriod: formData.get("endPeriod") as string,
+//     };
 
-    dispatch(addEvent(payload));
-    closePopup();
-  }
+//     dispatch(addEvent(payload));
+//     closePopup();
+//   }
 
-  const isGlassMode = useSelector(
-    (state: RootState) => state.theme.isGlassMode,
-  );
+//   const isGlassMode = useSelector(
+//     (state: RootState) => state.theme.isGlassMode,
+//   );
 
-  return (
-    <form
-      onSubmit={handleAddEvent}
-      className={`absolute -right-72 top-2 flex flex-col gap-4 rounded-lg ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : ""} bg-white p-5 shadow-md dark:bg-neutral-900`}
-    >
-      <div className="flex items-center">
-        <span
-          className={`rounded-s-md border-b border-l border-t ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} border-neutral-200 py-[1.25px] pl-4 dark:bg-transparent`}
-        >
-          <GoPeople
-            className="h-8 text-neutral-500 dark:text-neutral-200"
-            size={"17px"}
-          />
-        </span>
-        {/* Event Title */}
-        <Input
-          className={`w-[12.75rem] ${isGlassMode ? "dark:border-neutral-500" : ""} resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none`}
-          placeholder="Add New Event"
-          type="text"
-          name="title"
-          required
-        />
-      </div>
+//   return (
+//     <form
+//       onSubmit={handleAddEvent}
+//       className={`absolute -right-72 top-2 flex flex-col gap-4 rounded-lg ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : ""} bg-white p-5 shadow-md dark:bg-neutral-900`}
+//     >
+//       <div className="flex items-center">
+//         <span
+//           className={`rounded-s-md border-b border-l border-t ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} border-neutral-200 py-[1.25px] pl-4 dark:bg-transparent`}
+//         >
+//           <GoPeople
+//             className="h-8 text-neutral-500 dark:text-neutral-200"
+//             size={"17px"}
+//           />
+//         </span>
+//         {/* Event Title */}
+//         <Input
+//           className={`w-[12.75rem] ${isGlassMode ? "dark:border-neutral-500" : ""} resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0 active:outline-none`}
+//           placeholder="Add New Event"
+//           type="text"
+//           name="title"
+//           required
+//         />
+//       </div>
 
-      <DatePickerWithPresets name="dateId" />
+//       <DatePickerWithPresets name="dateId" />
 
-      <div className="flex items-center">
-        <span
-          className={` ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} rounded-s-md border-b border-l border-t border-neutral-200 py-[1.25px] pl-4 dark:bg-transparent`}
-        >
-          <IoLinkOutline
-            className="h-8 text-neutral-500 dark:text-neutral-200"
-            size={"18px"}
-          />
-        </span>
-        <Input
-          className={` ${isGlassMode ? "dark:border-neutral-500" : ""} active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0`}
-          placeholder="Add Link"
-          type="text"
-          name="link"
-        />
-      </div>
+//       <div className="flex items-center">
+//         <span
+//           className={` ${isGlassMode ? "dark:border-neutral-500" : "dark:border-neutral-800"} rounded-s-md border-b border-l border-t border-neutral-200 py-[1.25px] pl-4 dark:bg-transparent`}
+//         >
+//           <IoLinkOutline
+//             className="h-8 text-neutral-500 dark:text-neutral-200"
+//             size={"18px"}
+//           />
+//         </span>
+//         <Input
+//           className={` ${isGlassMode ? "dark:border-neutral-500" : ""} active:outline-non w-[12.75rem] resize-none rounded-e-md rounded-s-none border-b border-l-0 border-r border-t px-2 py-[6px] shadow-none outline-none placeholder:text-neutral-500 focus:outline-none focus-visible:ring-0`}
+//           placeholder="Add Link"
+//           type="text"
+//           name="link"
+//         />
+//       </div>
 
-      <div
-        className={` ${isGlassMode ? "bg-opacity-30 dark:border-neutral-500" : "dark:border-neutral-800"} flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:bg-transparent`}
-      >
-        <span
-          className={`flex ${isGlassMode ? "bg-opacity-0" : ""} items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent`}
-        >
-          <IoMdTime
-            size={"18px"}
-            className="mr-2 text-neutral-500 dark:text-neutral-200"
-          />
-          <p className="text-neutral-500 dark:text-neutral-500">Start</p>
-        </span>
-        <div
-          className={`flex rounded-e-md ${isGlassMode ? "bg-transparent" : "bg-white"} px-2 py-[6px] placeholder:text-neutral-500 ${isGlassMode ? "bg-transparent dark:bg-transparent" : "dark:bg-neutral-800"}`}
-        >
-          <select
-            name="start"
-            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
-          >
-            {times.map((time) => (
-              <option key={time} className="dark:text-neutral-800" value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
-          <select
-            name="endPeriod"
-            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
-          >
-            <option className="dark:text-neutral-800" value="AM">
-              AM
-            </option>
-            <option className="dark:text-neutral-800" value="PM">
-              PM
-            </option>
-          </select>
-        </div>
-      </div>
-      <div
-        className={` ${isGlassMode ? "bg-opacity-30 dark:border-neutral-500" : "dark:border-neutral-800"} flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:bg-transparent`}
-      >
-        <span
-          className={`flex ${isGlassMode ? "bg-opacity-0" : ""} items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent`}
-        >
-          <IoMdTime
-            size={"18px"}
-            className="mr-2 text-neutral-500 dark:text-neutral-200"
-          />
-          <p className="text-neutral-500 dark:text-neutral-500">End</p>
-        </span>
-        <div
-          className={`flex rounded-e-md ${isGlassMode ? "bg-transparent" : "bg-white"} px-2 py-[6px] placeholder:text-neutral-500 ${isGlassMode ? "bg-transparent dark:bg-transparent" : "dark:bg-neutral-800"}`}
-        >
-          <select
-            name="end"
-            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
-          >
-            {times.map((time) => (
-              <option key={time} className="dark:text-neutral-800" value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
-          <select
-            name="startPeriod"
-            className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
-          >
-            <option className="dark:text-neutral-800" value="AM">
-              AM
-            </option>
-            <option className="dark:text-neutral-800" value="PM">
-              PM
-            </option>
-          </select>
-        </div>
-      </div>
+//       <div
+//         className={` ${isGlassMode ? "bg-opacity-30 dark:border-neutral-500" : "dark:border-neutral-800"} flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:bg-transparent`}
+//       >
+//         <span
+//           className={`flex ${isGlassMode ? "bg-opacity-0" : ""} items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent`}
+//         >
+//           <IoMdTime
+//             size={"18px"}
+//             className="mr-2 text-neutral-500 dark:text-neutral-200"
+//           />
+//           <p className="text-neutral-500 dark:text-neutral-500">Start</p>
+//         </span>
+//         <div
+//           className={`flex rounded-e-md ${isGlassMode ? "bg-transparent" : "bg-white"} px-2 py-[6px] placeholder:text-neutral-500 ${isGlassMode ? "bg-transparent dark:bg-transparent" : "dark:bg-neutral-800"}`}
+//         >
+//           <select
+//             name="start"
+//             className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
+//           >
+//             {times.map((time) => (
+//               <option key={time} className="dark:text-neutral-800" value={time}>
+//                 {time}
+//               </option>
+//             ))}
+//           </select>
+//           <select
+//             name="endPeriod"
+//             className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
+//           >
+//             <option className="dark:text-neutral-800" value="AM">
+//               AM
+//             </option>
+//             <option className="dark:text-neutral-800" value="PM">
+//               PM
+//             </option>
+//           </select>
+//         </div>
+//       </div>
+//       <div
+//         className={` ${isGlassMode ? "bg-opacity-30 dark:border-neutral-500" : "dark:border-neutral-800"} flex w-[15rem] items-center justify-between rounded-md border border-neutral-200 bg-white dark:bg-transparent`}
+//       >
+//         <span
+//           className={`flex ${isGlassMode ? "bg-opacity-0" : ""} items-center rounded-s-md bg-white py-[2px] pl-4 dark:bg-transparent`}
+//         >
+//           <IoMdTime
+//             size={"18px"}
+//             className="mr-2 text-neutral-500 dark:text-neutral-200"
+//           />
+//           <p className="text-neutral-500 dark:text-neutral-500">End</p>
+//         </span>
+//         <div
+//           className={`flex rounded-e-md ${isGlassMode ? "bg-transparent" : "bg-white"} px-2 py-[6px] placeholder:text-neutral-500 ${isGlassMode ? "bg-transparent dark:bg-transparent" : "dark:bg-neutral-800"}`}
+//         >
+//           <select
+//             name="end"
+//             className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
+//           >
+//             {times.map((time) => (
+//               <option key={time} className="dark:text-neutral-800" value={time}>
+//                 {time}
+//               </option>
+//             ))}
+//           </select>
+//           <select
+//             name="startPeriod"
+//             className="bg-transparent text-center text-neutral-700 dark:text-neutral-400"
+//           >
+//             <option className="dark:text-neutral-800" value="AM">
+//               AM
+//             </option>
+//             <option className="dark:text-neutral-800" value="PM">
+//               PM
+//             </option>
+//           </select>
+//         </div>
+//       </div>
 
-      <div className="flex gap-1">
-        <button
-          type="submit"
-          className={` ${isGlassMode ? "border-neutral-200 text-neutral-50 hover:bg-neutral-300 hover:text-neutral-700 dark:border-neutral-800/90 dark:bg-neutral-500/80" : "border-neutral-800 text-neutral-800 hover:bg-neutral-900 hover:text-neutral-100 dark:border-neutral-300 dark:bg-neutral-900"} flex-1 rounded-md border px-2 py-1 transition-colors duration-200 dark:border dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800`}
-        >
-          Add Event
-        </button>
-        <button
-          className="flex-1 rounded-md bg-red-500 px-2 py-1 text-white transition-colors duration-200 hover:bg-red-600"
-          onClick={() => closePopup()}
-        >
-          Cancel
-        </button>
-      </div>
-      <span className="absolute right-1 top-1">
-        <IoClose
-          className="cursor-pointer text-neutral-600 hover:text-neutral-700 dark:text-neutral-300 dark:hover:text-neutral-100"
-          onClick={() => closePopup()}
-        />
-      </span>
-    </form>
-  );
-};
+//       <div className="flex gap-1">
+//         <button
+//           type="submit"
+//           className={` ${isGlassMode ? "border-neutral-200 text-neutral-50 hover:bg-neutral-300 hover:text-neutral-700 dark:border-neutral-800/90 dark:bg-neutral-500/80" : "border-neutral-800 text-neutral-800 hover:bg-neutral-900 hover:text-neutral-100 dark:border-neutral-300 dark:bg-neutral-900"} flex-1 rounded-md border px-2 py-1 transition-colors duration-200 dark:border dark:text-neutral-300 dark:hover:bg-neutral-100 dark:hover:text-neutral-800`}
+//         >
+//           Add Event
+//         </button>
+//         <button
+//           className="flex-1 rounded-md bg-red-500 px-2 py-1 text-white transition-colors duration-200 hover:bg-red-600"
+//           onClick={() => closePopup()}
+//         >
+//           Cancel
+//         </button>
+//       </div>
+//       <span className="absolute right-1 top-1">
+//         <IoClose
+//           className="cursor-pointer text-neutral-600 hover:text-neutral-700 dark:text-neutral-300 dark:hover:text-neutral-100"
+//           onClick={() => closePopup()}
+//         />
+//       </span>
+//     </form>
+//   );
+// };

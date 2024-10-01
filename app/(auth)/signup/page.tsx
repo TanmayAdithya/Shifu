@@ -8,7 +8,6 @@ import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaGithub } from "react-icons/fa6";
 import { ThreeDots } from "react-loader-spinner";
 import { useRouter } from "next/navigation";
 
@@ -45,7 +44,7 @@ const Page = () => {
       <Link
         href="/login"
         className={cn(
-          buttonVariants({ variant: "ghost" }),
+          buttonVariants({ variant: "outline" }),
           "absolute right-4 top-4 md:right-8 md:top-8",
         )}
       >
@@ -122,22 +121,6 @@ const Page = () => {
                 </div>
               </div>
             </form>
-            <div className="relative">
-              <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t" />
-              </div>
-              <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">
-                  Or continue with
-                </span>
-              </div>
-            </div>
-            <button
-              type="button"
-              className={cn(buttonVariants({ variant: "outline" }))}
-            >
-              <FaGithub className="mr-1" /> Github
-            </button>
           </div>
         </div>
       </div>
