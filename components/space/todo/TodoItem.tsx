@@ -72,7 +72,7 @@ const TodoItem = ({ content, _id, status, important, urgent }: Todo) => {
         updates = { urgent: !urgent };
         break;
       case "In Progress":
-        updates = { status: "in-progress" };
+        updates = { status: status === "in-progress" ? "todo" : "in-progress" };
         break;
       case "Completed":
         updates = { status: "complete" };
@@ -168,7 +168,7 @@ const TodoItem = ({ content, _id, status, important, urgent }: Todo) => {
                   className={` ${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
                 />
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="z-50 p-2">
+              <DropdownMenuContent align="start" className="z-[60] p-2">
                 {["Important", "Urgent", "In Progress"].map((label) => {
                   const isChecked = () => {
                     switch (label) {
