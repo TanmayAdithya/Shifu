@@ -38,9 +38,50 @@ const Music: React.FC<SpotifyEmbedProps> = ({
   } as React.CSSProperties;
 
   const [mediaURL, setMediaURL] = useState<string>(url);
+  const [inputValue, setInputValue] = useState<string>("");
+  const [iframeKey, setIframeKey] = useState(0);
 
-  function handleFormSubmit() {
-    console.log(mediaURL);
+  function handleFormSubmit(e: React.FormEvent) {
+    e.preventDefault();
+
+    const cleanURL = inputValue.split("?")[0];
+
+    const albumMatch = cleanURL.match(/album\/([a-zA-Z0-9]+)/);
+    const playlistMatch = cleanURL.match(/playlist\/([a-zA-Z0-9]+)/);
+    const trackMatch = cleanURL.match(/track\/([a-zA-Z0-9]+)/);
+
+    let spotifyId: string | undefined;
+    let type: string | undefined;
+
+    if (albumMatch) {
+      spotifyId = albumMatch[1];
+      type = "album";
+    } else if (playlistMatch) {
+      spotifyId = playlistMatch[1];
+      type = "playlist";
+    } else if (trackMatch) {
+      spotifyId = trackMatch[1];
+      type = "track";
+    } else {
+      const nonEmbedMatch = cleanURL.match(
+        /open\.spotify\.com\/(album|playlist|track)\/([a-zA-Z0-9]+)/,
+      );
+      if (nonEmbedMatch) {
+        spotifyId = nonEmbedMatch[2];
+        type = nonEmbedMatch[1];
+      }
+    }
+
+    if (spotifyId && type) {
+      const embedUrl = `https://open.spotify.com/embed/${type}/${spotifyId}`;
+      setMediaURL(embedUrl);
+      setIframeKey((prev) => prev + 1);
+      setInputValue("");
+    } else {
+      alert(
+        "Invalid Spotify URL. Please enter a valid album, playlist, or track link.",
+      );
+    }
   }
 
   const isGlassMode = useSelector(
@@ -62,6 +103,7 @@ const Music: React.FC<SpotifyEmbedProps> = ({
         ></div>
       </div>
       <iframe
+        key={iframeKey}
         src={mediaURL}
         width="100%"
         height="152"
@@ -74,17 +116,16 @@ const Music: React.FC<SpotifyEmbedProps> = ({
       >
         <Input
           placeholder="Paste Spotify link"
-          className={` ${isGlassMode ? "placeholder:text-neutral-200 dark:border-neutral-600" : ""} rounded-3xl`}
+          className={`${isGlassMode ? "placeholder:text-neutral-200 dark:border-neutral-600" : ""} rounded-3xl`}
           name="media-link"
+          value={inputValue}
           onChange={(e) => {
-            if (!e.target.value) {
-              setMediaURL(e.target.value);
-            }
+            setInputValue(e.target.value);
           }}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              handleFormSubmit();
+              handleFormSubmit(e);
             }
           }}
         />
