@@ -19,7 +19,6 @@ const themeSlice = createSlice({
   reducers: {
     toggleGlassMode: (state, action) => {
       state.isGlassMode = action.payload;
-      localStorage.setItem("isGlassMode", JSON.stringify(action.payload));
     },
   },
 });
