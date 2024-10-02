@@ -13,14 +13,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { TiCamera as CameraIcon } from "react-icons/ti";
 import { DndContext, DragEndEvent, useDroppable } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
-import { bringWidgetToTop, updatePosition } from "@/store/slices/widgetSlice";
+import {
+  bringWidgetToTop,
+  loadWidgets,
+  saveWidgets,
+  updatePosition,
+} from "@/store/slices/widgetSlice";
 import MusicPlayer from "./Music";
 import ReactPlayer from "react-player/youtube";
 import { TailSpin } from "react-loader-spinner";
+import { AppDispatch } from "@/store/store";
 
 export default function SpaceBackground() {
   const openWidgets = useSelector((state: RootState) => state.widgets.widgets);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const { portfolio_url, name, active, mediaRef } = useSelector(
     (state: RootState) => state.background,
   );
@@ -30,6 +36,10 @@ export default function SpaceBackground() {
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
   const [mute, setMute] = useState<boolean>(true);
+
+  useEffect(() => {
+    dispatch(loadWidgets());
+  }, [dispatch]);
 
   useEffect(() => {
     if (active === "video") {
@@ -78,6 +88,12 @@ export default function SpaceBackground() {
         }),
       );
       dispatch(bringWidgetToTop(updatedWidget.id));
+
+      const updatedWidgets = openWidgets.map((w) =>
+        w.id === updatedWidget.id ? updatedWidget : w,
+      );
+
+      dispatch(saveWidgets(updatedWidgets));
     }
   };
 
@@ -120,19 +136,19 @@ export default function SpaceBackground() {
             zIndex={openWidgets[4].order}
             bringToTop={() => dispatch(bringWidgetToTop(openWidgets[4].id))}
           />
-          <Matrix
+          {/* <Matrix
             openMatrixWidget={openWidgets[5].visibility}
             id={openWidgets[5].id}
             position={openWidgets[5].position}
             zIndex={openWidgets[5].order}
             bringToTop={() => dispatch(bringWidgetToTop(openWidgets[5].id))}
-          />
+          /> */}
           <MusicPlayer
-            openMusicPlayer={openWidgets[6].visibility}
-            id={openWidgets[6].id}
-            position={openWidgets[6].position}
-            zIndex={openWidgets[6].order}
-            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[6].id))}
+            openMusicPlayer={openWidgets[5].visibility}
+            id={openWidgets[5].id}
+            position={openWidgets[5].position}
+            zIndex={openWidgets[5].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[5].id))}
             url="https://open.spotify.com/embed/album/1bwbZJ6khPJyVpOaqgKsoZ?utm_source=generator"
           />
           <Navbar openWidgets={openWidgets} />

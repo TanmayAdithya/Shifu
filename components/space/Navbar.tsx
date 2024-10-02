@@ -197,7 +197,7 @@ const Navbar = ({ openWidgets }: Props) => {
                   key="music-player"
                   id="music-player"
                   className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-lg transition-colors duration-100 ease-in-out dark:hover:bg-neutral-800 ${
-                    openWidgets[6].visibility
+                    openWidgets[5].visibility
                       ? `${isGlassMode ? "bg-neutral-300 hover:bg-neutral-200/30" : "bg-neutral-200 hover:bg-neutral-200"} dark:bg-neutral-800 dark:hover:bg-neutral-800`
                       : ""
                   } ${isGlassMode ? "hover:bg-neutral-200/30" : "hover:bg-neutral-200"} `}

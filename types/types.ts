@@ -15,6 +15,8 @@ export interface WidgetState {
 
 export interface OpenWidgetsState {
   widgets: WidgetState[];
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
 }
 
 export type background = {
@@ -170,6 +172,10 @@ export interface SessionDoc {
 }
 
 export interface TasksDoc extends Todo {
+  user_id: string;
+}
+
+export interface WidgetDoc extends WidgetState {
   user_id: string;
 }
 
