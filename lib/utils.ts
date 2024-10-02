@@ -57,3 +57,37 @@ export async function getUploadPlaylistItems(
   }
   return null;
 }
+
+export const randomPosition = (min: number, max: number) =>
+  Math.random() * (max - min) + min;
+
+export const getQuadrantPosition = (
+  urgent: boolean | undefined,
+  important: boolean | undefined,
+) => {
+  let xRange, yRange;
+
+  const isUrgent = urgent ?? false;
+  const isImportant = important ?? false;
+
+  const margin = 10;
+
+  if (isImportant && isUrgent) {
+    xRange = [margin, 50 - margin];
+    yRange = [margin, 50 - margin];
+  } else if (isImportant && !isUrgent) {
+    xRange = [50 + margin, 100 - margin];
+    yRange = [margin, 50 - margin];
+  } else if (!isImportant && isUrgent) {
+    xRange = [margin, 50 - margin];
+    yRange = [50 + margin, 100 - margin];
+  } else {
+    xRange = [50 + margin, 100 - margin];
+    yRange = [50 + margin, 100 - margin];
+  }
+
+  return {
+    x: randomPosition(xRange[0], xRange[1]),
+    y: randomPosition(yRange[0], yRange[1]),
+  };
+};

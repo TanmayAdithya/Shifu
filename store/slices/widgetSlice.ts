@@ -7,7 +7,8 @@ export const defaultWidgets: WidgetState[] = [
   { id: "Todo", visibility: false, position: { x: 858, y: 204 }, order: 2 },
   { id: "Calendar", visibility: false, position: { x: 300, y: 300 }, order: 3 },
   { id: "Kanban", visibility: false, position: { x: 481, y: 352 }, order: 4 },
-  { id: "Music", visibility: false, position: { x: 502, y: 250 }, order: 5 },
+  { id: "Matrix", visibility: false, position: { x: 532, y: 300 }, order: 5 },
+  { id: "Music", visibility: false, position: { x: 502, y: 250 }, order: 6 },
 ];
 
 const initialState: OpenWidgetsState = {

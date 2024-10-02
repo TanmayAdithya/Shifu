@@ -136,19 +136,19 @@ export default function SpaceBackground() {
             zIndex={openWidgets[4].order}
             bringToTop={() => dispatch(bringWidgetToTop(openWidgets[4].id))}
           />
-          {/* <Matrix
+          <Matrix
             openMatrixWidget={openWidgets[5].visibility}
             id={openWidgets[5].id}
             position={openWidgets[5].position}
             zIndex={openWidgets[5].order}
             bringToTop={() => dispatch(bringWidgetToTop(openWidgets[5].id))}
-          /> */}
+          />
           <MusicPlayer
-            openMusicPlayer={openWidgets[5].visibility}
-            id={openWidgets[5].id}
-            position={openWidgets[5].position}
-            zIndex={openWidgets[5].order}
-            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[5].id))}
+            openMusicPlayer={openWidgets[6].visibility}
+            id={openWidgets[6].id}
+            position={openWidgets[6].position}
+            zIndex={openWidgets[6].order}
+            bringToTop={() => dispatch(bringWidgetToTop(openWidgets[6].id))}
             url="https://open.spotify.com/embed/album/1bwbZJ6khPJyVpOaqgKsoZ?utm_source=generator"
           />
           <Navbar openWidgets={openWidgets} />

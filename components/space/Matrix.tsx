@@ -1,11 +1,15 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MinimizeWidget from "./MinimizeWidget";
 import { Position } from "@/types/types";
 import { useDraggable } from "@dnd-kit/core";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store/store";
+import { fetchTasks } from "@/store/slices/todoSlice";
+import TaskDot from "./TaskDot";
+import { getQuadrantPosition } from "@/lib/utils";
 
 type Props = {
   openMatrixWidget: boolean;
@@ -30,6 +34,25 @@ const Matrix = ({
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
+
+  const { todos } = useSelector((state: RootState) => state.todos);
+  const dispatch: AppDispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
+  const [dotPositions, setDotPositions] = useState<{ x: number; y: number }[]>(
+    [],
+  );
+
+  useEffect(() => {
+    const positions = todos.map((task) => {
+      const { x, y } = getQuadrantPosition(task.urgent, task.important);
+      return { x, y };
+    });
+    setDotPositions(positions);
+  }, [todos]);
 
   const isGlassMode = useSelector(
     (state: RootState) => state.theme.isGlassMode,
@@ -110,6 +133,12 @@ const Matrix = ({
               Eliminate
             </p>
           </div>
+        </div>
+        <div className="absolute inset-6">
+          {todos.map((task) => {
+            const { x, y } = getQuadrantPosition(task.urgent, task.important);
+            return <TaskDot key={task._id} task={task} x={x} y={y} />;
+          })}
         </div>
       </div>
       <div className="absolute right-2 top-[2px]">
