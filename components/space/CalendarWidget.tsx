@@ -91,7 +91,7 @@ const CalendarWidget = ({
       ref={setNodeRef}
       style={style}
       onMouseDown={bringToTop}
-      className={`${openCalendarWidget ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : "dark:border-neutral-800"} dark:borderdark:bg-neutral-900 absolute flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-neutral-100 px-5 pb-5 pt-6 shadow-md dark:bg-neutral-900`}
+      className={`${openCalendarWidget ? "" : "hidden"} ${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : "dark:border-neutral-800"} absolute flex max-h-[22rem] w-[20rem] justify-between gap-4 rounded-xl bg-white px-5 pb-5 pt-6 shadow-md dark:border dark:bg-neutral-900`}
     >
       <div className="absolute left-0 top-2 w-full">
         <div
