@@ -4,9 +4,14 @@ interface ThemeState {
   isGlassMode: boolean;
 }
 
-const initialState: ThemeState = {
-  isGlassMode: false,
+const loadInitialState = (): ThemeState => {
+  const storedValue = localStorage.getItem("isGlassMode");
+  return {
+    isGlassMode: storedValue === "true",
+  };
 };
+
+const initialState: ThemeState = loadInitialState();
 
 const themeSlice = createSlice({
   name: "theme",
@@ -14,6 +19,7 @@ const themeSlice = createSlice({
   reducers: {
     toggleGlassMode: (state, action) => {
       state.isGlassMode = action.payload;
+      localStorage.setItem("isGlassMode", JSON.stringify(action.payload));
     },
   },
 });
