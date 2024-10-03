@@ -11,6 +11,7 @@ const initialState: VideosState = {
   videos: [],
   status: "idle",
   error: null,
+  muted: true,
 };
 
 const placeholderVideos = [ambience, study, scifi, cafe, earth, relax];
@@ -46,7 +47,11 @@ export const fetchVideos = createAsyncThunk<Videos[] | undefined>(
 export const youtubeSlice = createSlice({
   name: "videos",
   initialState,
-  reducers: {},
+  reducers: {
+    muteVideo: (state, action: PayloadAction<boolean>) => {
+      state.muted = action.payload;
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchVideos.pending, (state) => {
@@ -69,4 +74,5 @@ export const youtubeSlice = createSlice({
   },
 });
 
+export const { muteVideo } = youtubeSlice.actions;
 export default youtubeSlice.reducer;

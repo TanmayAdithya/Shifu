@@ -72,6 +72,7 @@ export interface VideosState {
   videos: Videos[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
+  muted: boolean;
 }
 
 export interface Note {

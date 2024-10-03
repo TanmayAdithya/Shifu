@@ -16,8 +16,10 @@ import { RxSpeakerOff as SpeakerOffIcon } from "react-icons/rx";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { ModeToggle } from "@/components/ui/mode-toggle";
 import GuestLogoutButton from "../auth/GuestLogoutButton";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
+import { AppDispatch } from "@/store/store";
+import { muteVideo } from "@/store/slices/youtubeSlice";
 
 type Props = {
   fallback: string[];
@@ -33,6 +35,8 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
   const isGlassMode = useSelector(
     (state: RootState) => state.theme.isGlassMode,
   );
+  const muted = useSelector((state: RootState) => state.youtube.muted);
+  const dispatch: AppDispatch = useDispatch();
 
   const resetTimer = () => {
     if (timeoutRef.current) {
@@ -75,6 +79,10 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
     };
   }, []);
 
+  function handleToggleMute(muted: boolean) {
+    dispatch(muteVideo(!muted));
+  }
+
   return (
     <div
       className={`fixed right-2 top-3 z-50 flex items-center gap-2 ${isVisible ? "opacity-100" : "opacity-0"} transform transition-opacity duration-700 ease-in-out`}
@@ -84,8 +92,12 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
         className={`flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-md dark:bg-neutral-900 ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} `}
       >
         <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-orange-500/80">
-          <div>
-            <SpeakerOnIcon size={"1.15rem"} />
+          <div onClick={() => handleToggleMute(muted)}>
+            {muted ? (
+              <SpeakerOffIcon size={"1.15rem"} />
+            ) : (
+              <SpeakerOnIcon size={"1.15rem"} />
+            )}
           </div>
         </div>
         <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-neutral-800">

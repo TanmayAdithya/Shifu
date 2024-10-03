@@ -26,6 +26,7 @@ import { AppDispatch } from "@/store/store";
 
 export default function SpaceBackground() {
   const openWidgets = useSelector((state: RootState) => state.widgets.widgets);
+  const muted = useSelector((state: RootState) => state.youtube.muted);
   const dispatch: AppDispatch = useDispatch();
   const { portfolio_url, name, active, mediaRef } = useSelector(
     (state: RootState) => state.background,
@@ -35,7 +36,6 @@ export default function SpaceBackground() {
   const [loading, setLoading] = useState<boolean | null>(null);
   const [isClient, setIsClient] = useState<boolean>(false);
   const [isReady, setIsReady] = useState<boolean>(false);
-  const [mute, setMute] = useState<boolean>(true);
 
   useEffect(() => {
     dispatch(loadWidgets());
@@ -58,7 +58,6 @@ export default function SpaceBackground() {
   const handleStart = useCallback(() => {
     setTimeout(() => {
       setLoading(false);
-      setMute(false);
     }, 3000);
   }, [mediaRef]);
 
@@ -187,7 +186,7 @@ export default function SpaceBackground() {
                 } absolute object-cover object-center`}
                 playing={active === "video"}
                 loop
-                muted={mute}
+                muted={muted}
                 controls={false}
                 width={"100vw"}
                 height={"100vh"}
