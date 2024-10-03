@@ -31,7 +31,7 @@ Users can personalize their environment, collaborate in shared spaces, and maint
 ## ⚒️ Built Using
 
 <div>
-    <img src="https://skillicons.dev/icons?i=ts,next,tailwind,redux,mongo" />
+    <img src="https://skillicons.dev/icons?i=ts,next,tailwind,redux,mongo,redis" />
     <img href="https://ui.shadcn.com/" width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://i.postimg.cc/yxcWQsB6/shadcn-modified-1.png" alt="Shadcn" />
     <img href='https://tiptap.dev/' width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://i.postimg.cc/4N2jLtLd/tiptap-modified-1.png" alt="TipTap" />
     <img href='https://tiptap.dev/' width='137' style="border: 0; border-radius: 8px; margin-left: 4px" src="https://dndkit.com/dnd-kit-logo.svg" alt="DnDKit" />
