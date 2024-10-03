@@ -9,10 +9,12 @@ import {
 } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  fetchCurrentBackground,
   fetchDefaultBackgrounds,
   fetchSearchBackgrounds,
   setBackgroundImage,
   setBackgroundVideo,
+  updateCurrentBackground,
 } from "@/store/slices/backgroundSlice";
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -44,6 +46,7 @@ const BackgroundChanger: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchVideos());
+    dispatch(fetchCurrentBackground());
   }, [dispatch]);
 
   useEffect(() => {
@@ -77,10 +80,19 @@ const BackgroundChanger: React.FC = () => {
     dispatch(
       setBackgroundImage({ active: "image", mediaRef, name, portfolio_url }),
     );
+    dispatch(
+      updateCurrentBackground({
+        active: "image",
+        mediaRef,
+        name,
+        portfolio_url,
+      }),
+    );
   };
 
   const handleSetVideo = (videoId: string) => {
     dispatch(setBackgroundVideo(videoId));
+    dispatch(updateCurrentBackground({ active: "video", mediaRef: videoId }));
   };
 
   const isGlassMode = useSelector(

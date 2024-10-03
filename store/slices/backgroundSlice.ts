@@ -1,20 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
-import { background } from "@/types/types";
-import defaultBackgrounds from "@/json/defaultBackgrounds.json";
-
-interface BackgroundState {
-  active: "image" | "video";
-  mediaRef: string;
-  name?: string | null;
-  portfolio_url?: string | null;
-  backgrounds: background[];
-  loading: boolean;
-  error: string | null;
-  totalPages: number;
-}
-
-const apiKey = process.env.NEXT_PUBLIC_UNSPLASH_ACCESS_KEY;
+import { background, BackgroundState } from "@/types/types";
 
 export const fetchDefaultBackgrounds = createAsyncThunk<
   background[],
@@ -22,16 +8,10 @@ export const fetchDefaultBackgrounds = createAsyncThunk<
   { rejectValue: string }
 >("backgrounds/fetchDefaultBackgrounds", async (_, { rejectWithValue }) => {
   try {
-    const response = await axios.get(
-      `https://api.unsplash.com/photos/?client_id=${apiKey}`,
-    );
+    const response = await axios.get("/api/unsplash/default");
     return response.data;
   } catch (error) {
-    if (axios.isAxiosError(error) && error.response?.status === 403) {
-      alert("Rate limit exceeded. Showing placeholder data.");
-      return defaultBackgrounds;
-    }
-    console.error("Error fetching default backgrounds: ", error);
+    console.error("Error fetching default backgrounds:", error);
     return rejectWithValue("Failed to fetch default backgrounds");
   }
 });
@@ -44,19 +24,15 @@ export const fetchSearchBackgrounds = createAsyncThunk<
   "backgrounds/fetchSearchBackgrounds",
   async ({ query, page }, { rejectWithValue }) => {
     try {
-      const response = await axios.get(
-        `https://api.unsplash.com/search/photos`,
-        {
-          params: {
-            query,
-            page,
-            client_id: apiKey,
-          },
+      const response = await axios.get("/api/unsplash/search", {
+        params: {
+          query,
+          page,
         },
-      );
+      });
       return {
-        backgrounds: response.data.results,
-        totalPages: response.data.total_pages,
+        backgrounds: response.data.backgrounds,
+        totalPages: response.data.totalPages,
       };
     } catch (error) {
       console.error("Error fetching search backgrounds:", error);
@@ -65,12 +41,53 @@ export const fetchSearchBackgrounds = createAsyncThunk<
   },
 );
 
+export const fetchCurrentBackground = createAsyncThunk<
+  BackgroundState,
+  void,
+  { rejectValue: string }
+>("backgrounds/fetchCurrentBackground", async (_, { rejectWithValue }) => {
+  try {
+    const response = await axios.get("/api/backgrounds");
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching current background:", error);
+    return rejectWithValue("Failed to fetch current background");
+  }
+});
+
+export const updateCurrentBackground = createAsyncThunk<
+  void,
+  Partial<BackgroundState>
+>(
+  "background/updateCurrentBackground",
+  async (backgroundData, { rejectWithValue }) => {
+    try {
+      const response = await fetch("/api/backgrounds", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(backgroundData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create task");
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error("Error updating background:", error);
+      return rejectWithValue("Failed to update background");
+    }
+  },
+);
+
 const initialState: BackgroundState = {
   active: "image",
   mediaRef:
-    "https://images.unsplash.com/photo-1436891620584-47fd0e565afb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w2MTM4Njh8MHwxfHNlYXJjaHw1Nnx8TmF0dXJlfGVufDB8fHx8MTcyNjM5NzYyNHww&ixlib=rb-4.0.3&q=85",
-  name: "kazuend",
-  portfolio_url: "https://unsplash.com/@kazuend",
+    "https://images.unsplash.com/photo-1727294810277-5da030783146?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  name: "Claudio Schwarz",
+  portfolio_url: "https://unsplash.com/@purzlbaum",
   backgrounds: [],
   loading: false,
   error: null,
@@ -115,9 +132,7 @@ const backgroundSlice = createSlice({
       .addCase(fetchDefaultBackgrounds.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to fetch default backgrounds";
-      });
-
-    builder
+      })
       .addCase(fetchSearchBackgrounds.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -130,6 +145,33 @@ const backgroundSlice = createSlice({
       .addCase(fetchSearchBackgrounds.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to fetch search backgrounds";
+      })
+      .addCase(fetchCurrentBackground.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchCurrentBackground.fulfilled, (state, action) => {
+        state.loading = false;
+        state.mediaRef = action.payload.mediaRef;
+        state.name = action.payload.name;
+        state.portfolio_url = action.payload.portfolio_url;
+        state.active = action.payload.active;
+      })
+      .addCase(fetchCurrentBackground.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to fetch background";
+      })
+      .addCase(updateCurrentBackground.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateCurrentBackground.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(updateCurrentBackground.rejected, (state, action) => {
+        state.loading = false;
+        state.error =
+          (action.payload as string) || "Failed to update background";
       });
   },
 });

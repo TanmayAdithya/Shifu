@@ -183,6 +183,21 @@ export interface NotesDoc extends Note {
   user_id: string;
 }
 
+export interface BackgroundState {
+  active: "image" | "video";
+  mediaRef: string;
+  name?: string | null;
+  portfolio_url?: string | null;
+  backgrounds: background[];
+  loading: boolean;
+  error: string | null;
+  totalPages: number;
+}
+
+export interface BackgroundDoc extends BackgroundState {
+  user_id: string;
+}
+
 export interface Position {
   x: number;
   y: number;

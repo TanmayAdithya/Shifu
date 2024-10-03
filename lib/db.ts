@@ -1,4 +1,10 @@
-import { NotesDoc, SessionDoc, TasksDoc, UserDoc } from "@/types/types";
+import {
+  BackgroundDoc,
+  NotesDoc,
+  SessionDoc,
+  TasksDoc,
+  UserDoc,
+} from "@/types/types";
 import { Collection, MongoClient } from "mongodb";
 
 let client: MongoClient | null = null;
@@ -24,6 +30,9 @@ if (!dbInstance) {
 const db = dbInstance;
 export const UserCollection = db.collection("users") as Collection<UserDoc>;
 export const NotesCollection = db.collection("notes") as Collection<NotesDoc>;
+export const BackgroundsCollection = db.collection(
+  "backgrounds",
+) as Collection<BackgroundDoc>;
 export const TasksCollection = db.collection("tasks") as Collection<TasksDoc>;
 export const SessionCollection = db.collection(
   "sessions",
