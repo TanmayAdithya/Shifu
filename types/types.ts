@@ -68,8 +68,26 @@ export interface Videos {
   };
 }
 
+export interface SearchedVideo {
+  id: {
+    videoId: string;
+  };
+  snippet: {
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      [key: string]: {
+        url: string;
+        width: number;
+        height: number;
+      };
+    };
+  };
+}
+
 export interface VideosState {
-  videos: Videos[];
+  videos: (Videos | SearchedVideo)[];
   status: "idle" | "loading" | "succeeded" | "failed";
   error: string | null;
   muted: boolean;

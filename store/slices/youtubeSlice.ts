@@ -1,4 +1,4 @@
-import { VideosState, Videos } from "@/types/types";
+import { VideosState, Videos, SearchedVideo } from "@/types/types";
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import ambience from "@/json/ambience.json";
 import study from "@/json/study.json";
@@ -6,6 +6,7 @@ import scifi from "@/json/scifi.json";
 import cafe from "@/json/cafe.json";
 import earth from "@/json/earth.json";
 import relax from "@/json/relax.json";
+import axios from "axios";
 
 const initialState: VideosState = {
   videos: [],
@@ -44,6 +45,25 @@ export const fetchVideos = createAsyncThunk<Videos[] | undefined>(
   },
 );
 
+export const searchVideos = createAsyncThunk<
+  SearchedVideo[] | undefined,
+  { query: string }
+>("videos/searchVideos", async ({ query }, { rejectWithValue }) => {
+  try {
+    const response = await axios.get("/api/youtube/search", {
+      params: {
+        q: query,
+      },
+    });
+
+    const data = (await response.data.items) as SearchedVideo[];
+    return data;
+  } catch (error) {
+    console.error("Error fetching videos:", error);
+    return rejectWithValue("Unexpected error occurred. Please try again.");
+  }
+});
+
 export const youtubeSlice = createSlice({
   name: "videos",
   initialState,
@@ -70,6 +90,20 @@ export const youtubeSlice = createSlice({
       .addCase(fetchVideos.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message || "Failed to fetch videos";
+      })
+      .addCase(searchVideos.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+        state.videos = [];
+      })
+      .addCase(searchVideos.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.videos = action.payload as any;
+      })
+      .addCase(searchVideos.rejected, (state, action) => {
+        state.status = "failed";
+        state.error =
+          (action.payload as string) || "Failed to fetch searched videos";
       });
   },
 });

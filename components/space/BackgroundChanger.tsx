@@ -19,8 +19,9 @@ import {
 import { Input } from "../ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { AppDispatch } from "@/store/store";
-import { fetchVideos } from "@/store/slices/youtubeSlice";
+import { fetchVideos, searchVideos } from "@/store/slices/youtubeSlice";
 import { RootState } from "@/store/rootReducer";
+import { SearchedVideo } from "@/types/types";
 
 const BackgroundChanger: React.FC = () => {
   const [search, setSearch] = useState<string>("");
@@ -44,6 +45,8 @@ const BackgroundChanger: React.FC = () => {
     Record<string, boolean>
   >({});
 
+  const [activeTab, setActiveTab] = useState<string>("images");
+
   useEffect(() => {
     dispatch(fetchVideos());
     dispatch(fetchCurrentBackground());
@@ -51,13 +54,19 @@ const BackgroundChanger: React.FC = () => {
 
   useEffect(() => {
     if (debouncedSearch) {
-      dispatch(fetchSearchBackgrounds({ query: debouncedSearch, page }));
+      if (activeTab === "images") {
+        dispatch(fetchSearchBackgrounds({ query: debouncedSearch, page }));
+      } else {
+        dispatch(searchVideos({ query: debouncedSearch }));
+      }
     } else {
-      dispatch(fetchDefaultBackgrounds());
+      if (activeTab === "images") {
+        dispatch(fetchDefaultBackgrounds());
+      } else {
+        dispatch(fetchVideos());
+      }
     }
   }, [debouncedSearch, page, dispatch]);
-
-  const [activeTab, setActiveTab] = useState<string>("images");
 
   const handleMediaLoad = (id: string) => {
     setMediaLoadingState((prevState) => ({ ...prevState, [id]: true }));
@@ -194,20 +203,24 @@ const BackgroundChanger: React.FC = () => {
             className={`mt-2 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14.5rem]"} w-full overflow-auto`}
           >
             <Tabs defaultValue={videoTags.Ambience} className="w-full">
-              <TabsList
-                className={`border ${isGlassMode ? "text-neutral-100 dark:border-neutral-50/15" : "dark:border-neutral-800"} bg-transparent shadow-sm dark:bg-transparent`}
-              >
-                {Object.entries(videoTags).map(([key, value]) => (
-                  <TabsTrigger key={key.toLowerCase()} value={value}>
-                    {key}
-                  </TabsTrigger>
-                ))}
-              </TabsList>
+              {!debouncedSearch && (
+                <TabsList
+                  className={`border ${isGlassMode ? "text-neutral-100 dark:border-neutral-50/15" : "dark:border-neutral-800"} bg-transparent shadow-sm dark:bg-transparent`}
+                >
+                  {Object.entries(videoTags).map(([key, value]) => (
+                    <TabsTrigger key={key.toLowerCase()} value={value}>
+                      {key}
+                    </TabsTrigger>
+                  ))}
+                </TabsList>
+              )}
 
               {Object.entries(videoTags).map(([key, value]) => {
-                const filteredVideos = youtubeVideos.filter(
-                  (video) => video && video.snippet.channelId === value,
-                );
+                const filteredVideos = debouncedSearch
+                  ? youtubeVideos
+                  : youtubeVideos.filter(
+                      (video) => video && video.snippet.channelId === value,
+                    );
 
                 return (
                   <TabsContent key={key.toLowerCase()} value={value}>
@@ -228,8 +241,12 @@ const BackgroundChanger: React.FC = () => {
 
                       {filteredVideos.map((video) => {
                         const snippet = video.snippet;
-                        const { title, thumbnails, resourceId } = snippet;
-                        const videoId = resourceId.videoId;
+                        const { title, thumbnails } = snippet;
+
+                        const videoId =
+                          "id" in video
+                            ? video.id.videoId
+                            : video.snippet.resourceId?.videoId;
 
                         const url =
                           thumbnails?.maxres?.url ||
@@ -315,9 +332,7 @@ const BackgroundChanger: React.FC = () => {
             </button>
           </>
         ) : (
-          <p className="text-neutral-500 dark:text-neutral-100">
-            No pagination needed for videos
-          </p>
+          <p></p>
         )}
       </div>
     </>

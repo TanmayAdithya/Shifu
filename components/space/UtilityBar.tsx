@@ -91,8 +91,11 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
       <div
         className={`flex h-11 w-28 items-center justify-between rounded-xl bg-white p-1 shadow-md dark:bg-neutral-900 ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} `}
       >
-        <div className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-orange-500/80">
-          <div onClick={() => handleToggleMute(muted)}>
+        <div
+          className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-lg transition-colors duration-200 ease-in-out hover:bg-neutral-200 dark:hover:bg-orange-500/80"
+          onClick={() => handleToggleMute(muted)}
+        >
+          <div>
             {muted ? (
               <SpeakerOffIcon size={"1.15rem"} />
             ) : (

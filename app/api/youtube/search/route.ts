@@ -18,9 +18,11 @@ export async function GET(req: NextRequest) {
       params: {
         q: query,
         part: "snippet",
-        key: API_KEY,
-        maxResults: "9",
         type: "video",
+        key: API_KEY,
+        maxResults: 50,
+        fields:
+          "items(id/videoId,snippet(channelId,title,description,thumbnails))",
       },
     });
 
