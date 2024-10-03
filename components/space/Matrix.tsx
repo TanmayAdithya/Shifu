@@ -38,10 +38,6 @@ const Matrix = ({
   const { todos } = useSelector((state: RootState) => state.todos);
   const dispatch: AppDispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchTasks());
-  }, [dispatch]);
-
   const [dotPositions, setDotPositions] = useState<{ x: number; y: number }[]>(
     [],
   );

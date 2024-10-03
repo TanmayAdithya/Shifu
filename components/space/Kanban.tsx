@@ -55,7 +55,7 @@ const Kanban = ({
 
   useEffect(() => {
     dispatch(fetchTasks());
-  }, [dispatch, todos]);
+  }, [todos]);
 
   const [activeTask, setActiveTask] = useState<{
     taskId: UniqueIdentifier;
