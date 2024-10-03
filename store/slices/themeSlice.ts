@@ -4,14 +4,9 @@ interface ThemeState {
   isGlassMode: boolean;
 }
 
-const loadInitialState = (): ThemeState => {
-  const storedValue = localStorage.getItem("isGlassMode");
-  return {
-    isGlassMode: storedValue === "true",
-  };
+const initialState: ThemeState = {
+  isGlassMode: false,
 };
-
-const initialState: ThemeState = loadInitialState();
 
 const themeSlice = createSlice({
   name: "theme",
