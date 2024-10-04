@@ -23,6 +23,12 @@ import Underline from "@tiptap/extension-underline";
 import CharacterCount from "@tiptap/extension-character-count";
 import { all, createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import Table from "@tiptap/extension-table";
+import TableCell from "@tiptap/extension-table-cell";
+import TableHeader from "@tiptap/extension-table-header";
+import TableRow from "@tiptap/extension-table-row";
+import TaskItem from "@tiptap/extension-task-item";
+import TaskList from "@tiptap/extension-task-list";
 import MinimizeWidget from "./MinimizeWidget";
 import { Input } from "../ui/input";
 import { useDraggable } from "@dnd-kit/core";
@@ -80,6 +86,16 @@ export default function Notes({
           return ReactNodeViewRenderer(CodeBlockLowlight);
         },
       }).configure({ lowlight }),
+      Table.configure({
+        resizable: true,
+      }),
+      TableRow,
+      TableHeader,
+      TableCell,
+      TaskList,
+      TaskItem.configure({
+        nested: true,
+      }),
     ],
     content: openNote ? openNote.content : "",
     onUpdate: ({ editor }) => {
