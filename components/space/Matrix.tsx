@@ -7,7 +7,6 @@ import { useDraggable } from "@dnd-kit/core";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { AppDispatch } from "@/store/store";
-import { fetchTasks } from "@/store/slices/todoSlice";
 import TaskDot from "./TaskDot";
 import { getQuadrantPosition } from "@/lib/utils";
 
@@ -131,8 +130,8 @@ const Matrix = ({
           </div>
         </div>
         <div className="absolute inset-6">
-          {todos.map((task) => {
-            const { x, y } = getQuadrantPosition(task.urgent, task.important);
+          {todos.map((task, index) => {
+            const { x, y } = dotPositions[index] || { x: 0, y: 0 };
             return <TaskDot key={task._id} task={task} x={x} y={y} />;
           })}
         </div>
