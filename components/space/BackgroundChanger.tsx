@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useDebounce from "@/hooks/useDebounce";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -22,15 +22,28 @@ import { AppDispatch } from "@/store/store";
 import { fetchVideos, searchVideos } from "@/store/slices/youtubeSlice";
 import { RootState } from "@/store/rootReducer";
 import { SearchedVideo } from "@/types/types";
+import { TailSpin } from "react-loader-spinner";
 
 const BackgroundChanger: React.FC = () => {
   const [search, setSearch] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const debouncedSearch = useDebounce(search, 1000);
+  const videoTags = {
+    Ambience: "UCqRTj-Nu_8to3jIBlXptOtA",
+    Study: "UCwaMXiEfLn3UtpC2I0E2jxQ",
+    Earth: "UCb57aRZr3KsykS_wNsD5Ptw",
+    Relax: "UC95bEkaIgwhxSjSsdMFXYGg",
+    "Sci-Fi": "UCDyghjHud0sexPHxs5qPXUQ",
+    Cafe: "UCJIOFQLGwB3GH9K9waxwynQ",
+  };
   const dispatch: AppDispatch = useDispatch();
 
-  const { backgrounds, loading, error, totalPages } = useSelector(
+  const { backgrounds, loading, error, mediaLoading, totalPages } = useSelector(
     (state: RootState) => state.background,
+  );
+
+  const isGlassMode = useSelector(
+    (state: RootState) => state.theme.isGlassMode,
   );
 
   const {
@@ -45,7 +58,36 @@ const BackgroundChanger: React.FC = () => {
     Record<string, boolean>
   >({});
 
+  const [selectedMedia, setSelectedMedia] = useState<string>("");
+
   const [activeTab, setActiveTab] = useState<string>("images");
+
+  const handleMediaLoad = useCallback((id: string) => {
+    setMediaLoadingState((prevState) => ({ ...prevState, [id]: true }));
+  }, []);
+
+  const handleBackground = useCallback(
+    (mediaRef: string, name: string, portfolio_url: string, id: string) => {
+      setSelectedMedia(id);
+      dispatch(
+        setBackgroundImage({ active: "image", mediaRef, name, portfolio_url }),
+      );
+      dispatch(
+        updateCurrentBackground({
+          active: "image",
+          mediaRef,
+          name,
+          portfolio_url,
+        }),
+      );
+    },
+    [dispatch],
+  );
+
+  const handleSetVideo = useCallback((videoId: string) => {
+    dispatch(setBackgroundVideo(videoId));
+    dispatch(updateCurrentBackground({ active: "video", mediaRef: videoId }));
+  }, []);
 
   useEffect(() => {
     dispatch(fetchVideos());
@@ -67,46 +109,6 @@ const BackgroundChanger: React.FC = () => {
       }
     }
   }, [debouncedSearch, page, dispatch]);
-
-  const handleMediaLoad = (id: string) => {
-    setMediaLoadingState((prevState) => ({ ...prevState, [id]: true }));
-  };
-
-  const videoTags = {
-    Ambience: "UCqRTj-Nu_8to3jIBlXptOtA", // Ambience
-    Study: "UCwaMXiEfLn3UtpC2I0E2jxQ", // Study
-    Earth: "UCb57aRZr3KsykS_wNsD5Ptw", // Earth
-    Relax: "UC95bEkaIgwhxSjSsdMFXYGg", // Relax
-    "Sci-Fi": "UCDyghjHud0sexPHxs5qPXUQ", // Scifi
-    Cafe: "UCJIOFQLGwB3GH9K9waxwynQ", // Cafe
-  };
-
-  const handleBackground = (
-    mediaRef: string,
-    name: string,
-    portfolio_url: string,
-  ) => {
-    dispatch(
-      setBackgroundImage({ active: "image", mediaRef, name, portfolio_url }),
-    );
-    dispatch(
-      updateCurrentBackground({
-        active: "image",
-        mediaRef,
-        name,
-        portfolio_url,
-      }),
-    );
-  };
-
-  const handleSetVideo = (videoId: string) => {
-    dispatch(setBackgroundVideo(videoId));
-    dispatch(updateCurrentBackground({ active: "video", mediaRef: videoId }));
-  };
-
-  const isGlassMode = useSelector(
-    (state: RootState) => state.theme.isGlassMode,
-  );
 
   return (
     <>
@@ -174,7 +176,17 @@ const BackgroundChanger: React.FC = () => {
                       />
                     </div>
                   )}
-
+                  {mediaLoading && selectedMedia === id && (
+                    <div className="absolute inset-0 flex items-center justify-center rounded bg-neutral-900/70">
+                      <TailSpin
+                        visible={true}
+                        height="20"
+                        width="20"
+                        color="#fff"
+                        ariaLabel="tail-spin-loading"
+                      />
+                    </div>
+                  )}
                   <img
                     alt={`Photo by ${user.name}`}
                     src={`${urls.full}&w=1920&h=1080&fit=crop`}
@@ -187,7 +199,12 @@ const BackgroundChanger: React.FC = () => {
                       cursor: "pointer",
                     }}
                     onClick={() =>
-                      handleBackground(urls.full, user.name, user.portfolio_url)
+                      handleBackground(
+                        urls.full,
+                        user.name,
+                        user.portfolio_url,
+                        id,
+                      )
                     }
                     onLoad={() => handleMediaLoad(id)}
                     className="h-full w-full object-cover"

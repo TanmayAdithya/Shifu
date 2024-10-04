@@ -209,6 +209,7 @@ export interface BackgroundState {
   portfolio_url?: string | null;
   backgrounds: background[];
   loading: boolean;
+  mediaLoading: boolean;
   error: string | null;
   totalPages: number;
 }

@@ -90,6 +90,7 @@ const initialState: BackgroundState = {
   portfolio_url: "https://unsplash.com/@purzlbaum",
   backgrounds: [],
   loading: false,
+  mediaLoading: false,
   error: null,
   totalPages: 0,
 };
@@ -162,14 +163,16 @@ const backgroundSlice = createSlice({
         state.error = action.payload || "Failed to fetch background";
       })
       .addCase(updateCurrentBackground.pending, (state) => {
-        state.loading = true;
+        state.mediaLoading = true;
         state.error = null;
       })
       .addCase(updateCurrentBackground.fulfilled, (state) => {
         state.loading = false;
+        state.mediaLoading = false;
       })
       .addCase(updateCurrentBackground.rejected, (state, action) => {
         state.loading = false;
+        state.mediaLoading = false;
         state.error =
           (action.payload as string) || "Failed to update background";
       });
