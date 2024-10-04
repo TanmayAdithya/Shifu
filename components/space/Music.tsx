@@ -131,6 +131,7 @@ const Music: React.FC<SpotifyEmbedProps> = ({
         />
         <div
           className={`cursor-pointer rounded-full p-2 transition-colors duration-300 ${isGlassMode ? "bg-neutral-100/60 text-neutral-700 hover:bg-neutral-200" : "bg-neutral-700 text-neutral-300 hover:bg-neutral-900 dark:bg-neutral-800 dark:text-neutral-100 dark:hover:bg-neutral-700"} `}
+          onClick={() => setInputValue("")}
         >
           <Reset size={"18px"} />
         </div>
