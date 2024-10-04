@@ -9,9 +9,19 @@ export const fetchDefaultBackgrounds = createAsyncThunk<
 >("backgrounds/fetchDefaultBackgrounds", async (_, { rejectWithValue }) => {
   try {
     const response = await axios.get("/api/unsplash/default");
+
     return response.data;
   } catch (error) {
     console.error("Error fetching default backgrounds:", error);
+
+    if (axios.isAxiosError(error) && error.response) {
+      if (error.response.status === 403) {
+        return rejectWithValue(
+          "Rate limit exceeded. The search functionality is currently unavailable. Please try again in one hour.",
+        );
+      }
+    }
+
     return rejectWithValue("Failed to fetch default backgrounds");
   }
 });
@@ -36,6 +46,15 @@ export const fetchSearchBackgrounds = createAsyncThunk<
       };
     } catch (error) {
       console.error("Error fetching search backgrounds:", error);
+
+      if (axios.isAxiosError(error) && error.response) {
+        if (error.response.status === 403) {
+          return rejectWithValue(
+            "Rate limit exceeded. The search functionality is currently unavailable. Please try again in one hour.",
+          );
+        }
+      }
+
       return rejectWithValue("Failed to fetch search backgrounds");
     }
   },

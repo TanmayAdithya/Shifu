@@ -25,7 +25,13 @@ export async function GET() {
     console.error("Error fetching default backgrounds:", error);
 
     if (axios.isAxiosError(error) && error.response?.status === 403) {
-      return NextResponse.json(defaultBackgrounds, { status: 200 });
+      return NextResponse.json(
+        {
+          data: defaultBackgrounds,
+          error: "Rate limit exceeded. Showing placeholder data.",
+        },
+        { status: 403 },
+      );
     }
 
     return NextResponse.json(

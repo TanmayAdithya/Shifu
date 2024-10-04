@@ -24,8 +24,7 @@ export const fetchVideos = createAsyncThunk<Videos[] | undefined>(
       const response = await fetch("/api/youtube/channels");
 
       if (!response.ok) {
-        if (response.status === 403) {
-          alert("Rate limit exceeded. Showing placeholder data.");
+        if (response.status >= 400 && response.status < 500) {
           return placeholderVideos;
         } else if (response.status >= 500) {
           return rejectWithValue("Server error. Please try again later.");

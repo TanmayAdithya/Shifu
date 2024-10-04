@@ -21,8 +21,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { AppDispatch } from "@/store/store";
 import { fetchVideos, searchVideos } from "@/store/slices/youtubeSlice";
 import { RootState } from "@/store/rootReducer";
-import { SearchedVideo } from "@/types/types";
 import { TailSpin } from "react-loader-spinner";
+import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 const BackgroundChanger: React.FC = () => {
   const [search, setSearch] = useState<string>("");
@@ -151,6 +152,13 @@ const BackgroundChanger: React.FC = () => {
           <div
             className={`mt-4 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14rem]"} w-full overflow-auto`}
           >
+            {error && (
+              <Alert variant="destructive" className="mb-2">
+                <ExclamationTriangleIcon className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
             <div className={`grid w-full grid-cols-2 gap-2`}>
               {loading &&
                 Array.from({ length: 10 }).map((_, index) => (
@@ -159,9 +167,6 @@ const BackgroundChanger: React.FC = () => {
                     className="h-[113px] w-[199px] rounded"
                   />
                 ))}
-              {error && (
-                <p>Something went wrong while fetching images: {error}</p>
-              )}
 
               {backgrounds.map(({ id, urls, user }) => (
                 <div
@@ -219,6 +224,13 @@ const BackgroundChanger: React.FC = () => {
           <div
             className={`mt-2 ${debouncedSearch ? "max-h-[12rem]" : "max-h-[14.5rem]"} w-full overflow-auto`}
           >
+            {error && (
+              <Alert variant="destructive" className="mb-2">
+                <ExclamationTriangleIcon className="h-4 w-4" />
+                <AlertTitle>Error</AlertTitle>
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
             <Tabs defaultValue={videoTags.Ambience} className="w-full">
               {!debouncedSearch && (
                 <TabsList
@@ -250,10 +262,11 @@ const BackgroundChanger: React.FC = () => {
                           />
                         ))}
                       {videoError && (
-                        <p>
-                          Something went wrong while fetching videos:{" "}
-                          {videoError}
-                        </p>
+                        <Alert variant="destructive" className="mb-2">
+                          <ExclamationTriangleIcon className="h-4 w-4" />
+                          <AlertTitle>Something went wrong</AlertTitle>
+                          <AlertDescription>{videoError}</AlertDescription>
+                        </Alert>
                       )}
 
                       {filteredVideos.map((video) => {
