@@ -9,6 +9,7 @@ import { IoClose as ExitEditMode } from "react-icons/io5";
 import {
   addNewNote,
   deleteNote,
+  fetchNotes,
   removeNote,
   updateNote,
 } from "@/store/slices/notesSlice";
@@ -106,6 +107,10 @@ export default function Notes({
     setEditorContent(note.content);
     lastContentRef.current = note.content;
   };
+
+  useEffect(() => {
+    dispatch(fetchNotes());
+  }, [dispatch]);
 
   useEffect(() => {
     if (openNote) {

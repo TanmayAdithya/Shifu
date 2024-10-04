@@ -94,6 +94,8 @@ export const removeNote = createAsyncThunk<string, string>(
         body: JSON.stringify({ _id }),
       });
 
+      console.log("note deleted");
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to remove note");
