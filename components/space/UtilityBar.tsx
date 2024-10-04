@@ -15,7 +15,6 @@ import { RxSpeakerLoud as SpeakerOnIcon } from "react-icons/rx";
 import { RxSpeakerOff as SpeakerOffIcon } from "react-icons/rx";
 import LogoutButton from "@/components/auth/LogoutButton";
 import { ModeToggle } from "@/components/ui/mode-toggle";
-import GuestLogoutButton from "../auth/GuestLogoutButton";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { AppDispatch } from "@/store/store";
@@ -25,10 +24,9 @@ type Props = {
   fallback: string[];
   username: string;
   email: string;
-  isGuest?: boolean;
 };
 
-const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
+const UtilityBar = ({ fallback, username, email }: Props) => {
   const [isVisible, setIsVisible] = useState<boolean>(true);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const interactionTimeRef = useRef<number>(Date.now());
@@ -160,7 +158,7 @@ const UtilityBar = ({ fallback, username, email, isGuest }: Props) => {
             className={`${isGlassMode ? "bg-neutral-50/60" : ""}`}
           />
           <DropdownMenuItem className="cursor-pointer">
-            {isGuest ? <GuestLogoutButton /> : <LogoutButton />}
+            <LogoutButton />
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

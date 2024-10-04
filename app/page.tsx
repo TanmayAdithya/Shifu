@@ -1,27 +1,8 @@
 "use client";
 
-import { guestAuthAction } from "@/actions/guest-action";
-import { Button } from "@/components/ui/button";
-import { toast } from "@/hooks/use-toast";
 import Link from "next/link";
-import { useRouter } from "next/navigation"; // Use client-side router for navigation
 
 export default function Page() {
-  const router = useRouter();
-
-  const handleGuestLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const result = await guestAuthAction();
-
-    if (!result.success) {
-      toast({
-        variant: "destructive",
-        title: `Uh oh! Something went wrong.`,
-      });
-    } else {
-      router.push("/guest-space");
-    }
-  };
   return (
     <div className="flex h-full w-full flex-col items-center justify-center bg-neutral-300 dark:bg-neutral-900">
       <h1 className="mb-6 text-7xl text-white dark:text-neutral-100">
@@ -33,10 +14,6 @@ export default function Page() {
             Preview
           </h1>
         </Link>
-
-        <form action={guestAuthAction} onSubmit={handleGuestLogin}>
-          <Button type="submit">Continue as Guest</Button>
-        </form>
       </div>
     </div>
   );

@@ -1,12 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const guestSession = req.cookies.get("guest-session");
-
-  if (guestSession) {
-    return NextResponse.next();
-  }
-
   const { pathname } = req.nextUrl;
   if (!pathname.startsWith("/login") && !pathname.startsWith("/")) {
     return NextResponse.redirect(new URL("/login", req.url));
@@ -16,5 +10,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/guest-space", "/space"],
+  matcher: ["/space"],
 };

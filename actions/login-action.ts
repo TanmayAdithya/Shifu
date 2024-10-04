@@ -37,10 +37,6 @@ export async function loginAction(formData: FormData) {
     return { error: "Invalid username or password" };
   }
 
-  if (cookies().get("guest-session")) {
-    cookies().delete("guest-session");
-  }
-
   const session = await lucia.createSession(existingUser._id, {});
 
   const sessionCookie = lucia.createSessionCookie(session.id);
