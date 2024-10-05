@@ -20,13 +20,18 @@
 
 - [🌟 Overview](#-overview)
 - [⚒️ Built Using](#️-built-using)
+- [⚙️ Technical Decisions](#-technical-decisions)
+- [🔍 User Research](#-user-research)
 - [📄 License](#-license)
 
 ## 🌟 Overview
 
-Shifu is a digital platform designed to boost productivity and focus through immersive virtual environments. It offers a range of tools, including notes, to-do lists, a timer, calendar, events management, and an Eisenhower Matrix for prioritizing tasks.
+Shifu aims to enhance productivity and focus through customizable virtual environments. It is user-friendly and designed to help users achieve their goals with minimal clicks. Key features include:
 
-Users can personalize their environment, collaborate in shared spaces, and maintain balance with built-in mindfulness features. Shifu is perfect for anyone looking to stay organized, focused, and productive in a seamless digital workspace in the browser.
+- **Immersive Virtual Workspaces:** Personalize your workspace to fit your unique workflow.
+- **Comprehensive Task Management:** Access tools like notes, to-do lists, a timer, and an Eisenhower Matrix for prioritization.
+
+Shifu addresses the challenges of digital distraction and promotes effective time management in a seamless browser-based environment.
 
 ## ⚒️ Built Using
 
@@ -36,6 +41,49 @@ Users can personalize their environment, collaborate in shared spaces, and maint
     <img href='https://tiptap.dev/' width="48" style="border: 0; border-radius: 8px; margin-left: 4px" src="https://i.postimg.cc/4N2jLtLd/tiptap-modified-1.png" alt="TipTap" />
     <img href='https://tiptap.dev/' width='137' style="border: 0; border-radius: 8px; margin-left: 4px" src="https://dndkit.com/dnd-kit-logo.svg" alt="DnDKit" />
 </div>
+
+## ⚙️ Technical Decisions
+
+In developing this app, I made several key technical decisions to enhance performance and user experience:
+
+- **Debounce Search:**  
+  I implemented a debounce search function with a 1 ms delay after typing the last letter. This significantly reduces the number of API calls, leading to around an 80% reduction in network requests based on average typing speed.
+
+- **Redis Caching:**  
+  To prevent exhausting the rate limit of the Unsplash API, I used Redis for caching default background images. This not only speeds up loading times but also minimizes unnecessary API calls.
+
+- **MongoDB Singleton Instance:**  
+  I employed a singleton instance for MongoDB to avoid creating multiple connections, which helps prevent exceeding the limit of 500 concurrent connections.
+
+- **Placeholder Data:**  
+  When the rate limit is exhausted, I use placeholder data for videos and images. This ensures users can still access backgrounds while waiting for the API limit to reset.
+
+## 🔍 User Research
+
+I looked at LifeAt.io to improve user experience by making navigation easier. I found that users want to reach their goals with as few clicks as possible. To help with this, I created a clear layout, added tooltips for guidance, and included easy-to-use controls for exploring data.
+
+### 👤 User-Centered Design
+
+This project uses feedback from LifeAt users on [canny.io](https://lifeat.canny.io/), which shaped many features and design choices in this app. Here are some key insights:
+
+- **Minimalistic Interface:**  
+  Users wanted to clear their workspace to reduce distractions:
+
+  > _"The ability to empty the screen completely is central to why I use LifeAt."_
+
+  In response, the app automatically hides the navigation bar after 5 seconds of inactivity.
+
+- **Navigation Preferences:**  
+  I found a nearly equal split in preference between a side and a bottom navigation bar. I chose the bottom navigation to improve visual clarity, reduce clutter, and allow quick access to essential functions.
+
+- **Timer:**  
+  I added a stopwatch with the Pomodoro timer based on user suggestions:
+
+  > _"Add a stopwatch option along with the Pomodoro timer. It encourages me to see how long I have stayed focused and sort of challenges me to stay focused for even a longer time."_
+
+- **Widget Layout & Movability:**  
+  Users were frustrated with overlapping widgets:
+  > _"Noticing that when I have multiple widgets open at once that are left aligned, they overlap and I can't move them."_
 
 ## 📄 License
 
