@@ -1,19 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import { PiTrashSimpleBold as Delete } from "react-icons/pi";
-import { RiEditFill as Edit } from "react-icons/ri";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  completeTodo,
-  removeTask,
-  removeTodo,
-  setInProgress,
-  toggleImportance,
-  toggleUrgency,
-  updateTodo,
-  updateTodoFields,
-} from "@/store/slices/todoSlice";
+import { removeTask, updateTodoFields } from "@/store/slices/todoSlice";
 import { IoClose as ExitEditMode } from "react-icons/io5";
-import { FaTag as Label } from "react-icons/fa";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Todo } from "@/types/types";
 import {
@@ -24,6 +12,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { RootState } from "@/store/rootReducer";
 import { AppDispatch } from "@/store/store";
+import {
+  LuPenSquare as Edit,
+  LuTrash2 as Delete,
+  LuTag as Label,
+} from "react-icons/lu";
 
 const TodoItem = ({ content, _id, status, important, urgent }: Todo) => {
   const dispatch: AppDispatch = useDispatch();
@@ -164,7 +157,6 @@ const TodoItem = ({ content, _id, status, important, urgent }: Todo) => {
             <DropdownMenu modal={false}>
               <DropdownMenuTrigger>
                 <Label
-                  size={"13px"}
                   className={` ${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
                 />
               </DropdownMenuTrigger>

@@ -1,13 +1,26 @@
 import React, { useState } from "react";
+import {
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  toggleTodoStatus,
+  updateTodoLabel,
+} from "@/store/slices/previewSlice";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { LuPenSquare, LuTrash2, LuPlus, LuTag } from "react-icons/lu";
 import { Position } from "@/types/types";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/store/rootReducer";
 import { useDraggable } from "@dnd-kit/core";
+import { AppDispatch } from "@/store/store";
 
 type Props = {
   id: string;
@@ -16,33 +29,14 @@ type Props = {
   bringToTop: () => void;
 };
 
-const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
+const TodoWidget = ({ id, zIndex, bringToTop, position }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
   const isGlassMode = useSelector(
     (state: RootState) => state.theme.isGlassMode,
   );
-  const dummyTodos = [
-    {
-      id: 1,
-      content: "Complete project proposal",
-      status: "todo",
-      important: true,
-      urgent: false,
-    },
-    {
-      id: 2,
-      content: "Buy groceries",
-      status: "complete",
-      important: false,
-      urgent: false,
-    },
-    {
-      id: 3,
-      content: "Call mom",
-      status: "in-progress",
-      important: false,
-      urgent: true,
-    },
-  ];
+  const todos = useSelector((state: RootState) => state.preview.todos);
+  const [newTodoContent, setNewTodoContent] = useState("");
+  const [editingTodoId, setEditingTodoId] = useState<string | null>(null);
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({ id });
   const style = {
@@ -52,6 +46,46 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
     transform:
       transform && `translate3d(${transform.x}px, ${transform.y}px, 0)`,
   } as React.CSSProperties;
+
+  const handleAddTodo = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newTodoContent.trim()) {
+      dispatch(addTodo({ content: newTodoContent }));
+      setNewTodoContent("");
+    }
+  };
+
+  const handleUpdateTodo = (_id: string, content: string) => {
+    dispatch(updateTodo({ _id, updates: { content } }));
+    setEditingTodoId(null);
+  };
+
+  const handleDeleteTodo = (_id: string) => {
+    dispatch(deleteTodo(_id));
+  };
+
+  const handleToggleTodoStatus = (_id: string) => {
+    dispatch(toggleTodoStatus(_id));
+  };
+
+  const handleLabelChange = (_id: string, label: string) => {
+    const todo = todos.find((todo) => todo._id === _id);
+    let updates = {};
+    switch (label) {
+      case "Important":
+        updates = { important: true };
+        break;
+      case "Urgent":
+        updates = { urgent: true };
+        break;
+      case "In Progress":
+        updates = {
+          status: todo?.status === "in-progress" ? "todo" : "in-progress",
+        };
+        break;
+    }
+    dispatch(updateTodoLabel({ _id, updates }));
+  };
 
   return (
     <div
@@ -72,7 +106,7 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
       >
         Todo
       </h1>
-      <form className="mb-4">
+      <form onSubmit={handleAddTodo} className="mb-4">
         <div className="mb-2 flex w-full items-center gap-2">
           <div
             className={`${isGlassMode ? "dark:bg-transparent" : ""} flex w-full items-center rounded-md dark:border dark:bg-neutral-900`}
@@ -80,6 +114,8 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
             <Input
               type="text"
               placeholder="Add a new todo"
+              value={newTodoContent}
+              onChange={(e) => setNewTodoContent(e.target.value)}
               className={`${isGlassMode ? "border-neutral-100 border-neutral-50/45 text-neutral-50 placeholder:text-neutral-100 focus-visible:ring-transparent dark:focus-visible:ring-neutral-300" : "border-neutral-400/60"} w-full rounded-md p-2 outline-none`}
             />
           </div>
@@ -92,9 +128,9 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
         </div>
       </form>
       <ul className="relative h-[128px] space-y-2 overflow-y-scroll">
-        {dummyTodos.map((todo) => (
+        {todos.map((todo) => (
           <li
-            key={todo.id}
+            key={todo._id}
             className={`flex flex-col justify-between gap-2 rounded-md ${isGlassMode ? "border-neutral-200" : "border-neutral-400/60"} border p-2 transition-colors duration-200 ${
               todo.status === "complete"
                 ? "opacity-70"
@@ -104,15 +140,40 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
             <div className="flex items-start justify-between">
               <Checkbox
                 checked={todo.status === "complete"}
+                onCheckedChange={() => handleToggleTodoStatus(todo._id)}
                 className={`${isGlassMode ? "border-neutral-100" : "border-neutral-500"} mr-2 mt-[2px]`}
               />
-              <p
-                className={`mr-2 w-52 flex-1 text-balance break-words leading-tight ${isGlassMode ? "text-neutral-50" : "text-neutral-700 dark:text-neutral-100"} ${
-                  todo.status === "complete" ? "line-through" : ""
-                }`}
-              >
-                {todo.content}
-              </p>
+              {editingTodoId === todo._id ? (
+                <Input
+                  value={todo.content}
+                  onChange={(e) => handleUpdateTodo(todo._id, e.target.value)}
+                  onBlur={() => setEditingTodoId(null)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      handleUpdateTodo(
+                        todo._id,
+                        (e.target as HTMLInputElement).value,
+                      );
+                    }
+                    if (e.key === "Enter") {
+                      handleUpdateTodo(
+                        todo._id,
+                        (e.target as HTMLInputElement).value,
+                      );
+                    }
+                  }}
+                  className={`mr-2 w-52 flex-1`}
+                  autoFocus
+                />
+              ) : (
+                <p
+                  className={`mr-2 w-52 flex-1 text-balance break-words leading-tight ${isGlassMode ? "text-neutral-50" : "text-neutral-700 dark:text-neutral-100"} ${
+                    todo.status === "complete" ? "line-through" : ""
+                  }`}
+                >
+                  {todo.content}
+                </p>
+              )}
             </div>
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2 self-start">
@@ -126,19 +187,66 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
                   </Badge>
                 )}
               </div>
-              <div className="flex items-center space-x-2">
-                <LuPenSquare
-                  size={13}
-                  className={`${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
-                />
-                <LuTag
-                  size={13}
-                  className={`${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
-                />
-                <LuTrash2
-                  size={13}
-                  className={`${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
-                />
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2">
+                  {todo.status !== "complete" && (
+                    <>
+                      <LuPenSquare
+                        size={13}
+                        onClick={() => setEditingTodoId(todo._id)}
+                        className={`${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
+                      />
+                      <DropdownMenu modal={false}>
+                        <DropdownMenuTrigger>
+                          <LuTag
+                            size={13}
+                            className={`${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
+                          />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end" className="z-[60] p-2">
+                          {["Important", "Urgent", "In Progress"].map(
+                            (label) => {
+                              const isChecked = () => {
+                                switch (label) {
+                                  case "Important":
+                                    return todo.important;
+                                  case "Urgent":
+                                    return todo.urgent;
+                                  case "In Progress":
+                                    return todo.status === "in-progress";
+                                  default:
+                                    return false;
+                                }
+                              };
+                              return (
+                                <div
+                                  key={label}
+                                  className="flex items-center gap-1"
+                                >
+                                  <Checkbox
+                                    checked={isChecked()}
+                                    onCheckedChange={() =>
+                                      handleLabelChange(todo._id, label)
+                                    }
+                                    className="mt-[2px] border-neutral-500"
+                                  />
+                                  <p className="text-sm text-neutral-800 dark:text-neutral-200">
+                                    {label}
+                                  </p>
+                                </div>
+                              );
+                            },
+                          )}
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </>
+                  )}
+                  <LuTrash2
+                    size={13}
+                    onClick={() => handleDeleteTodo(todo._id)}
+                    className={`${isGlassMode ? "text-neutral-100 hover:text-neutral-300" : "text-neutral-500 hover:text-neutral-700"} cursor-pointer transition-colors duration-150 dark:text-neutral-50 dark:hover:text-neutral-300`}
+                  />
+                </div>
               </div>
             </div>
           </li>
@@ -148,4 +256,4 @@ const TodoJr = ({ id, zIndex, bringToTop, position }: Props) => {
   );
 };
 
-export default TodoJr;
+export default TodoWidget;

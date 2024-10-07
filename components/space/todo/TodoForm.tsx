@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { FiPlus as AddTodo } from "react-icons/fi";
+import { LuPlus as AddTodo } from "react-icons/lu";
+
 import { addTask, addTodo } from "@/store/slices/todoSlice";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
