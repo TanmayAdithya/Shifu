@@ -7,7 +7,6 @@ import calendarReducer from "./slices/calendarSlice";
 import backgroundReducer from "./slices/backgroundSlice";
 import youtubeReducer from "./slices/youtubeSlice";
 import themeReducer from "./slices/themeSlice";
-import previewReducer from "./slices/previewSlice";
 
 const rootReducer = combineReducers({
   todos: todoReducer,
@@ -18,7 +17,6 @@ const rootReducer = combineReducers({
   background: backgroundReducer,
   youtube: youtubeReducer,
   theme: themeReducer,
-  preview: previewReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
