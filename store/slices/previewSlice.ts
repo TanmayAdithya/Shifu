@@ -10,10 +10,10 @@ export const previewWidgets = [
 export const dummyTodos = [
   {
     _id: "1",
-    content: "Complete project proposal",
-    status: "todo",
-    important: true,
-    urgent: false,
+    content: "Call mom",
+    status: "in-progress",
+    important: false,
+    urgent: true,
   },
   {
     _id: "2",
@@ -24,10 +24,10 @@ export const dummyTodos = [
   },
   {
     _id: "3",
-    content: "Call mom",
-    status: "in-progress",
-    important: false,
-    urgent: true,
+    content: "Complete project proposal",
+    status: "todo",
+    important: true,
+    urgent: false,
   },
 ];
 

@@ -8,37 +8,49 @@ export default function Page() {
     <div className="grid h-full w-full grid-cols-2 p-5">
       {/* Static Noise */}
       <img
-        className="absolute inset-0 -z-50 h-full w-full bg-cover opacity-25"
+        className="absolute inset-0 h-full w-full bg-cover opacity-15"
         src="./assets/Random Static.png"
       ></img>
-      <div className="h-full px-6 py-4">
+      <div className="z-10 h-full px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2 self-start">
             {/* Logo */}
             <div
               className="h-8 w-8 bg-cover bg-no-repeat drop-shadow-sm"
               style={{
-                backgroundImage: "url('./Shifu Logo.png')",
+                backgroundImage: "url('./Shifu Logo.webp')",
               }}
             ></div>
             {/* Title */}
-            <div className="font-mori text-xl text-gray-900">shifu</div>
+            <div className="pointer-events-none select-none font-mori text-xl text-gray-900">
+              shifu
+            </div>
           </div>
           <div className="mr-12">
-            <nav className="flex space-x-10 font-mori uppercase">
-              <a href="#">
+            <nav className="flex space-x-10 font-mori uppercase dark:text-neutral-800">
+              <a href="#" className="group relative">
                 <p>Home</p>
+                <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="#">Features</a>
-              <a href="#">Research</a>
-              <a href="#">About</a>
+              <a href="#features" className="group relative">
+                Features
+                <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="#research" className="group relative">
+                Research
+                <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
+              </a>
+              <a href="#about" className="group relative">
+                About
+                <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
+              </a>
             </nav>
           </div>
         </div>
         <div className="mt-36 flex flex-col pr-24">
-          <div className="mb-6 flex items-center gap-4">
+          <div className="mb-6 flex items-center gap-4 dark:text-neutral-800">
             <Stars size={"20px"} />
-            <p className="font-light uppercase tracking-[.5em]">
+            <p className="font-light uppercase tracking-[.5em] dark:text-neutral-800">
               Welcome to shifu
             </p>
           </div>
@@ -50,7 +62,7 @@ export default function Page() {
             keep you focused and productive. Simple tools. Maximum impact.
           </p>
           <Link href="/space">
-            <Button className="group flex items-center justify-center gap-4 self-start rounded-2xl border-0 border-none px-5 py-7 transition-all duration-500 hover:border-4 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800">
+            <Button className="dark:hover: group relative flex items-center justify-center gap-4 self-start rounded-2xl border-0 border-none px-5 py-7 shadow-lg transition-all duration-500 hover:border-4 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 dark:bg-neutral-900 dark:text-yellow-300">
               View Dashboard
               <div className="flex h-8 items-center justify-center">
                 <span className="flex h-0 w-0 -rotate-180 transform items-center justify-center rounded-full bg-yellow-300 p-0 transition-all duration-500 group-hover:h-[2rem] group-hover:w-[2rem] group-hover:rotate-0 group-hover:p-[0.6rem]">
@@ -68,18 +80,35 @@ export default function Page() {
                   </svg>
                 </span>
               </div>
+              <div className="absolute -bottom-1 -left-1 -z-20 h-full w-full rounded-2xl bg-neutral-900 opacity-0 transition-all duration-300 ease-in-out group-hover:bg-neutral-900 group-hover:opacity-100 dark:bg-yellow-400 dark:group-hover:bg-yellow-400"></div>
             </Button>
           </Link>
         </div>
       </div>
 
-      <div className="flex h-full w-full flex-col rounded-3xl bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90">
-        <div className="flex items-center justify-end">
-          <Button className="rounded-2xl border border-neutral-900 bg-neutral-900 p-7 text-yellow-100 transition-all duration-500 hover:bg-yellow-400 hover:text-neutral-800">
-            Log in
-          </Button>
+      <div className="relative z-30 flex h-full w-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 shadow-xl">
+        <img
+          className="absolute inset-0 h-full w-full bg-cover opacity-35"
+          src="./assets/Random Static.png"
+        ></img>
+        <div className="flex items-center justify-end gap-2 pr-3 pt-3">
+          <Link href="/signup" className="z-10">
+            <Button className="rounded-2xl border border-neutral-900 bg-transparent px-5 py-6 text-neutral-800 shadow transition-all duration-500 hover:bg-yellow-100/30 hover:shadow-lg">
+              Sign up
+            </Button>
+          </Link>
+          <Link href="/login" className="z-10">
+            <Button className="z-10 rounded-2xl border border-neutral-900 bg-neutral-900 px-5 py-6 text-yellow-100 shadow transition-all duration-500 hover:bg-neutral-800 hover:shadow-xl">
+              Log in
+            </Button>
+          </Link>
         </div>
         <Preview />
+        <img
+          src="./assets/Brain-WEBP.webp"
+          className="pointer-events-none absolute -bottom-[600px] left-8 z-0 scale-150 opacity-80"
+          alt="brain"
+        />
       </div>
     </div>
   );
