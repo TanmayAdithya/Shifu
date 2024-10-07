@@ -141,10 +141,10 @@ const TodoItem = ({ content, _id, status, important, urgent }: Todo) => {
               {status === "in-progress" && (
                 <Badge
                   variant="outline"
-                  className="border-green-500/30 bg-green-500/10 font-light text-green-500"
+                  className="border-yellow-500/30 bg-yellow-500/10 font-light text-yellow-500"
                 >
                   <span
-                    className={`mr-1 size-1 rounded-full bg-green-500 text-xs`}
+                    className={`mr-1 size-1 rounded-full bg-yellow-500 text-xs`}
                   ></span>
                   In Progress
                 </Badge>
