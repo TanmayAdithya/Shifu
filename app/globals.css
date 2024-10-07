@@ -159,3 +159,70 @@
   width: 187.78vh !important;
   height: 106% !important;
 }
+
+@layer base {
+  /* PP Mori Extra Light */
+  @font-face {
+    font-family: "PP Mori";
+    font-weight: 200;
+    src:
+      url("/fonts/ppmori-extralight-webfont.woff2") format("woff2"),
+      url("/fonts/ppmori-extralight-webfont.woff") format("woff"),
+      url("/fonts/PPMori-Extralight.otf");
+  }
+
+  /* PP Mori Extra Light Italic */
+  @font-face {
+    font-family: "PP Mori";
+    font-weight: 200;
+    font-style: italic;
+    src:
+      url("/fonts/ppmori-extralightitalic-webfont.woff2") format("woff2"),
+      url("/fonts/ppmori-extralightitalic-webfont.woff") format("woff"),
+      url("/fonts/PPMori-ExtralightItalic.otf");
+  }
+
+  /* PP Mori Regular */
+  @font-face {
+    font-family: "PP Mori";
+    font-weight: 400;
+    src:
+      url("/fonts/ppmori-regular-webfont.woff2") format("woff2"),
+      url("/fonts/ppmori-regular-webfont.woff") format("woff"),
+      url("/fonts/PPMori-Regular.otf");
+  }
+
+  /* PP Mori Regular Italic */
+  @font-face {
+    font-family: "PP Mori";
+    font-weight: 400;
+    font-style: italic;
+    src: url("/fonts/PPMori-RegularItalic.otf");
+  }
+
+  /* PP Mori SemiBold */
+  @font-face {
+    font-family: "PP Mori";
+    font-weight: 600;
+    src:
+      url("/fonts/ppmori-semibold-webfont.woff2") format("woff2"),
+      url("/fonts/ppmori-semibold-webfont.woff") format("woff"),
+      url("/fonts/PPMori-SemiBold.otf");
+  }
+
+  /* PP Mori SemiBold Italic */
+  @font-face {
+    font-family: "PP Mori";
+    font-weight: 600;
+    font-style: italic;
+    src:
+      url("/fonts/ppmori-semibolditalic-webfont.woff2") format("woff2"),
+      url("/fonts/ppmori-semibolditalic-webfont.woff") format("woff"),
+      url("/fonts/PPMori-SemiBoldItalic.otf");
+  }
+}
+
+::selection {
+  background-color: #ffd9005a;
+  color: #000000;
+}
