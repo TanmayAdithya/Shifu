@@ -44,26 +44,28 @@ const Page = () => {
       onSubmit={handleFormSubmit}
       className="flex h-full flex-col items-center justify-center gap-3"
     >
-      <Card className="mx-auto max-w-sm">
+      <Card className="mx-auto max-w-sm dark:bg-transparent">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Login</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-2xl font-bold dark:text-neutral-800">
+            Login
+          </CardTitle>
+          <CardDescription className="dark:text-neutral-600">
             Enter your username and password to login to your account
           </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            <div className="space-y-2">
+            <div className="space-y-2 dark:text-neutral-800">
               <Label htmlFor="username">Username</Label>
               <Input id="username" type="text" name="username" required />
             </div>
-            <div className="space-y-2">
+            <div className="space-y-2 dark:text-neutral-800">
               <Label htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" required />
             </div>
             <Button
               type="submit"
-              className={`w-full ${loading ? "pointer-events-none opacity-50" : ""}`}
+              className={`w-full dark:bg-neutral-800 dark:text-neutral-100 ${loading ? "pointer-events-none opacity-50" : ""}`}
             >
               {loading ? (
                 <>
@@ -86,7 +88,7 @@ const Page = () => {
           </div>
         </CardContent>
       </Card>
-      <p className="text-sm text-muted-foreground">
+      <p className="text-sm text-muted-foreground text-neutral-800 dark:text-neutral-800">
         Don&apos;t have an account?{" "}
         <Link href="/signup">
           <span className="cursor-pointer underline">Sign up</span>

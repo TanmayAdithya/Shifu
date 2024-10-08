@@ -57,7 +57,7 @@ const Preview = (props: Props) => {
       <div
         ref={setNodeRef}
         id="preview"
-        className="relative h-full w-full rounded-3xl"
+        className="flex h-fit w-full flex-col items-center justify-center gap-5 rounded-3xl py-6 md:relative md:h-full md:py-0"
       >
         <NotesJr
           id={previewWidgets[0].id}
@@ -67,20 +67,20 @@ const Preview = (props: Props) => {
             dispatch(bringPreviewWidgetToTop(previewWidgets[0].id))
           }
         />
-        <TimerJr
-          id={previewWidgets[1].id}
-          position={previewWidgets[1].position}
-          zIndex={previewWidgets[1].order}
-          bringToTop={() =>
-            dispatch(bringPreviewWidgetToTop(previewWidgets[1].id))
-          }
-        />
         <TodoJr
           id={previewWidgets[2].id}
           position={previewWidgets[2].position}
           zIndex={previewWidgets[2].order}
           bringToTop={() =>
             dispatch(bringPreviewWidgetToTop(previewWidgets[2].id))
+          }
+        />
+        <TimerJr
+          id={previewWidgets[1].id}
+          position={previewWidgets[1].position}
+          zIndex={previewWidgets[1].order}
+          bringToTop={() =>
+            dispatch(bringPreviewWidgetToTop(previewWidgets[1].id))
           }
         />
       </div>

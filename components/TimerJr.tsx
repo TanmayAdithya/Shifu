@@ -121,9 +121,9 @@ const TimerJr = ({ id, zIndex, bringToTop, position }: Props) => {
       ref={setNodeRef}
       style={style}
       onMouseDown={bringToTop}
-      className={` ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} absolute aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900`}
+      className={` ${isGlassMode ? "bg-opacity-30 backdrop-blur dark:bg-opacity-80" : ""} aspect-square w-72 rounded-3xl bg-white p-7 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900 md:absolute`}
     >
-      <div className="absolute left-0 top-2 w-full">
+      <div className="left-0 top-2 hidden w-full md:absolute">
         <div
           {...listeners}
           {...attributes}
