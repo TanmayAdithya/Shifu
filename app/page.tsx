@@ -62,10 +62,10 @@ export default function Page() {
             keep you focused and productive. Simple tools. Maximum impact.
           </p>
           <Link href="/space">
-            <Button className="dark:hover: group relative flex items-center justify-center gap-4 self-start rounded-2xl border-0 border-none px-5 py-7 shadow-lg transition-all duration-500 hover:border-4 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 dark:bg-neutral-900 dark:text-yellow-300">
+            <Button className="group relative flex items-center justify-center gap-4 self-start rounded-2xl border-0 border-none px-5 py-7 shadow-lg transition-all duration-500 hover:border-4 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 dark:bg-neutral-900 dark:text-yellow-300">
               View Dashboard
               <div className="flex h-8 items-center justify-center">
-                <span className="flex h-0 w-0 -rotate-180 transform items-center justify-center rounded-full bg-yellow-300 p-0 transition-all duration-500 group-hover:h-[2rem] group-hover:w-[2rem] group-hover:rotate-0 group-hover:p-[0.6rem]">
+                <span className="flex h-0 w-0 -rotate-180 transform items-center justify-center rounded-full bg-yellow-300 p-0 transition-all duration-300 group-hover:h-[2rem] group-hover:w-[2rem] group-hover:rotate-0 group-hover:p-[0.6rem]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="36"
@@ -93,13 +93,15 @@ export default function Page() {
         ></img>
         <div className="flex items-center justify-end gap-2 pr-3 pt-3">
           <Link href="/signup" className="z-10">
-            <Button className="rounded-2xl border border-neutral-900 bg-transparent px-5 py-6 text-neutral-800 shadow transition-all duration-500 hover:bg-yellow-100/30 hover:shadow-lg">
+            <Button className="group relative flex items-center justify-center gap-4 self-start rounded-2xl border border-neutral-900 bg-neutral-900 bg-transparent px-5 py-6 text-neutral-900 shadow-lg transition-all duration-500 hover:border-neutral-800 hover:bg-neutral-900 hover:text-yellow-200 hover:shadow-xl dark:bg-neutral-900 dark:text-yellow-300">
               Sign up
+              <div className="absolute -bottom-1 -left-1 -z-20 h-full w-full rounded-2xl border border-neutral-900 bg-yellow-400 opacity-0 transition-all duration-300 ease-in-out group-hover:bg-yellow-400 group-hover:opacity-100 dark:bg-neutral-900 dark:group-hover:bg-yellow-400"></div>
             </Button>
           </Link>
           <Link href="/login" className="z-10">
-            <Button className="z-10 rounded-2xl border border-neutral-900 bg-neutral-900 px-5 py-6 text-yellow-100 shadow transition-all duration-500 hover:bg-neutral-800 hover:shadow-xl">
-              Log in
+            <Button className="group relative flex items-center justify-center gap-4 self-start rounded-2xl border border-yellow-500 bg-neutral-900 px-5 py-6 text-yellow-100 shadow-lg transition-all duration-500 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 hover:shadow-xl dark:bg-neutral-900 dark:text-yellow-300">
+              Log In
+              <div className="absolute -bottom-1 -left-1 -z-20 h-full w-full rounded-2xl bg-neutral-900 opacity-0 transition-all duration-300 ease-in-out group-hover:bg-neutral-900 group-hover:opacity-100 dark:bg-yellow-400 dark:group-hover:bg-yellow-400"></div>
             </Button>
           </Link>
         </div>

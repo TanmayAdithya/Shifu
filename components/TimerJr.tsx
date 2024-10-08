@@ -37,7 +37,7 @@ const TimerJr = ({ id, zIndex, bringToTop, position }: Props) => {
   useEffect(() => {
     setMinutes(5);
     handleStartPause();
-  });
+  }, []);
 
   useEffect(() => {
     if (stopwatchRunning) {
