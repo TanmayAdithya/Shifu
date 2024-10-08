@@ -3,9 +3,9 @@
 import { useEffect, useRef, useState } from "react";
 import { TbLayoutSidebar as SidebarIcon } from "react-icons/tb";
 import { RiStickyNoteAddLine as NewNote } from "react-icons/ri";
-import { MdModeEdit as EditTitle } from "react-icons/md";
-import { PiTrashSimpleBold as DeleteNote } from "react-icons/pi";
+import { LuTrash2 as DeleteNote } from "react-icons/lu";
 import { IoClose as ExitEditMode } from "react-icons/io5";
+import { LuPen as EditTitle } from "react-icons/lu";
 import {
   addNewNote,
   deleteNote,
@@ -365,6 +365,7 @@ export default function Notes({
                     {openNote.title}
                     <span>
                       <EditTitle
+                        size={"13px"}
                         onClick={() => setEditMode((prev) => !prev)}
                         className="ml-1 cursor-pointer text-neutral-600 hover:text-neutral-800 dark:text-neutral-300 dark:hover:text-neutral-100"
                       />

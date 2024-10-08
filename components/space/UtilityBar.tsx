@@ -113,14 +113,11 @@ const UtilityBar = ({ fallback, username, email }: Props) => {
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger>
           <Avatar
-            className={`h-12 w-12 border-2 ${isGlassMode ? "border-neutral-50/30 dark:border-neutral-800" : "border-neutral-50 dark:border-neutral-900"} shadow-md`}
+            className={`h-12 w-12 border ${isGlassMode ? "border-neutral-50/30 dark:border-neutral-800" : "border-transparent dark:border-neutral-900"} shadow-md`}
           >
-            <AvatarImage
-              className="shadow-xl"
-              // src="https://avatars.githubusercontent.com/u/120048605?v=4"
-            />
+            <AvatarImage className="shadow-xl" />
             <AvatarFallback
-              className={`${isGlassMode ? "bg-neutral-50/30 dark:bg-neutral-800/80" : ""}`}
+              className={`${isGlassMode ? "bg-neutral-50/30 dark:bg-neutral-800/80" : ""} dark:bg-neutral-900`}
             >
               {fallback[0][0].toUpperCase() +
                 (fallback[1]
@@ -134,11 +131,8 @@ const UtilityBar = ({ fallback, username, email }: Props) => {
         >
           <div className="ml-1 flex items-center">
             <Avatar className="h-8 w-8">
-              <AvatarImage
-                className="shadow-xl"
-                src="https://avatars.githubusercontent.com/u/120048605?v=4"
-              />
-              <AvatarFallback>
+              <AvatarImage className="shadow-xl" />
+              <AvatarFallback className="text-xs">
                 {fallback[0][0].toUpperCase() +
                   (fallback[1]
                     ? fallback[1][0].toUpperCase()
