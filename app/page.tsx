@@ -62,7 +62,7 @@ export default function Page() {
             keep you focused and productive. Simple tools. Maximum impact.
           </p>
           <Link href="/space">
-            <Button className="group relative flex items-center justify-center gap-4 self-start rounded-2xl border-0 border-none px-5 py-7 shadow-lg transition-all duration-500 hover:border-4 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 dark:bg-neutral-900 dark:text-yellow-300">
+            <Button className="group relative flex items-center justify-center gap-1 self-start rounded-2xl border-0 border-none px-5 py-7 shadow-lg transition-all duration-500 hover:border-4 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 dark:bg-neutral-900 dark:text-yellow-300">
               View Dashboard
               <div className="flex h-8 items-center justify-center">
                 <span className="flex h-0 w-0 -rotate-180 transform items-center justify-center rounded-full bg-yellow-300 p-0 transition-all duration-300 group-hover:h-[2rem] group-hover:w-[2rem] group-hover:rotate-0 group-hover:p-[0.6rem]">
