@@ -73,10 +73,10 @@ const TodoWidget = ({ id, zIndex, bringToTop, position }: Props) => {
     let updates = {};
     switch (label) {
       case "Important":
-        updates = { important: true };
+        updates = { important: !todo?.important };
         break;
       case "Urgent":
-        updates = { urgent: true };
+        updates = { urgent: !todo?.urgent };
         break;
       case "In Progress":
         updates = {

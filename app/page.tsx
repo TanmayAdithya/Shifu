@@ -9,7 +9,7 @@ export default function Page() {
       {/* Static Noise */}
       <img
         className="absolute inset-0 h-full w-full bg-cover opacity-15"
-        src="./assets/Random Static.png"
+        src="https://i.postimg.cc/nhHTCk5M/Random-static.webp"
       ></img>
       <div className="z-10 h-full px-6 py-4">
         <div className="flex items-center justify-between">
@@ -89,7 +89,7 @@ export default function Page() {
       <div className="relative z-30 flex h-full w-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 shadow-xl">
         <img
           className="absolute inset-0 h-full w-full bg-cover opacity-35"
-          src="./assets/Random Static.png"
+          src="https://i.postimg.cc/nhHTCk5M/Random-static.webp"
         ></img>
         <div className="flex items-center justify-end gap-2 pr-3 pt-3">
           <Link href="/signup" className="z-10">
@@ -105,7 +105,7 @@ export default function Page() {
         </div>
         <Preview />
         <img
-          src="./assets/Brain-WEBP.webp"
+          src="/assets/Brain-WEBP.webp"
           className="pointer-events-none absolute -bottom-[600px] left-8 z-0 scale-150 opacity-80"
           alt="brain"
         />
