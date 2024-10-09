@@ -3,12 +3,17 @@ import axios from "axios";
 import { background, BackgroundState } from "@/types/types";
 
 const saveBackgroundToLocalStorage = (background: Partial<BackgroundState>) => {
-  localStorage.setItem("userBackground", JSON.stringify(background));
+  if (typeof window !== "undefined") {
+    localStorage.setItem("userBackground", JSON.stringify(background));
+  }
 };
 
 const loadBackgroundFromLocalStorage = (): Partial<BackgroundState> | null => {
-  const savedBackground = localStorage.getItem("userBackground");
-  return savedBackground ? JSON.parse(savedBackground) : null;
+  if (typeof window !== "undefined") {
+    const savedBackground = localStorage.getItem("userBackground");
+    return savedBackground ? JSON.parse(savedBackground) : null;
+  }
+  return null;
 };
 
 const savedBackground = loadBackgroundFromLocalStorage();
