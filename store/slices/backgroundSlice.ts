@@ -2,6 +2,17 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { background, BackgroundState } from "@/types/types";
 
+const saveBackgroundToLocalStorage = (background: Partial<BackgroundState>) => {
+  localStorage.setItem("userBackground", JSON.stringify(background));
+};
+
+const loadBackgroundFromLocalStorage = (): Partial<BackgroundState> | null => {
+  const savedBackground = localStorage.getItem("userBackground");
+  return savedBackground ? JSON.parse(savedBackground) : null;
+};
+
+const savedBackground = loadBackgroundFromLocalStorage();
+
 export const fetchDefaultBackgrounds = createAsyncThunk<
   background[],
   void,
@@ -93,6 +104,13 @@ export const updateCurrentBackground = createAsyncThunk<
         throw new Error("Failed to create task");
       }
 
+      saveBackgroundToLocalStorage({
+        active: backgroundData.active,
+        mediaRef: backgroundData.mediaRef,
+        name: backgroundData.name,
+        portfolio_url: backgroundData.portfolio_url,
+      });
+
       return response.json();
     } catch (error) {
       console.error("Error updating background:", error);
@@ -102,11 +120,13 @@ export const updateCurrentBackground = createAsyncThunk<
 );
 
 const initialState: BackgroundState = {
-  active: "image",
+  active: savedBackground?.active || "image",
   mediaRef:
+    savedBackground?.mediaRef ||
     "https://images.unsplash.com/photo-1727294810277-5da030783146?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  name: "Claudio Schwarz",
-  portfolio_url: "https://unsplash.com/@purzlbaum",
+  name: savedBackground?.name || "Claudio Schwarz",
+  portfolio_url:
+    savedBackground?.portfolio_url || "https://unsplash.com/@purzlbaum",
   backgrounds: [],
   loading: false,
   mediaLoading: false,
