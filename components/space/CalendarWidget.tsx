@@ -97,7 +97,7 @@ const CalendarWidget = ({
         <div
           {...listeners}
           {...attributes}
-          className={`mx-auto ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"} h-1 w-16 rounded-full`}
+          className={`mx-auto cursor-grab ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"} h-1 w-16 rounded-full`}
         ></div>
       </div>
       <div className="w-full">

@@ -238,7 +238,7 @@ export default function Notes({
         <div
           {...listeners}
           {...attributes}
-          className={`mx-auto h-1 w-24 rounded-full ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"}`}
+          className={`mx-auto h-1 w-24 cursor-grab rounded-full ${isGlassMode ? "bg-neutral-600 dark:bg-neutral-400" : "bg-neutral-400 dark:bg-neutral-700"}`}
         ></div>
       </div>
 
