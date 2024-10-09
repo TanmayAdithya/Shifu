@@ -65,6 +65,17 @@ export async function PATCH(request: NextRequest) {
     const body = await request.json();
     const { _id, updates } = body;
 
+    if (!_id || typeof _id !== "string" || !ObjectId.isValid(_id)) {
+      return NextResponse.json({ message: "Invalid task ID" }, { status: 400 });
+    }
+
+    if (!updates || typeof updates !== "object") {
+      return NextResponse.json(
+        { message: "Invalid updates object" },
+        { status: 400 },
+      );
+    }
+
     const result = await TasksCollection.updateOne(
       { _id: ObjectId.createFromHexString(_id) as any, user_id },
       { $set: updates },

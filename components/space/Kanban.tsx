@@ -23,7 +23,7 @@ import {
 } from "@/store/slices/kanbanSlice";
 import { cn } from "@/lib/utils";
 import { AppDispatch } from "@/store/store";
-import { completeTodo } from "@/store/slices/todoSlice";
+import { completeTodo, updateTodoFields } from "@/store/slices/todoSlice";
 
 type Props = {
   openKanbanWidget: boolean;
@@ -124,6 +124,18 @@ const Kanban = ({
           taskId: active.id,
         }),
       );
+
+      let newStatus: "todo" | "in-progress" | "complete" = "todo";
+      if (toColumnId === "1") newStatus = "todo";
+      else if (toColumnId === "2") newStatus = "in-progress";
+      else if (toColumnId === "3") newStatus = "complete";
+
+      dispatch(
+        updateTodoFields({
+          _id: active.id.toString(),
+          updates: { status: newStatus },
+        }),
+      );
     }
 
     setActiveTask(null);
@@ -172,7 +184,7 @@ const Kanban = ({
                   {column.column_name}
                 </h2>
               </div>
-              <div className="max-h-[236px] space-y-2 overflow-scroll rounded-lg border-gray-300 dark:border-gray-700">
+              <div className="max-h-[236px] space-y-2 overflow-auto rounded-lg">
                 <SortableContext items={column.tasks.map((task) => task._id)}>
                   {column.tasks.map((task) => (
                     <KanbanTask
