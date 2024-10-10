@@ -30,15 +30,30 @@ export default function Page() {
                 <p>Home</p>
                 <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="#features" className="group relative">
+              <a
+                href="https://github.com/TanmayAdithya/Shifu?tab=readme-ov-file#-overview"
+                className="group relative"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Features
                 <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="#research" className="group relative">
+              <a
+                href="https://github.com/TanmayAdithya/Shifu?tab=readme-ov-file#-user-research"
+                className="group relative"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Research
                 <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
               </a>
-              <a href="#about" className="group relative">
+              <a
+                href="https://github.com/TanmayAdithya/Shifu"
+                className="group relative"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 About
                 <span className="absolute bottom-[-10px] left-0 h-[3px] w-0 bg-neutral-900 transition-all duration-300 group-hover:w-full"></span>
               </a>
