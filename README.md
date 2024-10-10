@@ -42,6 +42,8 @@ Shifu addresses the challenges of digital distraction and promotes effective tim
     <img href='https://tiptap.dev/' width='137' style="border: 0; border-radius: 8px; margin-left: 4px" src="https://dndkit.com/dnd-kit-logo.svg" alt="DnDKit" />
 </div>
 
+<kbd>TypeScript</kbd> <kbd>Next.js</kbd> <kbd>Tailwind CSS</kbd> <kbd>Redux</kbd> <kbd>MongoDB</kbd> <kbd>Redis</kbd> <kbd>Shadcn UI</kbd> <kbd>TipTap</kbd> <kbd>DnD Kit</kbd>
+
 ## ⚙️ Technical Decisions
 
 In developing this app, I made several key technical decisions to enhance performance and user experience:
