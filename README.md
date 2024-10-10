@@ -26,6 +26,10 @@
 
 ## 🌟 Overview
 
+![Demo GIF](public/assets/Shifu-GIF.gif)
+
+📺 Full demo video: [Link](https://youtu.be/QzZhcsWUKvg)
+
 Shifu aims to enhance productivity and focus through customizable virtual environments. It is user-friendly and designed to help users achieve their goals with minimal clicks. Key features include:
 
 - **Immersive Virtual Workspaces:** Personalize your workspace to fit your unique workflow.
