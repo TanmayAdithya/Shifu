@@ -19,7 +19,7 @@ export async function loginAction(formData: FormData) {
     password.length < 6 ||
     password.length > 255
   ) {
-    return { error: "Invalid password" };
+    return { error: "Password should be longer than 6 characters" };
   }
 
   const existingUser = await UserCollection.findOne({ username });
