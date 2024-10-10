@@ -22,6 +22,7 @@
 - [⚒️ Built Using](#️-built-using)
 - [⚙️ Technical Decisions](#-technical-decisions)
 - [🔍 User Research](#-user-research)
+- [⛔ Abandoned Features](#-abandoned-features)
 - [📄 License](#-license)
 
 ## 🌟 Overview
@@ -90,6 +91,17 @@ This project uses feedback from LifeAt users on [canny.io](https://lifeat.canny.
 - **Widget Layout & Movability:**  
   Users were frustrated with overlapping widgets:
   > _"Noticing that when I have multiple widgets open at once that are left aligned, they overlap and I can't move them."_
+
+## ⛔ Abandoned Features
+
+After 5 months, I had to make tough decisions to complete the project. Unfortunately, I had to drop some planned features:
+
+- Video calls (WebRTC)
+- A chat widget
+- Calendar events
+- Optimistic UI updates
+- Guest mode
+- Recently used backgrounds
 
 ## 📄 License
 
