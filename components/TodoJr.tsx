@@ -94,7 +94,7 @@ const TodoWidget = ({ id, zIndex, bringToTop, position }: Props) => {
       onMouseDown={bringToTop}
       className={`${isGlassMode ? "bg-opacity-30 backdrop-blur-xl dark:bg-opacity-80" : ""} mx-auto w-[20rem] max-w-xs rounded-xl border border-neutral-100 bg-white p-4 shadow-xl dark:border dark:border-neutral-800 dark:bg-neutral-900 md:absolute`}
     >
-      <div className="left-0 top-2 hidden w-full md:absolute">
+      <div className="absolute left-0 top-2 w-full opacity-0 md:opacity-100">
         <div
           {...listeners}
           {...attributes}

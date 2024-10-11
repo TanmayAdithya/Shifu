@@ -58,7 +58,7 @@ export default function DummyNotes({
       onMouseDown={bringToTop}
       className="flex h-[20rem] w-[20rem] rounded-xl border border-neutral-100 bg-white shadow-lg dark:border-neutral-800 dark:bg-neutral-900 md:absolute"
     >
-      <div className="left-0 top-2 hidden w-full md:absolute">
+      <div className="absolute left-0 top-2 w-full opacity-0 md:opacity-100">
         <div
           {...listeners}
           {...attributes}
