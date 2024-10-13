@@ -112,9 +112,9 @@ export default function Page() {
             </Button>
           </Link>
           <Link href="/login" className="z-10">
-            <Button className="group relative flex items-center justify-center gap-4 self-start rounded-2xl border border-yellow-500 bg-neutral-900 px-5 py-6 text-yellow-100 shadow-lg transition-all duration-500 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 hover:shadow-xl dark:bg-neutral-900 dark:text-yellow-300">
+            <Button className="group relative flex items-center justify-center gap-4 self-start rounded-2xl border border-yellow-500 bg-neutral-900 px-5 py-6 text-yellow-100 shadow-lg transition-all duration-500 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 hover:shadow-xl dark:bg-neutral-900 dark:text-yellow-300 dark:hover:bg-yellow-400 dark:hover:text-neutral-900">
               Log In
-              <div className="absolute -bottom-1 -left-1 -z-20 h-full w-full rounded-2xl bg-neutral-900 opacity-0 transition-all duration-300 ease-in-out group-hover:bg-neutral-900 group-hover:opacity-100 dark:bg-yellow-400 dark:group-hover:bg-yellow-400"></div>
+              <div className="absolute -bottom-1 -left-1 -z-20 h-full w-full rounded-2xl bg-neutral-900 opacity-0 transition-all duration-300 ease-in-out group-hover:bg-neutral-900 group-hover:opacity-100 dark:bg-yellow-400 dark:group-hover:bg-neutral-900"></div>
             </Button>
           </Link>
         </div>
