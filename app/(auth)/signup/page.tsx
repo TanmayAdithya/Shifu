@@ -1,18 +1,22 @@
 "use client";
-
+import React, { useState } from "react";
 import { signupAction } from "@/actions/signup-action";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { toast } from "@/hooks/use-toast";
-import { cn } from "@/lib/utils";
 import Link from "next/link";
-import React, { useState } from "react";
-import { ThreeDots } from "react-loader-spinner";
 import { useRouter } from "next/navigation";
+import {
+  LuLoader2,
+  LuUser,
+  LuMail,
+  LuLock,
+  LuArrowRight,
+} from "react-icons/lu";
 
 const Page = () => {
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleFormSubmit = async (e: React.FormEvent) => {
@@ -25,13 +29,13 @@ const Page = () => {
     if (result.error) {
       toast({
         variant: "destructive",
-        title: `Uh oh! Something went wrong.`,
-        description: `${result.error}`,
+        title: "Signup Failed",
+        description: result.error,
       });
     } else {
       toast({
-        title: `${"Signed up successfully"}`,
-        description: `${"Redirecting to your dashboard..."}`,
+        title: "Signed up successfully",
+        description: "Redirecting to your dashboard...",
       });
       router.push("/space");
     }
@@ -40,85 +44,124 @@ const Page = () => {
   };
 
   return (
-    <div className="flex h-full w-full flex-col items-center justify-center">
-      <Link href="/login" className="z-10">
-        <Button className="group absolute right-4 top-4 flex items-center justify-center gap-4 self-start rounded-lg bg-neutral-900 px-5 py-6 shadow-lg transition-all duration-500 hover:border-neutral-800 hover:bg-yellow-400 hover:text-neutral-800 hover:shadow-xl dark:bg-neutral-900 dark:text-neutral-100 md:right-8 md:top-8">
-          Log In
-          <div className="absolute -bottom-1 -left-1 -z-20 h-full w-full rounded-2xl bg-neutral-900 opacity-0 transition-all duration-300 ease-in-out group-hover:bg-neutral-900 group-hover:opacity-100 dark:bg-yellow-400 dark:group-hover:bg-yellow-400"></div>
-        </Button>
-      </Link>
+    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 p-4">
+      <div
+        className="absolute inset-0 h-full w-full bg-cover opacity-35 dark:opacity-20"
+        style={{
+          backgroundImage:
+            "url('https://i.postimg.cc/nhHTCk5M/Random-static.webp')",
+        }}
+      ></div>
+      <div className="relative z-10 w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg dark:bg-neutral-900">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-neutral-800 dark:text-yellow-300">
+            Create an account
+          </h1>
+          <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-400">
+            Join us and start your journey
+          </p>
+        </div>
 
-      <div className="lg:p-8">
-        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-          <div className="flex flex-col space-y-2 text-center">
-            <h1 className="text-2xl font-semibold tracking-tight dark:text-neutral-900">
-              Create an account
-            </h1>
-            <p className="text-sm text-muted-foreground dark:text-neutral-600">
-              Enter your details below to create your account
-            </p>
-          </div>
-          <div className="grid gap-6">
-            <form action={signupAction} onSubmit={handleFormSubmit}>
-              <div className="grid gap-2">
-                <div className="space-y-4">
-                  <div className="space-y-2 dark:text-neutral-800">
-                    <Label>Username</Label>
-                    <Input
-                      id="username"
-                      name="username"
-                      placeholder="e.g. potatobangbang"
-                      type="text"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2 dark:text-neutral-800">
-                    <Label htmlFor="email">Email</Label>
-                    <Input
-                      id="email"
-                      name="email"
-                      placeholder="name@example.com"
-                      type="email"
-                      autoCapitalize="none"
-                      autoComplete="email"
-                      autoCorrect="off"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2 dark:text-neutral-800">
-                    <Label htmlFor="password">Password</Label>
-                    <Input
-                      type="password"
-                      id="password"
-                      name="password"
-                      required
-                    />
-                  </div>
-
-                  <Button
-                    type="submit"
-                    className={`w-full dark:bg-neutral-800 dark:text-neutral-100 ${loading ? "pointer-events-none opacity-50" : ""}`}
-                  >
-                    {loading ? (
-                      <>
-                        <span className="mr-2">Signing up</span>
-                        <ThreeDots
-                          visible={true}
-                          height="20"
-                          width="20"
-                          color="#fff"
-                          radius="9"
-                          ariaLabel="three-dots-loading"
-                        />
-                      </>
-                    ) : (
-                      "Sign up"
-                    )}
-                  </Button>
+        <form onSubmit={handleFormSubmit} className="space-y-6">
+          <div className="space-y-4">
+            <div className="relative">
+              <Label
+                htmlFor="username"
+                className="text-sm font-medium text-neutral-700 dark:text-neutral-300"
+              >
+                Username
+              </Label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <LuUser className="h-5 w-5 text-neutral-400 dark:text-neutral-500" />
                 </div>
+                <Input
+                  id="username"
+                  name="username"
+                  placeholder="e.g. potatobangbang"
+                  type="text"
+                  required
+                  className="block w-full border-neutral-300 pl-10 focus:border-yellow-500 focus:ring-yellow-500 dark:border-neutral-600 dark:bg-transparent dark:text-neutral-100 dark:focus:border-yellow-400 dark:focus:ring-yellow-400"
+                />
               </div>
-            </form>
+            </div>
+
+            <div className="relative">
+              <Label
+                htmlFor="email"
+                className="text-sm font-medium text-neutral-700 dark:text-neutral-300"
+              >
+                Email
+              </Label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <LuMail className="h-5 w-5 text-neutral-400 dark:text-neutral-500" />
+                </div>
+                <Input
+                  id="email"
+                  name="email"
+                  placeholder="name@example.com"
+                  type="email"
+                  autoCapitalize="none"
+                  autoComplete="email"
+                  autoCorrect="off"
+                  required
+                  className="block w-full border-neutral-300 pl-10 focus:border-yellow-500 focus:ring-yellow-500 dark:border-neutral-600 dark:bg-transparent dark:text-neutral-100 dark:focus:border-yellow-400 dark:focus:ring-yellow-400"
+                />
+              </div>
+            </div>
+
+            <div className="relative">
+              <Label
+                htmlFor="password"
+                className="text-sm font-medium text-neutral-700 dark:text-neutral-300"
+              >
+                Password
+              </Label>
+              <div className="relative mt-1 rounded-md shadow-sm">
+                <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                  <LuLock className="h-5 w-5 text-neutral-400 dark:text-neutral-500" />
+                </div>
+                <Input
+                  type="password"
+                  id="password"
+                  name="password"
+                  required
+                  className="block w-full border-neutral-300 pl-10 focus:border-yellow-500 focus:ring-yellow-500 dark:border-neutral-600 dark:bg-transparent dark:text-neutral-100 dark:focus:border-yellow-400 dark:focus:ring-yellow-400"
+                />
+              </div>
+            </div>
           </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-neutral-900 text-yellow-300 transition-colors duration-300 hover:bg-yellow-400 hover:text-neutral-800 focus:ring-4 focus:ring-yellow-300 dark:bg-yellow-500 dark:text-neutral-900 dark:hover:bg-yellow-400 dark:focus:ring-yellow-400"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <LuLoader2 className="mr-2 h-4 w-4 animate-spin" />
+                Signing up...
+              </>
+            ) : (
+              <>
+                Sign up
+                <LuArrowRight className="ml-2 h-4 w-4" />
+              </>
+            )}
+          </Button>
+        </form>
+
+        <div className="text-center text-sm">
+          <span className="text-neutral-600 dark:text-neutral-400">
+            Already have an account?
+          </span>{" "}
+          <Link
+            href="/login"
+            className="font-medium text-neutral-900 hover:text-yellow-500 dark:text-yellow-400 dark:hover:text-yellow-300"
+          >
+            Log in
+          </Link>
         </div>
       </div>
     </div>
