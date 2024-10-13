@@ -14,6 +14,8 @@ import {
   LuLock,
   LuArrowRight,
 } from "react-icons/lu";
+import { FcGoogle as Google } from "react-icons/fc";
+import { createGoogleAuthorizationURL } from "@/actions/google-action";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -43,8 +45,20 @@ const Page = () => {
     setLoading(false);
   };
 
+  async function onGoogleClick() {
+    const res = await createGoogleAuthorizationURL();
+    if (res.error) {
+      toast({
+        variant: "destructive",
+        description: res.error,
+      });
+    } else if (res.success) {
+      window.location.href = res.data.toString();
+    }
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 p-4">
+    <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 p-4">
       <div
         className="absolute inset-0 h-full w-full bg-cover opacity-35 dark:opacity-20"
         style={{
@@ -151,7 +165,23 @@ const Page = () => {
             )}
           </Button>
         </form>
-
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <span className="w-full border-t border-neutral-300 dark:border-neutral-600"></span>
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-white px-2 text-neutral-500 dark:bg-neutral-900 dark:text-neutral-400">
+              Or continue with
+            </span>
+          </div>
+        </div>
+        <Button
+          className="w-full gap-1 border border-neutral-300 bg-white text-neutral-800 transition-colors duration-300 hover:bg-neutral-50 dark:border-neutral-500 dark:bg-transparent dark:text-neutral-100 dark:hover:bg-neutral-800"
+          onClick={onGoogleClick}
+        >
+          <Google />
+          Google
+        </Button>
         <div className="text-center text-sm">
           <span className="text-neutral-600 dark:text-neutral-400">
             Already have an account?

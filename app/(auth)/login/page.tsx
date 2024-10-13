@@ -18,13 +18,7 @@ import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThreeDots } from "react-loader-spinner";
 import { createGoogleAuthorizationURL } from "@/actions/google-action";
-import {
-  LuLoader2,
-  LuUser,
-  LuMail,
-  LuLock,
-  LuArrowRight,
-} from "react-icons/lu";
+import { LuUser, LuLock } from "react-icons/lu";
 
 const Page = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -62,7 +56,7 @@ const Page = () => {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 p-4">
+    <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90">
       <div
         className="absolute inset-0 h-full w-full bg-cover opacity-35 dark:opacity-20"
         style={{
@@ -73,9 +67,9 @@ const Page = () => {
       <form
         action={loginAction}
         onSubmit={handleFormSubmit}
-        className="relative z-10 flex w-full max-w-md flex-col items-center justify-center gap-3 rounded-xl"
+        className="relative z-10 flex w-full max-w-md flex-col items-center justify-center gap-3 rounded-xl p-4"
       >
-        <Card className="w-full bg-white shadow-lg dark:bg-neutral-900">
+        <Card className="w-full bg-white p-1 shadow-lg dark:bg-neutral-900">
           <CardHeader className="space-y-2">
             <CardTitle className="text-2xl font-bold text-neutral-800 dark:text-yellow-300">
               Login
