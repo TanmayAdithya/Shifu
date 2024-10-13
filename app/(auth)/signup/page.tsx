@@ -15,7 +15,7 @@ import {
   LuArrowRight,
 } from "react-icons/lu";
 import { FcGoogle as Google } from "react-icons/fc";
-import { createGoogleAuthorizationURL } from "@/actions/google-action";
+// import { createGoogleAuthorizationURL } from "@/actions/google-action";
 
 const Page = () => {
   const [loading, setLoading] = useState(false);
@@ -45,17 +45,17 @@ const Page = () => {
     setLoading(false);
   };
 
-  async function onGoogleClick() {
-    const res = await createGoogleAuthorizationURL();
-    if (res.error) {
-      toast({
-        variant: "destructive",
-        description: res.error,
-      });
-    } else if (res.success) {
-      window.location.href = res.data.toString();
-    }
-  }
+  // async function onGoogleClick() {
+  //   const res = await createGoogleAuthorizationURL();
+  //   if (res.error) {
+  //     toast({
+  //       variant: "destructive",
+  //       description: res.error,
+  //     });
+  //   } else if (res.success) {
+  //     window.location.href = res.data.toString();
+  //   }
+  // }
 
   return (
     <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90 p-4">
@@ -165,7 +165,7 @@ const Page = () => {
             )}
           </Button>
         </form>
-        <div className="relative">
+        {/* <div className="relative">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t border-neutral-300 dark:border-neutral-600"></span>
           </div>
@@ -181,7 +181,7 @@ const Page = () => {
         >
           <Google />
           Google
-        </Button>
+        </Button> */}
         <div className="text-center text-sm">
           <span className="text-neutral-600 dark:text-neutral-400">
             Already have an account?

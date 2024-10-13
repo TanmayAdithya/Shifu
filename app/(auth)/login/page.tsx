@@ -17,7 +17,7 @@ import { toast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { ThreeDots } from "react-loader-spinner";
-import { createGoogleAuthorizationURL } from "@/actions/google-action";
+// import { createGoogleAuthorizationURL } from "@/actions/google-action";
 import { LuUser, LuLock } from "react-icons/lu";
 
 const Page = () => {
@@ -43,17 +43,17 @@ const Page = () => {
     setTimeout(() => setLoading(false), 3000);
   };
 
-  async function onGoogleClick() {
-    const res = await createGoogleAuthorizationURL();
-    if (res.error) {
-      toast({
-        variant: "destructive",
-        description: res.error,
-      });
-    } else if (res.success) {
-      window.location.href = res.data.toString();
-    }
-  }
+  // async function onGoogleClick() {
+  //   const res = await createGoogleAuthorizationURL();
+  //   if (res.error) {
+  //     toast({
+  //       variant: "destructive",
+  //       description: res.error,
+  //     });
+  //   } else if (res.success) {
+  //     window.location.href = res.data.toString();
+  //   }
+  // }
 
   return (
     <div className="flex min-h-full items-center justify-center bg-gradient-to-br from-yellow-500/80 via-yellow-400 to-yellow-400/90">
@@ -141,7 +141,7 @@ const Page = () => {
                   "Login"
                 )}
               </Button>
-              <div className="relative">
+              {/* <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t border-neutral-300 dark:border-neutral-600"></span>
                 </div>
@@ -157,7 +157,7 @@ const Page = () => {
               >
                 <Google />
                 Google
-              </Button>
+              </Button> */}
             </div>
           </CardContent>
         </Card>
